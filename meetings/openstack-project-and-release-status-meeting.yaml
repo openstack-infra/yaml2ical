@@ -1,14 +1,14 @@
-project:        OpenStack Project and Release Status Meeting
+project:        'OpenStack Project and Release Status Meeting'
 uuid:
 schedule:
-    - time:     2100 UTC
-      day:      Tuesday
-      irc:      openstack-meeting
-      period:   weekly
-chair:          Thierry Carrez
-description:    The whole OpenStack Team holds a public weekly Project and Release Status meeting. Everyome is encouraged to attend.
+    - time:     '2100 UTC'
+      day:      'Tuesday'
+      irc:      'openstack-meeting'
+      period:   'weekly'
+chair:          'Thierry Carrez'
+description:    'The whole OpenStack Team holds a public weekly Project and Release Status meeting. Everyome is encouraged to attend.'
 agenda:
-    - icehouse-3 progress
-    - red flag district (or blocked blueprints)
-    - incubated projects
-    - open discussion
+    - 'icehouse-3 progress'
+    - 'red flag district (or blocked blueprints)'
+    - 'incubated projects'
+    - 'open discussion'

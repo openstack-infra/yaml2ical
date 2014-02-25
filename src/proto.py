@@ -1,4 +1,4 @@
-#!/usr/bin/env python27
+#!/usr/bin/env python
 
 ### for now, this is a simple script to import all the yaml files and pretty print it
 

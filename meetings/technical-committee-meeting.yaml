@@ -1,18 +1,18 @@
-project:        Technical Committee Meeting
+project:        'Technical Committee Meeting'
 uuid:
 schedule:
-    - time:     2000 UTC
-      day:      Tuesday
-      irc:      openstack-meeting
-      period:   weekly
-chair:          Thierry Carrez
+    - time:     '2000 UTC'
+      day:      'Tuesday'
+      irc:      'openstack-meeting'
+      period:   'weekly'
+chair:          'Thierry Carrez'
 description:    'The OpenStack Technical Committee is one of the governing bodies of the OpenStack project. It is an elected group that represents the contributors to the project, and has oversight on all technical matters.'
 agenda:
-    - progress on DefCore feedback
-    - creating key distribution service (KDS) under identity program
+    - 'progress on DefCore feedback'
+    - 'creating key distribution service (KDS) under identity program'
     - 'integrated projects and new requirements: Neutron'
-    - minor_govermance_changes:
-        - add oslo.test to the Oslo program
-        - add Infrastructure Program mission
-        - Oslo program changes (oslo.vmware addition)
-    - open discussion
+    - minor-govermance-changes:
+        - 'add oslo.test to the Oslo program'
+        - 'add Infrastructure Program mission'
+        - 'Oslo program changes (oslo.vmware addition)'
+    - 'open discussion'
