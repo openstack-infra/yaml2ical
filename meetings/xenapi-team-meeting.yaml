@@ -1,0 +1,17 @@
+project:        XenAPI Team Meeting
+uuid:
+schedule:
+    - time:     1500 UTC
+      day:      Wednesday
+      irc:      openstack-meeting
+      period:   weekly
+chair:          John Garbutt
+description:    Meeting to discuss the status of Blueprints and bugs relating to the XenAPI layer.
+agenda:
+    - actions from last meeting
+    - blueprints:
+        - discuss Icehouse-2 progress
+    - bugs_and_QA:
+        - 'https://bugs.launchpad.net/nova/+bugs?field.tag=xenserver'
+        - gating progress
+    - open discussion
