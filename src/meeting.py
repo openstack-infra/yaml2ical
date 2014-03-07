@@ -1,29 +1,31 @@
+import pprint
+
 class Meeting:
     """An OpenStack meeting."""
 
-    def __init__(self, yaml_file):
+    def __init__(self, yaml):
 
         # create yaml object from yaml file. use it initialize following fields.
-
-        self.proj_name = yaml.name
-        self.uuid = yaml.uuid
-        self.chair = yaml.chair
-        self.descript = yaml.descript
-        self.agenda = yaml.agenda # this is a list of topics
+        self.project = yaml['project']
+        self.chair = yaml['chair']
+        self.description = yaml['description']
+        self.agenda = pprint.pformat(yaml['agenda']) # this is a list of topics
 
         # create schedule object
-        self.schedule = newly_created_schedule_object
+        schedule = yaml['schedule'][0]
+        self.schedule = Schedule(schedule['time'], schedule['day'], schedule['irc'], schedule['period'])
 
-        # create checksum from something, perhaps entire object (this would 
-        # be an easy way to check is anything has changed that needs to be
-        # published)
-        self.checksum = generated_checksum
+    def display(self):
+        return "project:\t%s\nchair:\t%s\ndescription:\t%s\nagenda:\t%s\nschedule:\t%s" % (self.project, self.chair, self.description, self.agenda, self.schedule.display())
 
-    class Schedule:
-        """A meeting schedule."""
+class Schedule:
+    """A meeting schedule."""
         
-        def __init__(self, time, day, irc, period):
-            self.time = time
-            self.day = day
-            self.irc = irc
-            self.period = period
+    def __init__(self, time, day, irc, period):
+        self.time = time
+        self.day = day
+        self.irc = irc
+        self.period = period
+
+    def display(self):
+        return "Schedule:\n\ttime:\t%s\n\tday:\t%s\n\tirc:\t%s\n\tperiod:\t%s\n" % (self.time, self.day, self.irc, self.period)
