@@ -1,10 +1,8 @@
 import yaml
 import icalendar
-
 import pprint
 import sys
-from os import listdir, chdir
-from os.path import isfile, dirname, join
+import os
 
 class MeetingJobs:
     """Executes post, gate, and check jobs."""
@@ -30,17 +28,11 @@ def pprint_yaml():
     os.chdir('../meetings/')
 
     # get a list of all the yaml files
-    yamlfiles = [f for f in os.listdir() if os.path.isfile(f) and ".yaml" in f]
+    meetings = [yaml.load(open(f, 'r')) for f in os.listdir() if os.path.isfile(f) and ".yaml" in f]
 
-    meeting = []
-    for f in yaml:
-        m = open(f, 'r')
-
-        meeting.append(yaml.load(m))
-
-        # print yaml.load(meeting), used to have sys.out as second before to print to terminal
-        print yaml.dump(yaml.load(m))
-
+    for m in meetings:
+        print(yaml.dump(m))
 
 # main
 pprint_yaml()
+
