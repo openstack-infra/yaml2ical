@@ -1,5 +1,0 @@
-setuptools
-python-dateutil
-pytz
-
-[test]

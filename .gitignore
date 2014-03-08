@@ -1,2 +1,11 @@
 # emacs
 *~
+\#*
+
+# python
+__pycache__
+*.pyc
+
+# other
+*.ics
+
