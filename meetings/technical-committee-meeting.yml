@@ -1,0 +1,18 @@
+project: Technical Committee Meeting
+schedule:
+  - time:       '2000'
+    day:        Tuesday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  Thierry Carrez
+description: >
+  The OpenStack Technical Committee is one of the governing bodies of the
+  OpenStack project. It is an elected group that represents the
+  contributors to the project, and has oversight on all technical matters.
+  The Technical Committee is formally defined in the OpenStack Foundation
+  bylas and further refined in the Technical Committee charter.
+agenda: |
+  *Integrated projects and new requirements, Gap analysis for Ceilometer
+  *Bylas subcommitte report, proposed changes to the OpenStack Bylas
+  *Minor governance changes
+  *Open Discussion

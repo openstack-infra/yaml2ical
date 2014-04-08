@@ -1,0 +1,9 @@
+project: Nova Hyper-V team meeting
+schedule:
+  - time:       '1600'
+    day:        Tuesday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  Peter Pouliot
+description:
+agenda:

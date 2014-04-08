@@ -1,0 +1,19 @@
+project: Nova Bug Scrub Meeting
+schedule:
+  - time:       '1630'
+    day:        Wednesday
+    irc:        openstack-meeting-3
+    frequency:  weekly
+chair:  Tracy Jones
+description: >
+  This is a weekly meeting review Nova Bugs. The initial focus will be  on
+  triaging bugs in the New state and ensuring that critical bugs are making
+  progress. Once the new queue is under control we will switch our focus to
+  reviewing incomplete bugs, removing assignees from stale bugs so others
+  can pick them up (especially low hanging fruit). In general we will follow
+  the policies documented here https://wiki.openstack.org/wiki/BugTriage
+agenda: |
+  *Tag untagged
+  *Triage New
+  *Revie Critical
+  *Open Discussion
