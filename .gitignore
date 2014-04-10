@@ -1,6 +1,12 @@
+# meld
+*.orig
+
 # emacs
 *~
 \#*
+
+# vim
+.swp
 
 # python
 __pycache__
@@ -8,4 +14,5 @@ __pycache__
 
 # other
 *.ics
+.cache
 

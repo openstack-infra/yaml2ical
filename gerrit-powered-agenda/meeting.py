@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 #    Copyright 2014 North Dakota State University
 #
@@ -15,9 +16,10 @@
 #    under the License.
 
 import datetime
-import icalendar
 import logging
 import os
+
+import icalendar
 import pytz
 import yaml
 
@@ -43,6 +45,7 @@ class Meeting:
 
     def write_ical(self):
         """Write this meeting to disk using the iCal format."""
+
         cal = icalendar.Calendar()
 
         # add properties to ensure compliance
@@ -98,7 +101,7 @@ class Meeting:
             i += 1
 
         # write ical files to disk
-        ical_dir = '../icals'
+        ical_dir = const.ICAL_DIR
         ical_filename = self.filename[:-4] + 'ics'
 
         if not os.path.exists(ical_dir):
@@ -111,6 +114,24 @@ class Meeting:
         num_events = len(cal.subcomponents)
         logging.info('\'%s\' processed. [%d event(s)]' % (ical_filename,
                                                           num_events))
+        os.chdir(const.SRC_DIR)
+
+    def get_schedule_tuple(self):
+        """returns a list of meeting tuples consisting meeting name, meeting
+        time, day, and irc room.
+
+        :returns: list of meeting tuples
+
+        """
+
+        meetings = []
+        for schedule in self.schedules:
+            schedule_time = schedule.time.hour * 100 + schedule.time.minute
+            meetings.append((self.filename,
+                             (schedule_time,
+                              schedule.day,
+                              schedule.irc)))
+        return meetings
 
 
 class Schedule:

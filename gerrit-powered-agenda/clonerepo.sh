@@ -1,5 +1,4 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/bin/sh
 #
 #    Copyright 2014 North Dakota State University
 #
@@ -15,18 +14,15 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+repository="http://git.openstack.org/cgit/openstack-infra/gerrit-powered-agenda"
 
-PUBLISH_URL = '127.0.0.1'
+cacheFolder="../.cache"
 
-YAML_FILE_EXT = ('.yaml', '.yml')
+if [[ -s "$cacheFolder" ]]; then
+    rm -rf "$cacheFolder"
+fi
 
-WEEKDAYS = {'Monday': 0, 'Tuesday': 1, 'Wednesday': 2, 'Thursday': 3,
-            'Friday': 4, 'Saturday': 5, 'Sunday': 6}
-
-BASH_SCRIPT = './clonerepo.sh'
-
-CACHE_DIR = '../.cache'
-CACHE_YAML_DIR = '../.cache/meetings'
-ICAL_DIR = '../icals'
-SRC_DIR = '../gerrit-powered-agenda'
-YAML_DIR = '../meetings'
+mkdir "$cacheFolder"
+if [[ -s "$cacheFolder" ]]; then
+    git clone "$repository" "$cacheFolder"
+fi
