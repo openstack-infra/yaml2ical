@@ -15,15 +15,13 @@
 #    under the License.
 
 
-class MeetingUtil:
-    """Utility functions."""
+def publish(meeting, ical):
+    """Publish meeting information and ical file to wiki."""
 
-    def publish(meeting, ical):
-        """Publish meeting information and ical file to wiki."""
+    pass
 
-        pass
 
-    def creates_conflicts(meeting):
-        """Return whether the meeting would create scheduling conflicts."""
+def creates_conflicts(meeting):
+    """Return whether the meeting would create scheduling conflicts."""
 
-        pass
+    pass
