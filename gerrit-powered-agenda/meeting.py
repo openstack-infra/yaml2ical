@@ -99,7 +99,7 @@ class Meeting:
             cal.add_component(event)
 
         # write ical files to disk
-        ical_dir = const.ICAL_DIR
+        ical_dir = const.DEFAULT_ICAL_DIR
         ical_filename = self.filename[:-4] + 'ics'
 
         if not os.path.exists(ical_dir):
