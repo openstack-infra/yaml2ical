@@ -52,7 +52,6 @@ class Meeting:
         cal.add('prodid', '-//OpenStack//Gerrit-Powered Meeting Agendas//EN')
         cal.add('version', '2.0')
 
-        i = 1
         for schedule in self.schedules:
             # one Event per iCal file
             event = icalendar.Event()
@@ -61,7 +60,7 @@ class Meeting:
             # event in an ical file (at least, for it to work with
             # Google Calendar)
 
-            event.add('summary', self.project + ' ' + str(i))
+            event.add('summary', self.project + ' (' + schedule.irc + ')')
 
             # add ical description
             project_descript = "Project:  %s" % (self.project)
@@ -98,7 +97,6 @@ class Meeting:
 
             # add event to calendar
             cal.add_component(event)
-            i += 1
 
         # write ical files to disk
         ical_dir = const.ICAL_DIR
