@@ -41,7 +41,7 @@ def check_uniqueness():
     """
 
     # reads the current changes and verifies
-    change_list = _read_yaml_files(const.YAML_DIR)
+    change_list = _read_yaml_files(const.DEFAULT_YAML_DIR)
     change_dict = _counting_dict_with(_make_schedule_key, change_list)
 
     # fails if duplicates exist
@@ -68,7 +68,7 @@ def check_conflicts():
     """
 
     # reads the current changes and verifies
-    change_list = _read_yaml_files(const.YAML_DIR)
+    change_list = _read_yaml_files(const.DEFAULT_YAML_DIR)
     change_dict = _make_schedule_dict(_make_schedule_key, change_list, True)
 
     # runs the bash script to clone origin yaml files to .cache folder
@@ -79,7 +79,8 @@ def check_conflicts():
                                       True)
 
     # make a set with all the meeting time
-    meeting_time_set = set(change_dict.keys() + origin_dict.keys())
+    meeting_time_set = set(list(change_dict.keys()) +
+                           list(origin_dict.keys()))
 
     # compares the two, keep track of a conflict flag
     conflict = False  # doing this way so we can log all the conflicts

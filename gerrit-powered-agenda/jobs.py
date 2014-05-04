@@ -29,51 +29,57 @@ logging.basicConfig(format='%(asctime)s  - %(levelname)s - %(message)s',
                     level=logging.DEBUG)
 
 
-class MeetingJobs:
-    """Executes post, gate, and check jobs."""
+def execute_check():
+    """Execute check job."""
 
-    def execute_check(self):
-        """Execute check job."""
+    logging.info('Check job initiated.')
 
-        logging.info('Check job initiated.')
-        meetings = self.retrieve_meetings(const.YAML_DIR)
+    # NOTE(jotan): once a CLI parameter for YAML_DIR has been
+    # implemented, only use DEFAULT_YAML_DIR if the parameter has
+    # not been supplied
+    yaml_dir = const.DEFAULT_YAML_DIR
 
-        # convert meetings to a list of ical
-        for m in meetings:
-            m.write_ical()
-            logging.info('Wrote %d meetings to iCal' % (len(meetings)))
+    meetings = __load_meetings(yaml_dir)
 
-        os.chdir(const.SRC_DIR)
-        if util.check_uniqueness() == 0:
-            if util.check_conflicts() == 0:
-                logging.info('Check job finished.')
-                return 0
-        logging.info('Check job finished.')
-        return 1
+    # convert meetings to a list of ical
+    for m in meetings:
+        m.write_ical()
+    logging.info('Wrote %d meetings to iCal' % (len(meetings)))
 
-    def execute_gate(self):
-        """Execute gate job."""
-
-        logging.info('Gate job initiated.')
-        os.chdir(const.SRC_DIR)
-        result = util.check_conflicts()
-        logging.info('Gate job finished.')
-        return result
-
-    def execute_post(self):
-        """Execute post job."""
-
-        logging.info('Post job initiated.')
-        meetings = self.retrieve_meetings(const.YAML_DIR)
-
-        # convert meetings to a list of ical
-        for m in meetings:
-            m.write_ical()
-        logging.info('Wrote %d meetings to iCal' % (len(meetings)))
-        logging.info('Post job finished.')
+    os.chdir(const.SRC_DIR)
+    if util.check_uniqueness() == 0:
+        if util.check_conflicts() == 0:
+            logging.info('Check job finished.')
+            return 0
+    logging.info('Check job finished.')
+    return 1
 
 
-def retrieve_meetings(self, yaml_dir):
+def execute_gate():
+    """Execute gate job."""
+
+    logging.info('Gate job initiated.')
+    os.chdir(const.SRC_DIR)
+    result = util.check_conflicts()
+    logging.info('Gate job finished.')
+    return result
+
+
+def execute_post():
+    """Execute post job."""
+
+    logging.info('Post job initiated.')
+    yaml_dir = const.DEFAULT_YAML_DIR
+    meetings = __load_meetings(yaml_dir)
+
+    # convert meetings to a list of ical
+    for m in meetings:
+        m.write_ical()
+    logging.info('Wrote %d meetings to iCal' % (len(meetings)))
+    logging.info('Post job finished.')
+
+
+def __load_meetings(yaml_dir):
     """Return a list of Meetings initialized from files in yaml_dir."""
 
     os.chdir(yaml_dir)
@@ -86,6 +92,6 @@ def retrieve_meetings(self, yaml_dir):
     os.chdir(const.SRC_DIR)
     return meetings
 
+
 # entry point
-jobs = MeetingJobs()
-jobs.execute_check()
+execute_check()
