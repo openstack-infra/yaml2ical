@@ -34,6 +34,52 @@ def publish(meeting, ical):
     pass
 
 
+def load_meetings(yaml_dir, meeting_list=None):
+    """Return a list of Meetings initialized from files in yaml_dir."""
+
+    os.chdir(yaml_dir)
+    if meeting_list:
+        meetings_yaml = [f for f in os.listdir()
+                         if os.path.isfile(f) and
+                         f.endswith(const.YAML_FILE_EXT) and
+                         f in meeting_list]
+    else:
+        meetings_yaml = [f for f in os.listdir()
+                         if os.path.isfile(f) and
+                         f.endswith(const.YAML_FILE_EXT)]
+
+    meetings = [Meeting(yaml.load(open(f, 'r')), f)
+                for f in meetings_yaml]
+
+    logging.info('Loaded %d meetings from YAML' % (len(meetings)))
+
+    return meetings
+
+
+def convert_yaml_to_ical(yaml_dir, ical_dir, meeting_list_file=None):
+    """Convert meeting YAML files to the iCal format and place
+    in ical_dir. If meeting_list is specified, only those meetings
+    in yaml_dir with filenames contained in meeting_list are
+    converted; otherwise, all meeting in yaml_dir are converted.
+
+    """
+
+    meeting_list = None
+    if meeting_list_file:
+        meeting_list = open(meeting_list_file).read().splitlines()
+
+    meetings = load_meetings(yaml_dir,
+                             meeting_list)
+
+    # convert meetings to a list of ical
+    for m in meetings:
+        m.write_ical(ical_dir)
+
+    # TODO(jotan): verify converted ical is valid
+
+    logging.info('Wrote %d meetings to iCal' % (len(meetings)))
+
+
 def check_uniqueness():
     """Check for uniqueness in meeting room and time combination.  During gate
     job, we do not care about the meeting name.

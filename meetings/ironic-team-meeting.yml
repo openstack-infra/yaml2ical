@@ -1,7 +1,7 @@
 project:  Ironic team Meeting
 schedule:
   - time:       '1900'
-    day:        Mondays
+    day:        Monday
     irc:        openstack-meeting
     frequency:  weekly
 chair:  Devananda van der Veen

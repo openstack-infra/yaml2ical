@@ -43,7 +43,7 @@ class Meeting:
         # create schedule objects
         self.schedules = [Schedule(schedule) for schedule in yaml['schedule']]
 
-    def write_ical(self):
+    def write_ical(self, ical_dir):
         """Write this meeting to disk using the iCal format."""
 
         cal = icalendar.Calendar()
@@ -99,7 +99,6 @@ class Meeting:
             cal.add_component(event)
 
         # write ical files to disk
-        ical_dir = const.DEFAULT_ICAL_DIR
         ical_filename = self.filename[:-4] + 'ics'
 
         if not os.path.exists(ical_dir):
