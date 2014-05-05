@@ -9,40 +9,101 @@ Currently, each team's meeting time and agenda are listed at:
 This project replaces each meeting with well-defined YAML files.
 
 This tool will run as a Jenkins job, so that each time a YAML meeting is
-created, Jenkins will generate an iCal file.
+created, Jenkins will generate an iCal file. Additionally, user can also run
+the program locally to check for conflict before submitting the meeting changes
+for review.
 
 Getting Started
 ===============
 
-Running locally
----------------
+Running Locally from Command Line
+---------------------------------
 
 To test this project locally, you must have the following requirements
 installed:
 
 * Python 3.3+
-* icalendar python library
-* PyYaml
+* `iCalendar` python library
+* `PyYaml` python library
 
-Before running this tool, first place some meeting YAML files in the meetings
-directory. This directory already contains some meetings. To create your own
-meeting, see the meetings/README file.
+Before running this tool, first edit some meeting YAML files in the meetings
+directory. This directory already contains YAML files for the meetings
+found on the `Meetings <https://wiki.openstack.org/wiki/Meetings>`_ wiki page.
+To create a new meeting YAML file, read the `YAML Meeting File` section below.
 
-To run this tool, run
+To start with, we need to clone the repository to a local directory. Afterward,
+`cd` into the directory where the `jobs.py` script is found.
 
-  `$ python jobs.py`
+  ::
 
-in the gerrit-powered-agenda directory.
+    $ git clone https://git.openstack.org/cgit/openstack-infra/gerrit-powered-agenda
+    $ cd gerrit-powered-agenda/gerrit-powered-agenda/
 
-The generated iCal files will appear in the /icals directory.
+The different command line options are as follows.  For help, use `-h`
+(or `--help`) to show a list of options and exit.
 
-As a Jenkins Job
-----------------
+  ::
+
+    $ python jobs.py -h
+
+The `-t TEST` (or `--test TEST`) is used to execute a test. The valid values
+for `TEST` are `check`, `gate` and `post`. It'd be a good idea to run a quick
+check job to test for conflicts before pushing for review.
+
+  ::
+
+    $ python jobs.py -t check
+    $ python jobs.py -t gate
+    $ python jobs.py -t post
+
+For converting YAML files to iCal files, there are four flags to consider:
+
+* Use the `-y YAML_DIR` (or `--yamldir YAML_DIR`) to specify the path to the
+  directory `YAML_DIR` where the YAML files are located. The default
+  `YAML_DIR` is `meetings` when this flag is not provided.
+* Use the `-i ICAL_DIR` (or `--icaldir ICAL_DIR`) to specify the path to the
+  directory `ICAL_DIR` where the iCals files will be written to.
+* Use the `-m MEETING_LIST_FILE` (or `--meetings MEETING_LIST_FILE`) to write
+  selected YAML files in `MEETING_LIST_FILE` to `ICAL_DIR`.
+
+  * Note: `MEETING_LIST_FILE` consists of names of YAML files per line.
+* Add the `-c` (or `--convert`) to convert.
+
+The following are a few scenarios:
+
+* Read all the YAML files in meetings and output iCal files to iCals folder:
+
+  ::
+
+    $ cd gerrit-powered-agenda/gerrit-powered-agenda/
+    $ mkdir ../iCals
+    $ python jobs.py -i ../iCals -c
+
+* Read all the YAML files in myYAML folder and output iCal files to iCals
+  folder:
+
+  ::
+
+    $ cd gerrit-powered-agenda/gerrit-powered-agenda/
+    $ mkdir ../iCals
+    $ python jobs.py -y ../myYAML -i ../iCals -c
+
+* Read myMeetings.txt, select the YAML file listed in there from myYAML
+  directory, convert these files and write them to iCals folder:
+
+  ::
+
+    $ cd gerrit-powered-agenda/gerrit-powered-agenda/
+    $ mkdir ../iCals
+    $ python jobs.py -y ../myYAML -m ../myMeetings.txt -i ../iCals -c
+
+Running as a Jenkins Job
+------------------------
 
 When this project is complete, this tool will run as a Jenkins job. A developer
-wishing to create a meeting will push a YAML file to Gerrit, which will then be
-reviewed. If the review passes, Jenkins will run this tool to generate ical
-files.
+wishing to modify existing meetings or create a new meeting will push the
+respecitve YAML file to Gerrit, which will then be reviewed. When the review
+passes, Jenkins will run this tool to generate iCal files.
 
 YAML Meeting File
 =================
@@ -59,10 +120,11 @@ Each meeting consists of:
 
 * `project` -- the name of the project
 * `schedule` -- a list of schedule each consisting of
-  - `time` -- time string in UTC
-  - `day` -- the day of week the meeting takes place
-  - `irc` -- the irc room in which the meeting is held
-  - `frequency` -- frequent occurence of the meeting
+
+  * `time` -- time string in UTC
+  * `day` -- the day of week the meeting takes place
+  * `irc` -- the irc room in which the meeting is held
+  * `frequency` -- frequent occurence of the meeting
 * `chair` -- name of the meeting's chair
 * `description` -- a paragraph description about the meeting
 * `agenda` -- a paragraph consisting of the bulleted list of topics
@@ -101,14 +163,15 @@ will be import into Python as a dictionary.
           irc:        openstack-meeting
           frequency:  weekly
 
-* The chair is just a one liner. The might be left empty if there is not a chair.
+* The chair is just a one liner. The might be left empty if there is not a
+  chair.
 
   ::
 
     chair:  Russell Bryant
 
-* The project description is as follows.  Use `>` to for the parapraph so new
-  lines are folded.
+* The project description is as follows.  Use `>` for parapraphs where new
+  lines are folded, or `|` for paragraphs where new lines are preserved.
 
   ::
 
@@ -126,8 +189,8 @@ will be import into Python as a dictionary.
   ::
 
     agenda: |
-        * general annoucement
-        * sub-teams
-        * bugs
-        * blueprints
-        * open discussion
+        * General annoucement
+        * Sub-teams
+        * Bugs
+        * Blueprints
+        * Open discussion

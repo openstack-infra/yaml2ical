@@ -1,21 +1,21 @@
-project: Xen Api team meeting
+project: Xen Api Team Meeting
 schedule:
   - time:       '1500'
     day:        Wednesday
     irc:        openstack-meeting
     frequency:  weekly
 chair:  John Garbutt
-description: >
+description:  >
   Meeting to discuss the status of Blueprints and bugs relating to the XenAPI
   layer in #openstack-meeting, every Wednesday at 1500 UTC. (It used to be
   every Wednesday at 1700 UTC, but this proved to late for the UK folks at
   Citrix after daylight savings kicked in)
-agenda: |
-  *Actions from last meeting
-  *Blueprints
-  **Discuss Icehouse-2 progress
-  *Docs
-  *Bugs & QA
-  **https://bugs.launchpad.net/nova/+bugs?field.tag=xenserver
-  **gating progress
-  *Open Discussion
+agenda:  |
+  * Actions from last meeting
+  * Blueprints
+  ** Discuss Icehouse-2 progress
+  * Docs
+  * Bugs & QA
+  ** https://bugs.launchpad.net/nova/+bugs?field.tag=xenserver
+  ** Gating progress
+  * Open Discussion

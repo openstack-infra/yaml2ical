@@ -1,10 +1,10 @@
-project: Gantt (Scheduler) team meeting
+project: Gantt (Scheduler) Team Meeting
 schedule:
   - time:       '1500'
     day:        Tuesday
     irc:        openstack-meeting
     frequency:  weekly
 chair:  Don Dugger
-description: >
-agenda: |
-  *How will the current API work lead to actual scheduling
+description:  >
+agenda:  |
+  * How will the current API work lead to actual scheduling

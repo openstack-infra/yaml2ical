@@ -1,0 +1,18 @@
+project: VMware API Team Meeting
+schedule:
+  - time:       '1500'
+    day:        Wednesday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  Shan Hartsock
+description:  >
+  This is a weekly meeting to discuss blueprints and bugs related to VMwareAPI
+  integrations ith OpenStack. At present, this one meeting will cover all
+  these out into separate sub-teams. We maintain a channel for general
+  discussion of VMwareAPI on freenode IRC at openstack-vmware but formal
+  meetings are held in the official IRC meeting rooms for OpenStack.
+agenda:  |
+  * Refactorings priority order & assignments and schedule
+  * Blueprint priority order after refactorings
+  ** Any exceptional blueprints which should be exempt from this rule
+  * Open Discussion
