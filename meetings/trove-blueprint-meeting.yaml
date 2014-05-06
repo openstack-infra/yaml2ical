@@ -1,0 +1,45 @@
+project:  Trove Blueprint Meeting
+schedule:
+  - time:       '1800'
+    day:        Monday
+    irc:        openstack-trove
+    frequency:  weekly
+chair:  Michael Basnight / Vipul Sabhaya / Nikhil Manchanda / Tim Simpson
+description:  >
+  For those interested, we have blueprint meetings in #openstack-trove weekly,
+  Mondays at 18:00 UTC. Feel free to add items in the agenda below.
+agenda:  |
+  * Percona support [mattgriffin]:
+  ** https://blueprints.launchpad.net/trove/+spec/support-percona-xtrabackup-2.2
+  ** https://blueprints.launchpad.net/trove/+spec/support-ps-5.6
+  ** https://blueprints.launchpad.net/trove/+spec/support-pxc-5.5-and-5.6
+  * Instance database log manipulations [denis_makogon]
+  ** https://blueprints.launchpad.net/trove/+spec/dbinstance-log
+  * Update database instance name [nehav]
+  ** https://blueprints.launchpad.net/trove/+spec/update-instance-name
+  * Pluggable conductor manager [boden]
+  ** https://blueprints.launchpad.net/trove/+spec/pluggable-conductor-manager
+  * Allow configs to be rendered based on datastore version [cp16net]
+  ** https://blueprints.launchpad.net/trove/+spec/datastore-configs-cant-use-multiple-versions
+  * Trove client for cross-region-backup [esmute]
+  ** https://blueprints.launchpad.net/trove/+spec/cross-region-backup-availability
+  * Cassandra configuration management support [denis_makogon]
+  ** https://blueprints.launchpad.net/trove/+spec/cassandra-configuration-management
+  * Cassandra incremental backup support [denis_makogon]
+  ** https://blueprints.launchpad.net/trove/+spec/incremental-backup-restore-cassandra
+  * Volume data snapshoting/applying [denis_makogon]
+  ** https://blueprints.launchpad.net/trove/+spec/volume-snapshot
+  * Configurable DB plugins [boden]
+  ** https://blueprints.launchpad.net/trove/+spec/configurable-db-plugins
+  * Multi-path plugin support; added notes to existing BP [boden]
+  ** https://blueprints.launchpad.net/trove/+spec/extensions-update
+  * Pluggable conductor manager [boden]
+  ** https://blueprints.launchpad.net/trove/+spec/pluggable-conductor-manager
+  * Configurable DB plugins [boden]
+  ** https://blueprints.launchpad.net/trove/+spec/configurable-db-plugins
+  * Multi-path plugin support; added notes to existing BP [boden]
+  ** https://blueprints.launchpad.net/trove/+spec/extensions-update
+  * Allow configs to be rendered based on datastore version [cp16net]
+  ** https://blueprints.launchpad.net/trove/+spec/datastore-configs-cant-use-multiple-versions
+  * Trove client for cross-region-backup [esmute]
+  ** https://blueprints.launchpad.net/trove/+spec/cross-region-backup-availability

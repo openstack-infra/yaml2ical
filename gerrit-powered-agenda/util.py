@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#    Copyright 2014 North Dakota State University
+#    Copyright 2014 OpenStack Foundation
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
 #    not use this file except in compliance with the License. You may obtain
@@ -101,7 +101,7 @@ def check_uniqueness():
             if len(change_dict[key]) > 1:
                 meeting_quote = ['\'' + m + '\'' for m in change_dict[key]]
                 meeting_str = ', '.join(meeting_quote)
-                logging.info('Meetings %s are in conflict.' % (meeting_str))
+                logging.error('Meetings %s are in conflict.' % (meeting_str))
         return 1
 
 
@@ -135,8 +135,8 @@ def check_conflicts():
         if key in change_dict and key in origin_dict:
             # and they are actually different meetings
             if change_dict[key] != origin_dict[key]:
-                logging.info('Meetings \'%s\' and \'%s\' are in conflict.'
-                             % (change_dict[key], origin_dict[key]))
+                logging.error('Meetings \'%s\' and \'%s\' are in conflict.'
+                              % (change_dict[key], origin_dict[key]))
                 conflict = True
 
     if conflict:

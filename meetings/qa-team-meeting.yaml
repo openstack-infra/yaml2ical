@@ -1,0 +1,34 @@
+project:  QA Team Meeting
+schedule:
+  # Note(jmching): need to change this to biweekly in the future
+  - time:       '1700'
+    day:        Thursday
+    irc:        openstack-meeting
+    frequency:  weekly
+  - time:       '2200'
+    day:        Thursday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  Matt Treinish
+description:  |
+  * The OpenStack QA Team holds public weekly meetings in #openstack-meeting,
+    Thursday alternating every week between 17:00 UTC and 22:00 UTC.
+  * Everyone interested in testing, quality assurance, performance engineering,
+    etc, should attend!
+  * The meeting minutes of can be found here: meeting minutes on everdrop
+  * Rules for adding to the agenda:
+  ** Anyone is free to add to proposed agenda, please do so by 1 hr before the
+     meeting
+  ** If you add an item to the agenda, please include your ircnick (i.e. sdague)
+     to the end of your item, so we know who did, and who should lead the
+     discussion
+agenda:  |
+  * Reminder about summit etherpads
+  ** https://wiki.openstack.org/wiki/Summit/Juno/Etherpads#QA
+  * Specs Review
+  * Blueprints
+  ** Status updates
+  * Neutron testing
+  * Heat testing
+  * Bugs
+  * Critical Reviews

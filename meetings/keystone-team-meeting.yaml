@@ -1,0 +1,15 @@
+project:  Keystone Team Meeting
+schedule:
+  - time:       '1800'
+    day:        Tuesday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  Dolph Mathews
+description:  >
+  If you're interested in identity for OpenStack, we hold public meetings in
+  IRC in #openstack-meeting, on Tuesdays at 1800 UTC. Please feel free to
+  add items to the agenda below with your name and we'll cover them.
+agenda:  |
+  * Reminder: Design summit session proposals open until April 20th
+  * Oslo Liaison for Keystone:
+    https://list.openstack/org/pipermail/openstack-dev/2014-April/032498.html

@@ -1,0 +1,32 @@
+project:  Swift Team Meeting
+schedule:
+  - time:       '1900'
+    day:        Wednesday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  John Dickinson
+description:  >
+  Meeting Time: Every Wednesday at 19:00 UTC in #openstack-meeting
+agenda:  |
+  * Summit Prep
+  ** Conference Talks
+  *** Storage policies [peluse, notmyname]:
+      http://openstacksummitmay2014atlanta.sched.org/event/e22627b0b0f4c212dc669d7ffc19ea2a
+  *** Global clusters [joearnold]:
+      http://openstacksummitmay2014atlanta.sched.org/event/d565f07e51d4b300cac7badac184ccbe
+  *** Swift perf [Eamonn, mjseger]:
+      http://openstacksummitmay2014atlanta.sched.org/event/168e02588648844ff75fa9aa002355d2
+  *** Swift + Gluster [lpabon, notmyname]:
+      http://openstacksummitmay2014atlanta.sched.org/event/5727bc231e5e6ad6e574f77a11e7540f
+  *** Cinder and Swift [jgriffith, notmyname]:
+      http://openstacksummitmay2014atlanta.sched.org/event/a093ab8ea13809e09b255c2fa8c9cb13
+  *** Swift as a backend for Git [chmouel]:
+      http://openstacksummitmay2014atlanta.sched.org/event/b9391e180f2fffee59b6aa75528af575
+  *** Developing your own Swift middleware [cschwede]:
+      http://openstacksummitmay2014atlanta.sched.org/event/f196f4e4c2509ba91ab53134cbcd9e5e
+  ** Summit Sessions
+  *** http://junodesignsummit.sched.org/type/swift
+  *** creiht, notmyname, fifield, kota tsuyuzaki, mjseger, peluse, portante
+  * Functional tests [portante]
+  ** Current status
+  ** Next steps needed to get it gating

@@ -1,0 +1,27 @@
+project:  Firewall as a Service (FWaaS) Team Meeting
+schedule:
+  - time:       '1830'
+    day:        Wednesday
+    irc:        openstack-meeting-3
+    frequency:  weekly
+chair:  Summit Naiksatam
+description:  >
+  This page tracks Neutron Firewall as a Service (FWaaS) meeting information.
+  The OpenStack Networking Team (Neutron) holds public meetings in
+  #openstack-meeting-3 on Wednesdays at 1830 UTC. Everyone is encouraged to
+  attend.
+agenda:  |
+  * Bugs
+  * Blueprint Tracking
+  ** Tempest test
+  ** Integration with service type framework
+  ** FWaaS service insertion (also allows overcoming single firewall
+     limitation)
+  *** Service Objects
+  *** Commit/apply operation
+  * Vendor Blueprints
+  * Discussion Topics
+  ** zones
+  ** Adress Objects
+  ** Counts API
+  * Open Discussion

@@ -1,0 +1,12 @@
+project:  Training-manuals Team Meeting
+schedule:
+  - time:       '1700'
+    day:        Monday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  sarob
+description:  >
+  The training-manuals team meets weekly on Monday at 1700 UTC on
+  #openstack-meeting.
+agenda:  |
+  * Run down previous meeting action items

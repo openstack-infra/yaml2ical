@@ -1,0 +1,70 @@
+project:  Neutron L3 Sub-team Meeting
+schedule:
+  - time:       '1500'
+    day:        Tuesday
+    irc:        openstack-meeting-3
+    frequency:  weekly
+chair:  Carl Baldwin
+description:  >
+  Meetings, with their notes and logs, will be found under
+  http://eavesdrop.openstack.org/meetings/neutron_l3
+agenda:  |
+  * Bugs
+  ** https://bugs.launchpad.net/neutron/+bugs?field.tag=l3-ipam-dhcp
+  * Announcements
+  ** Summit is May 12-16. Just a couple of weeks.
+  ** In general, I encourage you to add your action items. Please feel free.
+     Look up meetbot for commands that you can use during the meeting. Example:
+    #action carl_baldwin will get something specific done this week.
+  * Blueprint: l3-svcs-vendor-* (pcm)
+  ** Specifications: l3-svcs-vendor-validation, l3-svcs-vendor-client-cap,
+     l3-svcs-vendor-status-report
+  ** Gerrit Topics: None
+  ** This is a new topic for April 17th's meeting.
+  *** Discussed in Neutron Meeting Here
+  *** pcm has filed a session topic for this
+  * Blueprint: l3-high-availability (safchain)
+  ** Specifications: l3-high-availability, l3-high-availability active/active
+  ** Gerrit Topics bp/l3-high-availability
+  ** The contact for this blueprint is Sylvain Afchain
+  ** Reviewing HA Router Functionality
+  *** There are some relationships between the reviews.
+  *** After reading the blueprint, a good starting place for review is the Add
+      L3 VRRP HA base classes review. It does not have any dependencies and
+      adds the framework. It creates the HA management network and ports, adds
+      database support, etc. After that, there are two patches to be reviewed.
+      They are mostly independent of each other.
+  **** Add a new scheduler for the l3 HA
+  **** Introduces a keepalived manager for HA
+  *** Finally, the Add HA support to the l3 agent review seems to pull them all
+      together.
+  *** Introduces a conntrackd manager for HA
+  ** Testing HA Router Functionality
+  *** How to test L3 HA VRRP
+  * Blueprint: bgp-dynamic-routing (nextone92)
+  ** Specifications  dynamic routing use cases, bgp-dynamic-routing
+  ** Gerrit Topics  None
+  * Blueprint: rootwrap-daemon-mode (ajo, YorikSar)
+  ** Thierry has a design summit discussion about this. "oslo.rootwrap:
+     performance and other improvements." Attend it if you're interested.
+  ** Specifications: etherpad discussion, rootwrap-daemon-mode
+  ** Gerrit: Topics bp/rootwrap-daemon-mode
+  * Blueprint: neutron-ovs-dvr (Swami)
+  ** Distributed-Virtual-Router2 meetings are still on-going.
+  ** Specifications  neutron-ovs-dvr, DVR-L2-Agent Blueprint, DVR-L3-Agent
+     Blueprint, decentralized-snat
+  ** Gerrit Topics bp/neutron-ovs-dvr
+  * Blueprint: pluggable-ext-net (carl_baldwin)
+  ** Specifications  pluggable-ext-net
+  ** Gerrit Topics bp/pluggable-ext-net
+  * Blueprint: internal-dns-resolution, external-dns-resolution (carl_baldwin)
+  ** Specifications: internal-dns-resolution, internal-dns-resolution
+  ** Gerrit Topics: bp/internal-dns-resolution, bp/external-dns-resolution
+  ** Please join the etherpad for the summit discussion! See you there.
+  * Other possibly relevant blueprints
+  ** Is there interest in discussing these or any other blueprints under review
+     or development?
+  ** router-port-forwarding
+  ** l3-agent-consolidation?
+  ** (l3-router-service-type-framework)?
+  * Open Discussion

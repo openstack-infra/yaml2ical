@@ -1,0 +1,13 @@
+project:  Python-openstacksdk Meeting
+schedule:
+  - time:       '1900'
+    day:        Tuesday
+    irc:        openstack-meeting-3
+    frequency:  weekly
+chair:  jnoller
+description:  >
+  This is a proposed OpenStack project that is designed to improve the
+  experience of OpenStack end-users by consolidating the various
+  OpenStack python-* client back-ends and common code into a unified,
+  well designed and user focused SDK ("Software Development Toolkit").
+agenda:

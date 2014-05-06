@@ -1,0 +1,14 @@
+project:  Murano Meeting
+schedule:
+  - time:       '1700'
+    day:        Tuesday
+    irc:        openstack-meeting-alt
+    frequency:  weekly
+chair:  Georgiy Okrokvertskhov
+description:  >
+  We have meetings in #openstack-meeting-alt weekly on Tuesdays at 17:00 UTC.
+agenda:  |
+  * Roll call
+  * Action items review
+  * Release status
+  * Open Discussion

@@ -1,0 +1,14 @@
+project:  Glance Team Meeting
+schedule:
+  - time:       '1400'
+    day:        Thursday
+    irc:        openstack-meeting-alt
+    frequency:  weekly
+  - time:       '2000'
+    day:        Thursday
+    irc:        openstack-meeting-alt
+    frequency:  weekly
+chair:  Mark Washenberger
+description:
+agenda:  |
+  * loacted at https://etherpad.openstack.org/glance-team-meeting-agenda

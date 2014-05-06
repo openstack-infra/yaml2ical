@@ -1,0 +1,21 @@
+project:  Neutron Group Policy Sub-team Meeting
+schedule:
+  - time:       '1730'
+    day:        Thursday
+    irc:        openstack-meeting-alt
+    frequency:  weekly
+chair:  Sumit Naiksatam
+description:  >
+  Weekly meeting page for the Neutron Group Policy Sub-team occurring Thursdays
+  at 1800 UTC on #openstack-meeting-3. The group wiki page can be accessed
+  at https://wiki.openstack.org/wiki/Neutron/GroupPolicy
+agenda:  |
+  * GP spec gerrit review - https://review.openstack.org/#/c/89469/
+  * PoC Status Update
+  ** Policy Model and code
+  ** Policy Plugin Driver (Classical Neutron resources mapping)
+  ** Client, CLI
+  ** Horizon
+  ** Heat
+  ** Atlanta Design Summit Session
+  ** Atlanta Conference Session

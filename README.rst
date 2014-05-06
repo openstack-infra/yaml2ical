@@ -4,7 +4,7 @@ Gerrit-Powered-Agenda
 This project aims to provide an easier way to manage OpenStack team meetings.
 Currently, each team's meeting time and agenda are listed at:
 
-  https://wiki.openstack.org/wiki/Meetings.
+  https://wiki.openstack.org/wiki/Meetings
 
 This project replaces each meeting with well-defined YAML files.
 
@@ -188,7 +188,7 @@ will be import into Python as a dictionary.
 
   ::
 
-    agenda: |
+    agenda:  |
         * General annoucement
         * Sub-teams
         * Bugs

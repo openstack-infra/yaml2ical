@@ -1,0 +1,29 @@
+project:  ML2 Network Sub-team Meeting
+schedule:
+  - time:       '1600'
+    day:        Wednesday
+    irc:        openstack-meeting-alt
+    frequency:  weekly
+chair:  Bob Kukura / Sukhdev Kapur
+description:  >
+  Weekly on Wednesdays at 1600 UTC on #openstack-meeting-alt
+agenda:  |
+  * Announcements
+  ** Neutron design summit runs through Friday - check your travel plans
+  ** New BP review process is up and running
+  * Action items from last week
+  ** None
+  * Design Summit Sessions
+  ** http://summit.openstack.org/
+  ** Mestery is finalizing schedule, combining sessions
+  *** ML2 Roadmap
+  *** Agent
+  *** Hierarchical Network Topologies
+  ** Neutron pod at summit
+  * Bugs
+  ** https://bugs.launchpad.net/neutron?field.searchtext=ml2
+  * Spec Reviews
+  ** https://review.openstack.org/#/q/status:open+project:openstack/neutron-specs,n,z
+  * Code Reviews
+  ** https://review.openstack.org/#/q/status:open+project:openstack/neutron,n,z
+  * Open Discussion

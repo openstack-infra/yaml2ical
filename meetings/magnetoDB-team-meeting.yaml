@@ -1,0 +1,10 @@
+project:  MagnetoDB Team Meeting
+schedule:
+  # Note(jmching): need to change this to biweekly in the future
+  - time:       '0900'
+    day:        Monday
+    irc:        openstack-meeting-alt
+    frequency:  weekly
+chair:  isviridov
+description:
+agenda:

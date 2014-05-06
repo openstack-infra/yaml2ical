@@ -1,0 +1,9 @@
+project:  MagnetoDB Team Daily Scrum Meeting
+schedule:
+  - time:       '1500'
+    day:        Wednesday
+    irc:        magnetodb
+    frequency:  daily
+chair:  isviridov, setho, dukhlov, ikhudoshyn
+description:
+agenda:

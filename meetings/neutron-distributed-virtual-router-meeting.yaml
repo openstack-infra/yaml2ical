@@ -1,0 +1,14 @@
+project:  Neutron Distributed Virtual Router Meeting
+schedule:
+  - time:       '1500'
+    day:        Wednesday
+    irc:        openstack-meeting-alt
+    frequency:  weekly
+chair:  Swaminathan Vasudevan
+description:  >
+  The Distributed Virtual Router project team holds weekly team meetings in
+  #openstack-meeting-alt weekly on Wednesdays at 1500UTC in
+  #openstack-meeting-alt channel.  NOTE: The Monday meetings 22.00UTC in
+  #openstack-meeting channel has been suspended for now, since all sub-team
+  members are at different time zone.
+agenda:

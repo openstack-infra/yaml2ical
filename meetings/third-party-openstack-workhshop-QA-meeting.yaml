@@ -1,0 +1,9 @@
+project:  Third Party OpenStack CI Workshop and QA Meeting
+schedule:
+  - time:       '1800'
+    day:        Monday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  JayPipes
+description:
+agenda:

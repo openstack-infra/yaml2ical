@@ -1,4 +1,4 @@
-project: OpenStack Project & Release Status Meeting
+project:  OpenStack Project and Release Status Meeting
 schedule:
   - time:       '2100'
     day:        Tuesday
@@ -10,7 +10,8 @@ description:  >
   meeting in #openstack-meetings, Tuesdays at 2100 UTC. Everyone is
   encouraged to attend.
 agenda:  |
-  * Current RC status
-  * (add topics here)
-  * Incubated Projects
-  * Open Discussion
+  * Design Summit schedule finalization
+  ** Last-minute changes
+  ** Scheduling conflicts we need to solve
+  * Other questions about the design summit
+  * Open discussion

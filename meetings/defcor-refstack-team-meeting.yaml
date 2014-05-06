@@ -1,0 +1,14 @@
+project:  DefCore / RefStack Development Meeting
+schedule:
+  - time:       '1700'
+    day:        Thursday
+    irc:        openstack-meeting-3
+    frequency:  weekly
+chair:  David Lenwell
+description:  >
+  DefCore Meetings do not follow a set schedule we meet based on needs for
+  process deliverables and other action items. Typically, they are every 3
+  weeks with additional working sessions.
+agenda:  |
+  * RefStack is the development arm of the DefCore committee responsible to
+    collecting Tempest results and crowdsourcing the results.

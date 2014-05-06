@@ -1,0 +1,15 @@
+project:  Mistral Meeting
+schedule:
+  - time:       '1600'
+    day:        Monday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  Renat Akhmerov
+description:  >
+  We have IRC meetings on #openstack-meeting weekly on Mondays at 16:00 UTC.
+agenda:  |
+  * Review action items
+  * Current status (quickly by team members)
+  * Summit preparation
+  * Further plans
+  * Open Discussion

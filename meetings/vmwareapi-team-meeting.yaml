@@ -1,6 +1,6 @@
-project: VMware API Team Meeting
+project:  VMwareAPI Team Meeting
 schedule:
-  - time:       '1500'
+  - time:       '1700'
     day:        Wednesday
     irc:        openstack-meeting
     frequency:  weekly

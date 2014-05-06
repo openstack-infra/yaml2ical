@@ -1,0 +1,17 @@
+project:  Stackalytics Team Meeting
+schedule:
+  # Note(jmching): need to change this to biweekly in the future
+  - time:       '1500'
+    day:        Monday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  Ilya Shakhat
+description:  >
+  The Stackalytics project team holds a be-weekly (starting from Oct 21st)
+  team meeting in #openstack-meeting on Mondays at 1500 UTC.
+agenda:  |
+  * Roadmap for 0.4 release
+  * New metrics vs drill-down reports
+  * Opened blueprints
+  * Marketing reports vs development metrics
+  * General Discussion

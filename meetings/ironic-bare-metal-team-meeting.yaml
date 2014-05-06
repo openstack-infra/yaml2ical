@@ -1,0 +1,32 @@
+project:  Ironic (Bare Metal) Team Meeting
+schedule:
+  - time:       '1900'
+    day:        Monday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  Devananda van der Veen
+description:  >
+  If you're interested in bare metal deployments with openstack, please join us.
+  This meeting is whre we'll talk about the Ironic project, an evolution of the
+  Nova Baremetal driver. Anyone is welcome to add items to the agenda below, or
+  bring up their topic during the open discussion at the end of each meeting.
+agenda:  |
+  * Greetings, Announcements, etc
+  * Sub-team status reports
+  ** Integration Testing
+  *** Tempest CI status
+  *** TripleO CI status
+  ** Status of Fedora on devstack with Ironic
+  *** IPv6 enabled boxes vs TFTP (xinet.d defaults to listening on IPv6 endpoint
+      only, at least on Fedora)
+  **** https://review.openstack.org/#/c/87594/ - DevStack patch
+  **** https://review.openstack.org/#/c/87208/ - TripleO patch
+  *** Ironic Python Agent
+  * Discussion Topics
+  ** Do we really need the Chassis object? Should we replace it with tag groups?
+  * Open Discussion:
+  ** How to merge large amount of tests refactoring review requests? These
+     include at least: 1 2 3 4 5 6 7 8 9. Nearly any change to tests break some
+     or all of these review requests, so it seems hard to finish and merge them
+     without stopping approving other changes for a while.
+  ** Hardware discovery extension for agent. blueprint

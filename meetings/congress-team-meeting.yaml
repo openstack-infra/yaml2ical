@@ -1,0 +1,14 @@
+project:  Congress Team Meeting
+schedule:
+  # Note(jmching): need to change this to biweekly in the future
+  - time:       '1700'
+    day:        Tuesday
+    irc:        openstack-meeting-3
+    frequency:  weekly
+chair:  Pete Balland
+description:  >
+  If you're interested in Congress, we hold public meetings weekly in
+  #openstack-meeting-3 on freenode, on every other Tuesday at 17:00 UTC.
+  We use the logs of previous meetings to record action items, and we do a
+  quick survey at the start of each meeting to see what is on the agenda.
+agenda:

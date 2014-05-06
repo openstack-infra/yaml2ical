@@ -1,0 +1,17 @@
+project:  Project Infrastructure Team Meeting
+schedule:
+  - time:       '1900'
+    day:        Tuesday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  James E. Blair
+description:  >
+  The OpenStack Project Infrastructure Team holds public weekly team meetings
+  in openstack-meeting, Tuesdays at 1900 UTC. Everyone interested in
+  infrastructure and process surrounding automated testing and deployment
+  is encouraged to attend. Please feel free to add agenda items (and your IRC
+  nick in parenthesis).
+agenda:  |
+  * Actions from last meeting
+  * manage-projects status (mordred)
+  * Open discussion

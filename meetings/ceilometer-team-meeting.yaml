@@ -1,0 +1,21 @@
+project:  Ceilometer Team Meeting
+schedule:
+  - time:       '1500'
+    day:        Thursday
+    irc:        openstack-meeting
+    frequency:  weekly
+  - time:       '2100'
+    day:        Wednesday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  Julien Danjoi
+description:  >
+  Everyone is welcome. The blueprints that are used as a basis for the
+  ceilometer project can be found at
+  https://blueprints.launchpad.net/ceilometer
+agenda:  |
+  * Release Status
+  * TC gap analysis for ceilometer (eglynn)
+  * Tempest integration
+  * Release python-ceilometerclient?
+  * Open Discussion

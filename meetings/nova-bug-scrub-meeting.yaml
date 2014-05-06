@@ -1,4 +1,4 @@
-project: Nova Bug Scrub Meeting
+project:  Nova Bug Scrub Meeting
 schedule:
   - time:       '1630'
     day:        Wednesday
@@ -6,7 +6,7 @@ schedule:
     frequency:  weekly
 chair:  Tracy Jones
 description:  >
-  This is a weekly meeting review Nova Bugs. The initial focus will be  on
+  This is a weekly meeting review Nova Bugs. The initial focus will be on
   triaging bugs in the New state and ensuring that critical bugs are making
   progress. Once the new queue is under control we will switch our focus to
   reviewing incomplete bugs, removing assignees from stale bugs so others
@@ -15,5 +15,5 @@ description:  >
 agenda:  |
   * Tag untagged
   * Triage New
-  * Revie Critical
+  * Review Critical
   * Open Discussion

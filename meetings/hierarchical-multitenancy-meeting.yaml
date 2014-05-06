@@ -1,0 +1,17 @@
+project:  Hierarchical Multitenancy Meeting
+schedule:
+  - time:       '1600'
+    day:        Friday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  vishy
+description:  >
+  We have regular meetings on Friday at 1600 UTC in #openstack-meeting.
+  OpenStack needs to grow support for hierarchical ownership of objects. This
+  enables the management subsets of users and projects in a way that is much
+  more comfortable for private clouds. Adding this type of feature will require
+  work across all of the projects in OpenStack. Traditionally efforts like this
+  have stalled out because of the amount of collaboration required. For this
+  reason, the goal is to make a small cross-functional team to design and
+  implement this feature by producing real code.
+agenda:

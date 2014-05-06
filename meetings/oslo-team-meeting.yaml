@@ -1,0 +1,19 @@
+project:  Oslo Team Meeting
+schedule:
+  - time:       '1400'
+    day:        Friday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  Doug Hellmann
+description:  >
+  Oslo will hold IRC meetings on demand at the time scheduled below.
+  If there's an Oslo topic you think warrants a project meeting, please add it
+  to the agenda section below and notify the openstack-dev@lists.openstack.org
+  mailing list. Please give everyone at least 24 hours notice.
+agenda:  |
+  * Review action items from previous meeting
+  * Red flags from liaisons
+  * oslo.messaging adoption status
+  * Review status for graduating libs
+  ** oslo.db
+  ** oslo.i18n

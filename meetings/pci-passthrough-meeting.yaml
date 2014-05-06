@@ -1,0 +1,13 @@
+project:  PCI Passthrough Meeting
+schedule:
+  - time:       '1300'
+    day:        Wednesday
+    irc:        openstack-meeting-alt
+    frequency:  weekly
+chair:  Robert Li
+description:  >
+  Next meeting will be on Wed May 7th at 1300 UTC on #openstack-meeting-alt
+agenda:  |
+  * PCI SR-IOV Networking use case
+  * Refer to
+    https://docs.google.com/document/d/1zgMaXqrCnad01-jQH7Mkmf6amlghw9RMScGLBrKslmw/edit

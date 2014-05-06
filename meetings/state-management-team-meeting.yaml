@@ -1,0 +1,21 @@
+project:  State Management Team Meeting
+schedule:
+  - time:       '1900'
+    day:        Thursday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  Harlowja
+description:  >
+  To provide nova, heat, reddwarf and other openstack projects (in incubation
+  or core) a more structured state management library, routines, and code
+  patterns to incrementally move toward a programming model which hopefully can
+  be easier to ['audit', 'automate', 'extend', 'resume', 'revert', 'review',
+  'schedule', 'understand', '...'].
+agenda:  |
+  * Discuss any action items from last meeting.
+  * 0.2 Release FTW!
+  * 0.2.1 and 0.3 planning and ideas [blueprints and features and ideas]
+  * Lazy engine idea, concept, thoughts ... and supporting threads
+  * Discuss about any other potential new use-cases for said library.
+  * Discuss about any other ideas, reviews needing help, questions and answers
+    (and more!).

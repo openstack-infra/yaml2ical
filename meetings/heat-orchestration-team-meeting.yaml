@@ -1,0 +1,24 @@
+project:  Heat (Orchestration) Team Meeting
+schedule:
+  - time:       '2000'
+    day:        Wednesday
+    irc:        openstack-meeting
+    frequency:  weekly
+  - time:       '0000'
+    day:        Thursday
+    irc:        openstack-meeting-alt
+    frequency:  weekly
+chair:  Steve Baker
+description:  >
+  The heat Orchestration project team holds a meeting in #openstack-meeting at
+  alternating times on Wednesday at 2000 and Thursday at 0000. Everyone is
+  Welcome. The blueprints that are used as a basis for the heat project can be
+  found at: https://blueprints.launchpad.net/heat
+agenda:  |
+  * Review action items
+  ** Adding items to the agenda
+  * We need an Oslo Liaison
+  ** therve has kindly volunteered
+  * Meeting times for the Juno cycle
+  * Design Summit sessions
+  ** Proposals must be submitted by the end of this week

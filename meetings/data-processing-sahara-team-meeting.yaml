@@ -1,0 +1,17 @@
+project:  OpenStack Data Processing (Sahara) Team Meeting
+schedule:
+  - time:       '1800'
+    day:        Thursday
+    irc:        openstack-meeting-alt
+    frequency:  weekly
+chair:  Sergey Lukjanov
+description:  >
+  The Sahara project team holds a weekly team meeting in #openstack-meeting-alt
+  on Thursday at 18:00 UTC.
+agenda:  |
+  * News/updates
+  * Actions items from the last meeting
+  * Icehouse release status
+  * When to start backward compat?
+  * Roadmap update / cleanup
+  * Open Discussion

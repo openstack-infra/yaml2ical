@@ -1,0 +1,30 @@
+project:  Neutron ServiceVM Framework Sub-team Meeting
+schedule:
+  - time:       '0500'
+    day:        Tuesday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  Isaku Yamahata
+description:  |
+  * ServiceVM/DeviceManager subteam
+  ** Project page: https://wiki.openstack.org/wiki/ServiceVM
+  ** Meeting log:
+     http://eavesdrop.openstack.org/meetings/neutron_servicevm/
+  ** http://eavesdrop.openstack.org/meetings/neutron_servicevm/2014/
+agenda:  |
+  * Patch review
+  * Integrating code
+  * Admin/tenant policy/accounting/quota
+  * Cooperation with advanced services
+    https://wiki.openstack.org/wiki/Meetings/AdvancedServices
+  * Design summit plan
+  ** Unconference
+  * Status update
+  * New project planning
+  ** Project name
+  *** Code name: virtue, ginie, jeeve,...
+  *** Topic name: servicevm, hosting device,...
+  ** Design API/model
+  *** Way to review: gerrit or google-doc?
+  *** Design strategy
+  * Open discussion

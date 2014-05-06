@@ -1,0 +1,18 @@
+project:  Chef Cookbook Meeting
+schedule:
+  - time:       '1600'
+    day:        Monday
+    irc:        openstack-chef
+    frequency:  weekly
+chair:  Matt Ray
+description:  |
+  The Chef Cookbooks project team holds a weekly team meeting in
+  #openstack-chef:
+  * Google hangout is used for discussions
+  * Weekly on Mondays at 1600 UTC
+    (http://www.timeanddate.com/worldclock/fixedtime.html?iso=20130502T1600)
+  * Chair (to contact for more information): mattray (#openstack-chef @
+    Freenode)
+agenda:  |
+  * The blueprints that are used as a basis for the Chef Cookbooks can be found
+    at https://blueprints.launchpad.net/openstack-chef

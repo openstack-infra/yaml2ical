@@ -1,0 +1,20 @@
+project:  LBaaS Meeting
+schedule:
+  - time:       '1400'
+    day:        Thursday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  Eugene Nikanorov
+description:  >
+  This page tracks Neutron Loadbalancer as a Service (LBaaS) meeting
+  information. The OpenStack Networking Team (Neutron) holds public meetings in
+  #openstack-meeting on Thursday at 1400 UTC. Everyone is encouraged to attend.
+agenda:  |
+  * Stephen's API proposal
+  ** https://docs.google.com/document/d/129Da7zEk5p437_88_IKiQnNuWXzWaS_CpQVm4JBeQnc/edit#heading=h.hgpfh6kl7j7a
+  ** The document proposes the API that covers pretty much of the features that
+     we've identified on the requirements page. The use cases are being
+     addressed also. We need to converge on general approach proposed there.
+  * Summit Agenda
+  ** We have two sessions at the neutron track. It makes sense to focus on the
+     topics that will benefit most from face-to-face discussion.

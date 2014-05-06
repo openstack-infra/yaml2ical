@@ -1,0 +1,13 @@
+project:  Open Stack Community Team Meeting
+schedule:
+  - time:       '2300'
+    day:        Wednesday
+    irc:        openstack-meeting
+    frequency:  weekly
+chair:  Stefano Maffulli
+description:  >
+  The Community team meets weekly on Wednesday at 2300 UTC on
+  #openstack-meeting.
+agenda:  |
+  * Review action items from last meeting
+  * Community Office hours: talk to the community managers, ask questions freely

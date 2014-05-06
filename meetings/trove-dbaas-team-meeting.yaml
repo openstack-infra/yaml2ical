@@ -1,0 +1,15 @@
+project:  Trove (DBaaS) Team Meeting
+schedule:
+  - time:       '1800'
+    day:        Wednesday
+    irc:        openstack-meeting-alt
+    frequency:  weekly
+chair:  Michael Basnight / Vipul Sabhaya / Nikhil Manchanda / Tim Simpson
+description:  |
+  * We have weekly team meetings on Wednesdays at 18:00 UTC in
+    #openstack-meeting-alt.
+  * Want to add an agenda item? Please append your item to the upcoming weekly
+    agenda while keeping in mind guidelines for writing clear agenda items.
+agenda:  |
+  * How do Gerrit changes get approved? [mat-lowery]
+  ** More details to be provided. See thread on DL.
