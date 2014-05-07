@@ -15,7 +15,7 @@ agenda:  |
   ** Summit is May 12-16. Just a couple of weeks.
   ** In general, I encourage you to add your action items. Please feel free.
      Look up meetbot for commands that you can use during the meeting. Example:
-    #action carl_baldwin will get something specific done this week.
+     #action carl_baldwin will get something specific done this week.
   * Blueprint: l3-svcs-vendor-* (pcm)
   ** Specifications: l3-svcs-vendor-validation, l3-svcs-vendor-client-cap,
      l3-svcs-vendor-status-report
