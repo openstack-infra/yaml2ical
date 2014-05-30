@@ -14,18 +14,17 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import os
+
+
+project_dir = os.path.dirname(os.getcwd())
 
 YAML_FILE_EXT = ('.yaml', '.yml')
 
 WEEKDAYS = {'Monday': 0, 'Tuesday': 1, 'Wednesday': 2, 'Thursday': 3,
             'Friday': 4, 'Saturday': 5, 'Sunday': 6}
 
-BASH_SCRIPT = './clonerepo.sh'
-
-CACHE_DIR = '../.cache'
-CACHE_YAML_DIR = '../.cache/meetings'
-
-SRC_DIR = '../gerrit-powered-agenda'
+SRC_DIR = project_dir
 
 DEFAULT_YAML_DIR = '../meetings'
 DEFAULT_ICAL_DIR = '../icals'
