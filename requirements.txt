@@ -1,3 +1,4 @@
-pyyaml
-icalendar
+pbr>=0.5.21,<1.0
 argparse
+icalendar
+pyyaml
