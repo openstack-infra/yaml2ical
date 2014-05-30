@@ -17,7 +17,6 @@
 
 import logging
 import os
-import subprocess
 
 import yaml
 
@@ -117,11 +116,10 @@ def check_conflicts():
     change_list = _read_yaml_files(const.DEFAULT_YAML_DIR)
     change_dict = _make_schedule_dict(_make_schedule_key, change_list, True)
 
-    # runs the bash script to clone origin yaml files to .cache folder
-    # then reads from the yaml files in the .cache folder
-    subprocess.call(const.BASH_SCRIPT)
+    # FIXME(lbragstad): Removed the clonerepo script since Jenkins takes care
+    # of that. The path resolution needs to be fix here too.
     origin_dict = _make_schedule_dict(_make_schedule_key,
-                                      _read_yaml_files(const.CACHE_YAML_DIR),
+                                      _read_yaml_files(const.DEFAULT_YAML_DIR),
                                       True)
 
     # make a set with all the meeting time
