@@ -103,7 +103,6 @@ class Meeting:
 
         if not os.path.exists(ical_dir):
             os.makedirs(ical_dir)
-        os.chdir(ical_dir)
 
         with open(ical_filename, 'wb') as ics:
             ics.write(cal.to_ical())
@@ -111,7 +110,6 @@ class Meeting:
         num_events = len(cal.subcomponents)
         logging.info('\'%s\' processed. [%d event(s)]' % (ical_filename,
                                                           num_events))
-        os.chdir(const.SRC_DIR)
 
     def get_schedule_tuple(self):
         """returns a list of meeting tuples consisting meeting name, meeting

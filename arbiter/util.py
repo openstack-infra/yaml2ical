@@ -36,17 +36,16 @@ def publish(meeting, ical):
 def load_meetings(yaml_dir, meeting_list=None):
     """Return a list of Meetings initialized from files in yaml_dir."""
 
-    os.chdir(yaml_dir)
-    if meeting_list:
-        meetings_yaml = [f for f in os.listdir()
-                         if os.path.isfile(f) and
-                         f.endswith(const.YAML_FILE_EXT) and
-                         f in meeting_list]
-    else:
-        meetings_yaml = [f for f in os.listdir()
-                         if os.path.isfile(f) and
-                         f.endswith(const.YAML_FILE_EXT)]
+    meetings_yaml = []
+    for file_name in os.listdir(yaml_dir):
+        yaml_file = os.path.join(yaml_dir, file_name)
+        if not os.path.isfile(yaml_file):
+            continue
+        if meeting_list and yaml_file not in meeting_list:
+            continue
+        meetings_yaml.append(yaml_file)
 
+    print meetings_yaml
     meetings = [Meeting(yaml.load(open(f, 'r')), f)
                 for f in meetings_yaml]
 
@@ -151,7 +150,6 @@ def _read_yaml_files(directory):
 
     """
 
-    os.chdir(directory)
     yaml_files = []
     for file in os.listdir('.'):
         if os.path.isfile(file) and file.endswith(const.YAML_FILE_EXT):
@@ -167,7 +165,6 @@ def _read_yaml_files(directory):
         for schedule in meeting.get_schedule_tuple():
             schedules.append(schedule)
 
-    os.chdir(const.SRC_DIR)
     return schedules
 
 
