@@ -102,18 +102,21 @@ class Meeting:
             # add event to calendar
             cal.add_component(event)
 
-        # write ical files to disk
-        ical_filename = self.filename.split('.')[0] + '.ics'
+        # determine file name from source file
+        ical_filename = os.path.basename(self.filename).split('.')[0] + '.ics'
+        ical_filename = os.path.join(ical_dir, ical_filename)
 
         if not os.path.exists(ical_dir):
             os.makedirs(ical_dir)
 
+        # write ical files to disk
         with open(ical_filename, 'wb') as ics:
             ics.write(cal.to_ical())
 
         num_events = len(cal.subcomponents)
-        logging.info('\'%s\' processed. [%d event(s)]' % (ical_filename,
-                                                          num_events))
+        logging.info("Wrote %(num_events)d event(s) to file '%(ical_file)s'" %
+                     {'ical_file': ical_filename,
+                      'num_events': num_events})
 
     def get_schedule_tuple(self):
         """returns a list of meeting tuples consisting meeting name, meeting
