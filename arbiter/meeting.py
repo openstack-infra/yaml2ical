@@ -82,7 +82,7 @@ class Meeting:
 
             # get starting date
             d = datetime.datetime.utcnow()
-            next_meeting = next_weekday(d, const.WEEKDAYS[schedule.day])
+            next_meeting = self._next_weekday(d, const.WEEKDAYS[schedule.day])
 
             next_meeting_dt = datetime.datetime(next_meeting.year,
                                                 next_meeting.month,
@@ -132,11 +132,16 @@ class Meeting:
                               schedule.irc)))
         return meetings
 
+    def _next_weekday(self, ref_date, weekday):
+        """Return the date of the next meeting.
 
-def next_weekday(ref_date, weekday):
-    """Return the date of the next weekday after ref_date."""
+        :param ref_date: datetime object of meeting
+        :param weekday: weekday the meeting is held on
 
-    days_ahead = weekday - ref_date.weekday()
-    if days_ahead <= 0:  # target day already happened this week
-        days_ahead += 7
-    return ref_date + datetime.timedelta(days_ahead)
+        :returns: datetime object of the next meeting time
+        """
+
+        days_ahead = weekday - ref_date.weekday()
+        if days_ahead <= 0:  # target day already happened this week
+            days_ahead += 7
+        return ref_date + datetime.timedelta(days_ahead)
