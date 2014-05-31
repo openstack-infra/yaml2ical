@@ -45,7 +45,6 @@ def load_meetings(yaml_dir, meeting_list=None):
             continue
         meetings_yaml.append(yaml_file)
 
-    print meetings_yaml
     meetings = [Meeting(yaml.load(open(f, 'r')), f)
                 for f in meetings_yaml]
 
