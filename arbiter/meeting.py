@@ -23,7 +23,8 @@ import icalendar
 import pytz
 import yaml
 
-import const
+from arbiter import const
+from arbiter import schedule
 
 
 class Meeting:
@@ -41,7 +42,10 @@ class Meeting:
         self.agenda = yaml['agenda']  # this is a list of list of topics
 
         # create schedule objects
-        self.schedules = [Schedule(schedule) for schedule in yaml['schedule']]
+        self.schedules = []
+        for sch in yaml['schedule']:
+            s = schedule.Schedule(sch)
+            self.schedules.append(s)
 
     def write_ical(self, ical_dir):
         """Write this meeting to disk using the iCal format."""
@@ -127,18 +131,6 @@ class Meeting:
                               schedule.day,
                               schedule.irc)))
         return meetings
-
-
-class Schedule:
-    """A meeting schedule."""
-
-    def __init__(self, sched_yaml):
-        """Initialize schedule from yaml."""
-
-        self.time = datetime.datetime.strptime(sched_yaml['time'], '%H%M')
-        self.day = sched_yaml['day']
-        self.irc = sched_yaml['irc']
-        self.freq = sched_yaml['frequency']
 
 
 def next_weekday(ref_date, weekday):
