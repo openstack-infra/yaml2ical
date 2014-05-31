@@ -20,9 +20,8 @@ import os
 
 import yaml
 
-import const
-from meeting import Meeting
-
+from arbiter import const
+from arbiter import meeting
 
 """Utility functions for check and gate jobs."""
 
@@ -33,26 +32,6 @@ def publish(meeting, ical):
     pass
 
 
-def load_meetings(yaml_dir, meeting_list=None):
-    """Return a list of Meetings initialized from files in yaml_dir."""
-
-    meetings_yaml = []
-    for file_name in os.listdir(yaml_dir):
-        yaml_file = os.path.join(yaml_dir, file_name)
-        if not os.path.isfile(yaml_file):
-            continue
-        if meeting_list and yaml_file not in meeting_list:
-            continue
-        meetings_yaml.append(yaml_file)
-
-    meetings = [Meeting(yaml.load(open(f, 'r')), f)
-                for f in meetings_yaml]
-
-    logging.info('Loaded %d meetings from YAML' % (len(meetings)))
-
-    return meetings
-
-
 def convert_yaml_to_ical(yaml_dir, ical_dir, meeting_list_file=None):
     """Convert meeting YAML files to the iCal format and place
     in ical_dir. If meeting_list is specified, only those meetings
@@ -60,13 +39,7 @@ def convert_yaml_to_ical(yaml_dir, ical_dir, meeting_list_file=None):
     converted; otherwise, all meeting in yaml_dir are converted.
 
     """
-
-    meeting_list = None
-    if meeting_list_file:
-        meeting_list = open(meeting_list_file).read().splitlines()
-
-    meetings = load_meetings(yaml_dir,
-                             meeting_list)
+    meetings = meeting.load_meetings(yaml_dir)
 
     # convert meetings to a list of ical
     for m in meetings:
@@ -156,12 +129,12 @@ def _read_yaml_files(directory):
 
     meetings = []
     for file in yaml_files:
-        meetings.append(Meeting(yaml.load(open(file, 'r')), file))
+        meetings.append(meeting.Meeting(yaml.load(open(file, 'r')), file))
     logging.info('Loaded %d meetings form YAML' % len(meetings))
 
     schedules = []
-    for meeting in meetings:
-        for schedule in meeting.get_schedule_tuple():
+    for m in meetings:
+        for schedule in m.get_schedule_tuple():
             schedules.append(schedule)
 
     return schedules

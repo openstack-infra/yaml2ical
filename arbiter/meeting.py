@@ -16,6 +16,7 @@
 #    under the License.
 
 import datetime
+import hashlib
 import logging
 import os
 
@@ -30,22 +31,9 @@ from arbiter import schedule
 class Meeting:
     """An OpenStack meeting."""
 
-    def __init__(self, yaml, filename):
+    def __init__(self):
         """Initialize meeting from yaml file name 'filename'."""
-
-        self.filename = filename
-
-        # initialize using yaml
-        self.project = yaml['project']
-        self.chair = yaml['chair']
-        self.description = yaml['description']
-        self.agenda = yaml['agenda']  # this is a list of list of topics
-
-        # create schedule objects
-        self.schedules = []
-        for sch in yaml['schedule']:
-            s = schedule.Schedule(sch)
-            self.schedules.append(s)
+        pass
 
     def write_ical(self, ical_dir):
         """Write this meeting to disk using the iCal format."""
@@ -56,7 +44,7 @@ class Meeting:
         cal.add('prodid', '-//OpenStack//Gerrit-Powered Meeting Agendas//EN')
         cal.add('version', '2.0')
 
-        for schedule in self.schedules:
+        for sch in self.schs:
             # one Event per iCal file
             event = icalendar.Event()
 
@@ -64,12 +52,12 @@ class Meeting:
             # event in an ical file (at least, for it to work with
             # Google Calendar)
 
-            event.add('summary', self.project + ' (' + schedule.irc + ')')
+            event.add('summary', self.project + ' (' + sch.irc + ')')
 
             # add ical description
             project_descript = "Project:  %s" % (self.project)
             chair_descript = "Chair:  %s" % (self.chair)
-            irc_descript = "IRC:  %s" % (schedule.irc)
+            irc_descript = "IRC:  %s" % (sch.irc)
             agenda_yaml = yaml.dump(self.agenda, default_flow_style=False)
             agenda_descript = "Agenda:\n%s\n" % (agenda_yaml)
             descript_descript = "Description:  %s" % (self.description)
@@ -82,18 +70,18 @@ class Meeting:
 
             # get starting date
             d = datetime.datetime.utcnow()
-            next_meeting = self._next_weekday(d, const.WEEKDAYS[schedule.day])
+            next_meeting = self._next_weekday(d, const.WEEKDAYS[sch.day])
 
             next_meeting_dt = datetime.datetime(next_meeting.year,
                                                 next_meeting.month,
                                                 next_meeting.day,
-                                                schedule.time.hour,
-                                                schedule.time.minute,
+                                                sch.time.hour,
+                                                sch.time.minute,
                                                 tzinfo=pytz.utc)
             event.add('dtstart', next_meeting_dt)
 
             # add recurrence rule
-            event.add('rrule', {'freq': schedule.freq})
+            event.add('rrule', {'freq': sch.freq})
 
             # add meeting length
             # TODO(jotan): determine duration to use for OpenStack meetings
@@ -103,7 +91,7 @@ class Meeting:
             cal.add_component(event)
 
         # determine file name from source file
-        ical_filename = os.path.basename(self.filename).split('.')[0] + '.ics'
+        ical_filename = os.path.basename(self._filename).split('.')[0] + '.ics'
         ical_filename = os.path.join(ical_dir, ical_filename)
 
         if not os.path.exists(ical_dir):
@@ -127,12 +115,12 @@ class Meeting:
         """
 
         meetings = []
-        for schedule in self.schedules:
-            schedule_time = schedule.time.hour * 100 + schedule.time.minute
+        for sch in self.schedules:
+            schedule_time = sch.time.hour * 100 + sch.time.minute
             meetings.append((self.filename,
                              (schedule_time,
-                              schedule.day,
-                              schedule.irc)))
+                              sch.day,
+                              sch.irc)))
         return meetings
 
     def _next_weekday(self, ref_date, weekday):
@@ -148,3 +136,59 @@ class Meeting:
         if days_ahead <= 0:  # target day already happened this week
             days_ahead += 7
         return ref_date + datetime.timedelta(days_ahead)
+
+
+def load_meetings(yaml_source):
+    """Build YAML object and load meeting data
+
+    :param yaml_source: source data to load, which can be a directory, file,
+                        or stream.
+    :returns: list of meeting objects
+    """
+    meetings_yaml = []
+    # Determine what the yaml_source is
+    if os.path.isfile(yaml_source):
+        meetings_yaml.append(yaml_source)
+    elif os.path.isdir(yaml_source):
+        # TODO(lbragstad): use os.path.walk?
+        for f in os.listdir(yaml_source):
+            # Build the entire file path and append to the list of yaml
+            # meetings
+            yaml_file = os.path.join(yaml_source, f)
+            meetings_yaml.append(yaml_file)
+    elif isinstance(yaml_source, str):
+        return [_load_meeting(yaml_source)]
+    else:
+        # If we don't have a .yaml file, a directory of .yaml files, or any
+        # YAML data fail out here.
+        raise ValueError("YAML source isn't a .yaml file, directory "
+                         "containing .yaml files, or YAML data.")
+
+    meetings = []
+    for yaml_file in meetings_yaml:
+        with open(yaml_file, 'r') as f:
+            meetings.append(_load_meeting(f))
+
+    return meetings
+
+
+def _load_meeting(meeting_yaml):
+    yaml_obj = yaml.safe_load(meeting_yaml)
+    m = Meeting()
+
+    # Build meeting attributes from yaml
+    m.agenda = yaml_obj['agenda']
+    m.chair = yaml_obj['chair']
+    m.description = yaml_obj['description']
+    m.project = yaml_obj['project']
+    m._filename = (yaml_obj['project'] + '-' +
+                   hashlib.md5(str(yaml_obj).encode('utf-8')).hexdigest()[:8])
+
+    # TODO(lbragstad): See if there is another way we can do this instead
+    # of having every Meeting object build a list of Schedule objects.
+    m.schedules = []
+    for sch in yaml_obj['schedule']:
+        s = schedule.Schedule(sch)
+        m.schedules.append(s)
+
+    return m
