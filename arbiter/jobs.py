@@ -71,7 +71,6 @@ Post:
                         help="convert meeting YAML to iCal format.")
     parser.add_argument("-y", "--yamldir",
                         dest="yaml_dir",
-                        default=const.DEFAULT_YAML_DIR,
                         help="directory containing YAML to process")
     parser.add_argument("-m", "--meetings",
                         dest="meeting_list_file",
@@ -82,7 +81,6 @@ Post:
                         newlines.")
     parser.add_argument("-i", "--icaldir",
                         dest="ical_dir",
-                        default=const.DEFAULT_ICAL_DIR,
                         help="directory to store converted iCal")
 
     # parse arguments:
@@ -98,8 +96,8 @@ def execute_check(yaml_dir, ical_dir):
     util.convert_yaml_to_ical(yaml_dir, ical_dir)
 
     os.chdir(const.SRC_DIR)
-    if util.check_uniqueness() == 0:
-        if util.check_conflicts() == 0:
+    if util.check_uniqueness(yaml_dir) == 0:
+        if util.check_conflicts(yaml_dir) == 0:
             logging.info('Check job finished.')
             return 0
     logging.info('Check job finished.')
@@ -111,7 +109,7 @@ def execute_gate(yaml_dir):
 
     logging.info('Gate job initiated.')
     os.chdir(const.SRC_DIR)
-    result = util.check_conflicts()
+    result = util.check_conflicts(yaml_dir)
     logging.info('Gate job finished.')
     return result
 
@@ -127,6 +125,11 @@ def execute_post(yaml_dir, ical_dir, publish_url):
     logging.info('Post job finished.')
 
 
+def _check_if_directory_exists(directory):
+    if directory and not os.path.isdir(directory):
+        raise ValueError("Invalid directory %s" % directory)
+
+
 def main():
     args = parse_args()
 
@@ -136,10 +139,8 @@ def main():
     meeting_list_file = args.meeting_list_file
     ical_dir = args.ical_dir
 
-    if (yaml_dir and not os.path.isdir(yaml_dir)):
-        raise ValueError("invalid YAML directory provided")
-    if (ical_dir and not os.path.isdir(ical_dir)):
-        raise ValueError("invalid iCal directory provided")
+    _check_if_directory_exists(yaml_dir)
+    _check_if_directory_exists(ical_dir)
 
     if not test and not convert:
         raise ValueError(

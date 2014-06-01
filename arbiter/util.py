@@ -33,10 +33,15 @@ def publish(meeting, ical):
 
 
 def convert_yaml_to_ical(yaml_dir, ical_dir, meeting_list_file=None):
-    """Convert meeting YAML files to the iCal format and place
-    in ical_dir. If meeting_list is specified, only those meetings
-    in yaml_dir with filenames contained in meeting_list are
-    converted; otherwise, all meeting in yaml_dir are converted.
+    """Convert meeting YAML files to iCal.
+
+    If meeting_list is specified, only those meetings in yaml_dir with
+    filenames contained in meeting_list are converted; otherwise,
+    all meeting in yaml_dir are converted.
+
+    :param yaml_dir: directory where meeting.yaml files are stored
+    :param ical_dir: location to store iCal files
+    :param meeting_list_file: file containing a list of meetings
 
     """
     meetings = meeting.load_meetings(yaml_dir)
@@ -50,14 +55,15 @@ def convert_yaml_to_ical(yaml_dir, ical_dir, meeting_list_file=None):
     logging.info('Wrote %d meetings to iCal' % (len(meetings)))
 
 
-def check_uniqueness():
-    """Check for uniqueness in meeting room and time combination.  During gate
-    job, we do not care about the meeting name.
+def check_uniqueness(yaml_dir):
+    """Check for uniqueness in meeting room and time combination.
 
+    :param yaml_dir: directory where meetings are stored
+    :returns: 0 if no conflicts, and 1 if there are meeting conflicts
     """
 
     # reads the current changes and verifies
-    change_list = _read_yaml_files(const.DEFAULT_YAML_DIR)
+    change_list = _read_yaml_files(yaml_dir)
     change_dict = _counting_dict_with(_make_schedule_key, change_list)
 
     # fails if duplicates exist
@@ -75,22 +81,26 @@ def check_uniqueness():
         return 1
 
 
-def check_conflicts():
-    """Return whether the meeting would create scheduling conflicts. At this
-    point, we are comparing the changes against the origin, while the meeting
-    do matter.  If a meeting from the changes and a different meeting from the
-    origin shares the same time, then we have a conflict.
+def check_conflicts(yaml_dir):
+    """Return whether the meeting would create scheduling conflicts.
 
+    At this point, we are comparing the changes against the origin,
+    while the meeting do matter.  If a meeting from the changes and a
+    different meeting from the origin shares the same time, then we have a
+    conflict.
+
+    :param yaml_dir: directory where meetings are stored
+    :returns: 0 if no conflicts, and 1 if there are meeting conflicts
     """
 
     # reads the current changes and verifies
-    change_list = _read_yaml_files(const.DEFAULT_YAML_DIR)
+    change_list = _read_yaml_files(yaml_dir)
     change_dict = _make_schedule_dict(_make_schedule_key, change_list, True)
 
     # FIXME(lbragstad): Removed the clonerepo script since Jenkins takes care
     # of that. The path resolution needs to be fix here too.
     origin_dict = _make_schedule_dict(_make_schedule_key,
-                                      _read_yaml_files(const.DEFAULT_YAML_DIR),
+                                      _read_yaml_files(yaml_dir),
                                       True)
 
     # make a set with all the meeting time
@@ -109,13 +119,14 @@ def check_conflicts():
                 conflict = True
 
     if conflict:
+        # FIXME(lbragstad): replace this with True and False instead of
+        # integers that represent true and false.
         return 1
     return 0
 
 
 def _read_yaml_files(directory):
-    """Reads all the yaml in the given directory and returns a list of
-    schedules times.
+    """Reads all the yaml in the given directory.
 
     :param directory: location of the yaml files
     :returns: list of schedules
@@ -141,7 +152,9 @@ def _read_yaml_files(directory):
 
 
 def _counting_dict_with(key_maker, list):
-    """Make a counting dictionary. The key is obtained by a function applied to
+    """Make a counting dictionary.
+
+    The key is obtained by a function applied to
     the element; the value counts the occurrence of the item in the list.
 
     :param key_maker: converts list items to strings
@@ -161,7 +174,9 @@ def _counting_dict_with(key_maker, list):
 
 
 def _make_schedule_dict(key_maker, list, replace_flag):
-    """Make a schedule dictionary. The key is the time of the meeting. If
+    """Make a schedule dictionary.
+
+    The key is the time of the meeting. If
     replace_flag is true, then the value is the meeting name; otherwise, if
     replace_flag is false, the value is a list of meeting names.
 
@@ -186,7 +201,9 @@ def _make_schedule_dict(key_maker, list, replace_flag):
 
 
 def _make_schedule_key(schedule):
-    """A key making function for a schedule item.  The first item in the
+    """A key making function for a schedule item.
+
+    The first item in the
     schedule is meeting name, followed by a tuple of time, day, and room.
 
     :param schedule: a schedule tuple

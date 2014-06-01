@@ -44,7 +44,7 @@ class Meeting:
         cal.add('prodid', '-//OpenStack//Gerrit-Powered Meeting Agendas//EN')
         cal.add('version', '2.0')
 
-        for sch in self.schs:
+        for sch in self.schedules:
             # one Event per iCal file
             event = icalendar.Event()
 
@@ -93,9 +93,6 @@ class Meeting:
         # determine file name from source file
         ical_filename = os.path.basename(self._filename).split('.')[0] + '.ics'
         ical_filename = os.path.join(ical_dir, ical_filename)
-
-        if not os.path.exists(ical_dir):
-            os.makedirs(ical_dir)
 
         # write ical files to disk
         with open(ical_filename, 'wb') as ics:
