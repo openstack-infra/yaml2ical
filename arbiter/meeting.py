@@ -17,7 +17,6 @@
 
 import datetime
 import hashlib
-import logging
 import os
 
 import icalendar
@@ -98,28 +97,6 @@ class Meeting:
         with open(ical_filename, 'wb') as ics:
             ics.write(cal.to_ical())
 
-        num_events = len(cal.subcomponents)
-        logging.info("Wrote %(num_events)d event(s) to file '%(ical_file)s'" %
-                     {'ical_file': ical_filename,
-                      'num_events': num_events})
-
-    def get_schedule_tuple(self):
-        """returns a list of meeting tuples consisting meeting name, meeting
-        time, day, and irc room.
-
-        :returns: list of meeting tuples
-
-        """
-
-        meetings = []
-        for sch in self.schedules:
-            schedule_time = sch.time.hour * 100 + sch.time.minute
-            meetings.append((self.filename,
-                             (schedule_time,
-                              sch.day,
-                              sch.irc)))
-        return meetings
-
     def _next_weekday(self, ref_date, weekday):
         """Return the date of the next meeting.
 
@@ -138,15 +115,13 @@ class Meeting:
 def load_meetings(yaml_source):
     """Build YAML object and load meeting data
 
-    :param yaml_source: source data to load, which can be a directory, file,
-                        or stream.
+    :param yaml_source: source data to load, which can be a directory or
+                        stream.
     :returns: list of meeting objects
     """
     meetings_yaml = []
     # Determine what the yaml_source is
-    if os.path.isfile(yaml_source):
-        meetings_yaml.append(yaml_source)
-    elif os.path.isdir(yaml_source):
+    if os.path.isdir(yaml_source):
         # TODO(lbragstad): use os.path.walk?
         for f in os.listdir(yaml_source):
             # Build the entire file path and append to the list of yaml

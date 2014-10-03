@@ -16,23 +16,55 @@
 #    under the License.
 
 import logging
-import os
 
-import yaml
-
-from arbiter import const
 from arbiter import meeting
 
-"""Utility functions for check and gate jobs."""
+"""Utility functions."""
 
 
-def publish(meeting, ical):
-    """Publish meeting information and ical file to wiki."""
+def _extract_meeting_info(meeting_obj):
+    """Pull out meeting info of Meeting object.
 
-    pass
+    :param meeting_obj: Meeting object
+    :returns: a dictionary of meeting info
+
+    """
+    meeting_info = []
+    for schedule in meeting_obj.schedules:
+        info = {'name': meeting_obj.project,
+                'filename': meeting_obj._filename,
+                'day': schedule.day,
+                'time': schedule.time,
+                'irc_room': schedule.irc}
+        meeting_info.append(info)
+
+    return meeting_info
 
 
-def convert_yaml_to_ical(yaml_dir, ical_dir, meeting_list_file=None):
+def _check_for_meeting_conflicts(meetings):
+    """Check if a list of meetings have conflicts.
+
+    :param meetings: list of Meeting objects
+
+    """
+
+    for i in range(len(meetings)):
+        meeting_info = _extract_meeting_info(meetings[i])
+        for j in range(i + 1, len(meetings)):
+            next_meeting_info = _extract_meeting_info(meetings[j])
+            for current_meeting in meeting_info:
+                for next_meeting in next_meeting_info:
+                    if current_meeting['day'] != next_meeting['day']:
+                        continue
+                    if current_meeting['time'] != next_meeting['time']:
+                        continue
+                    if current_meeting['irc_room'] != next_meeting['irc_room']:
+                        continue
+                    logging.error("Conflict between %s and %s" % (
+                        current_meeting['filename'], next_meeting['filename']))
+
+
+def convert_yaml_to_ical(yaml_dir, ical_dir):
     """Convert meeting YAML files to iCal.
 
     If meeting_list is specified, only those meetings in yaml_dir with
@@ -41,177 +73,16 @@ def convert_yaml_to_ical(yaml_dir, ical_dir, meeting_list_file=None):
 
     :param yaml_dir: directory where meeting.yaml files are stored
     :param ical_dir: location to store iCal files
-    :param meeting_list_file: file containing a list of meetings
 
     """
     meetings = meeting.load_meetings(yaml_dir)
+
+    # Check uniqueness and conflicts here before writing out to .ics
+    _check_for_meeting_conflicts(meetings)
 
     # convert meetings to a list of ical
     for m in meetings:
         m.write_ical(ical_dir)
 
     # TODO(jotan): verify converted ical is valid
-
     logging.info('Wrote %d meetings to iCal' % (len(meetings)))
-
-
-def check_uniqueness(yaml_dir):
-    """Check for uniqueness in meeting room and time combination.
-
-    :param yaml_dir: directory where meetings are stored
-    :returns: 0 if no conflicts, and 1 if there are meeting conflicts
-    """
-
-    # reads the current changes and verifies
-    change_list = _read_yaml_files(yaml_dir)
-    change_dict = _counting_dict_with(_make_schedule_key, change_list)
-
-    # fails if duplicates exist
-    if len(change_dict) == sum(change_dict.values()):
-        return 0
-    else:
-        change_dict = _make_schedule_dict(_make_schedule_key,
-                                          change_list,
-                                          False)
-        for key in change_dict:
-            if len(change_dict[key]) > 1:
-                meeting_quote = ['\'' + m + '\'' for m in change_dict[key]]
-                meeting_str = ', '.join(meeting_quote)
-                logging.error('Meetings %s are in conflict.' % (meeting_str))
-        return 1
-
-
-def check_conflicts(yaml_dir):
-    """Return whether the meeting would create scheduling conflicts.
-
-    At this point, we are comparing the changes against the origin,
-    while the meeting do matter.  If a meeting from the changes and a
-    different meeting from the origin shares the same time, then we have a
-    conflict.
-
-    :param yaml_dir: directory where meetings are stored
-    :returns: 0 if no conflicts, and 1 if there are meeting conflicts
-    """
-
-    # reads the current changes and verifies
-    change_list = _read_yaml_files(yaml_dir)
-    change_dict = _make_schedule_dict(_make_schedule_key, change_list, True)
-
-    # FIXME(lbragstad): Removed the clonerepo script since Jenkins takes care
-    # of that. The path resolution needs to be fix here too.
-    origin_dict = _make_schedule_dict(_make_schedule_key,
-                                      _read_yaml_files(yaml_dir),
-                                      True)
-
-    # make a set with all the meeting time
-    meeting_time_set = set(list(change_dict.keys()) +
-                           list(origin_dict.keys()))
-
-    # compares the two, keep track of a conflict flag
-    conflict = False  # doing this way so we can log all the conflicts
-    for key in meeting_time_set:
-        # both the changes and the original have this meeting time
-        if key in change_dict and key in origin_dict:
-            # and they are actually different meetings
-            if change_dict[key] != origin_dict[key]:
-                logging.error('Meetings \'%s\' and \'%s\' are in conflict.'
-                              % (change_dict[key], origin_dict[key]))
-                conflict = True
-
-    if conflict:
-        # FIXME(lbragstad): replace this with True and False instead of
-        # integers that represent true and false.
-        return 1
-    return 0
-
-
-def _read_yaml_files(directory):
-    """Reads all the yaml in the given directory.
-
-    :param directory: location of the yaml files
-    :returns: list of schedules
-
-    """
-
-    yaml_files = []
-    for file in os.listdir('.'):
-        if os.path.isfile(file) and file.endswith(const.YAML_FILE_EXT):
-            yaml_files.append(file)
-
-    meetings = []
-    for file in yaml_files:
-        meetings.append(meeting.Meeting(yaml.load(open(file, 'r')), file))
-    logging.info('Loaded %d meetings form YAML' % len(meetings))
-
-    schedules = []
-    for m in meetings:
-        for schedule in m.get_schedule_tuple():
-            schedules.append(schedule)
-
-    return schedules
-
-
-def _counting_dict_with(key_maker, list):
-    """Make a counting dictionary.
-
-    The key is obtained by a function applied to
-    the element; the value counts the occurrence of the item in the list.
-
-    :param key_maker: converts list items to strings
-    :returns: counting dictionary
-
-    """
-
-    item_dict = {}
-    for item in list:
-        # just join the elements in the tuple together as key
-        key = key_maker(item)
-        if key in item_dict:
-            item_dict[key] += 1
-        else:
-            item_dict[key] = 1
-    return item_dict
-
-
-def _make_schedule_dict(key_maker, list, replace_flag):
-    """Make a schedule dictionary.
-
-    The key is the time of the meeting. If
-    replace_flag is true, then the value is the meeting name; otherwise, if
-    replace_flag is false, the value is a list of meeting names.
-
-    :param key_maker: converts list items to strings
-    :param list: the list of schedules
-    :param replace_flag: determines the value of the dictionary
-    :returns: schedule dictionary
-
-    """
-
-    item_dict = {}
-    for item in list:
-        key = key_maker(item)
-        if replace_flag:
-            item_dict[key] = item[0]
-        else:
-            if key in item_dict:
-                item_dict[key] += [item[0]]
-            else:
-                item_dict[key] = [item[0]]
-    return item_dict
-
-
-def _make_schedule_key(schedule):
-    """A key making function for a schedule item.
-
-    The first item in the
-    schedule is meeting name, followed by a tuple of time, day, and room.
-
-    :param schedule: a schedule tuple
-    :returns: string representation of the schedule tuple
-
-    """
-
-    schedule_time = schedule[1]
-    schedules_str = [str(schedule_time[0]), schedule_time[1], schedule_time[2]]
-    key = ''.join(schedules_str)
-    return key

@@ -19,7 +19,7 @@ import os
 
 project_dir = os.path.dirname(os.getcwd())
 
-YAML_FILE_EXT = ('.yaml', '.yml')
+YAML_FILE_EXT = '.yaml'
 
 WEEKDAYS = {'Monday': 0, 'Tuesday': 1, 'Wednesday': 2, 'Thursday': 3,
             'Friday': 4, 'Saturday': 5, 'Sunday': 6}
