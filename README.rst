@@ -8,10 +8,6 @@ Currently, each team's meeting time and agenda are listed at:
 
 This project replaces each meeting with well-defined YAML files.
 
-This tool will run as a Jenkins job, so that each time a YAML meeting is
-created, Jenkins will generate an iCal file. Additionally, user can also run
-the program locally to check for conflict before submitting the meeting changes
-for review.
 
 Getting Started
 ===============
@@ -31,79 +27,70 @@ directory. This directory already contains YAML files for the meetings
 found on the `Meetings <https://wiki.openstack.org/wiki/Meetings>`_ wiki page.
 To create a new meeting YAML file, read the `YAML Meeting File` section below.
 
-To start with, we need to clone the repository to a local directory. Afterward,
-`cd` into the directory where the `jobs.py` script is found.
+::
+  $ python convert.py -h
+  usage: convert.py [-h] -y YAML_DIR -i ICAL_DIR [-f]
 
-  ::
+  A tool that automates the process for testing, integrating, and
+  publishing changes to OpenStack meetings using the existing OpenStack
+  project infrastructure.
 
-    $ git clone https://git.openstack.org/cgit/openstack-infra/gerrit-powered-agenda
-    $ cd gerrit-powered-agenda/gerrit-powered-agenda/
+  optional arguments:
+    -h, --help            show this help message and exit
+    -y YAML_DIR, --yamldir YAML_DIR
+                          directory containing YAML to process
+    -i ICAL_DIR, --icaldir ICAL_DIR
+                        directory to store converted iCal
+    -f, --force           forcefully remove old .ics files from iCal directory
 
-The different command line options are as follows.  For help, use `-h`
-(or `--help`) to show a list of options and exit.
+::
+  $ git clone https://github.com/openstack-infra/gerrit-powered-agenda.git
+  $ cd /opt/stack/gerrit-powered-agenda/arbiter/
 
-  ::
-
-    $ python jobs.py -h
-
-The `-t TEST` (or `--test TEST`) is used to execute a test. The valid values
-for `TEST` are `check`, `gate` and `post`. It'd be a good idea to run a quick
-check job to test for conflicts before pushing for review.
-
-  ::
-
-    $ python jobs.py -t check
-    $ python jobs.py -t gate
-    $ python jobs.py -t post
-
-For converting YAML files to iCal files, there are four flags to consider:
-
-* Use the `-y YAML_DIR` (or `--yamldir YAML_DIR`) to specify the path to the
-  directory `YAML_DIR` where the YAML files are located. The default
-  `YAML_DIR` is `meetings` when this flag is not provided.
-* Use the `-i ICAL_DIR` (or `--icaldir ICAL_DIR`) to specify the path to the
-  directory `ICAL_DIR` where the iCals files will be written to.
-* Use the `-m MEETING_LIST_FILE` (or `--meetings MEETING_LIST_FILE`) to write
-  selected YAML files in `MEETING_LIST_FILE` to `ICAL_DIR`.
-
-  * Note: `MEETING_LIST_FILE` consists of names of YAML files per line.
-* Add the `-c` (or `--convert`) to convert.
 
 The following are a few scenarios:
 
-* Read all the YAML files in meetings and output iCal files to iCals folder:
+Generate .ics files locally from existing yaml meeting files:
 
-  ::
+::
+  $ python convert.py -y /opt/stack/gerrit-powered-agenda/meetings/ \
+                      -i /opt/stack/gerrit-powered-agenda/icals/
 
-    $ cd gerrit-powered-agenda/gerrit-powered-agenda/
-    $ mkdir ../iCals
-    $ python jobs.py -i ../iCals -c
+The generated .ics files are not tracked in this git repository,
+but they are available locally to import into your calendar. Note,
+to remove stale .ics files, use the ``--force`` argument:
 
-* Read all the YAML files in myYAML folder and output iCal files to iCals
-  folder:
+::
+  gerrit-powered-agenda/icals$ ls
+  Barbican Meeting-b58d78a4.ics
+  Ceilometer Team Meeting-9ed7b5b4.ics
+  Chef Cookbook Meeting-2418b331.ics
 
-  ::
+With each .ics file looking something similar to:
 
-    $ cd gerrit-powered-agenda/gerrit-powered-agenda/
-    $ mkdir ../iCals
-    $ python jobs.py -y ../myYAML -i ../iCals -c
+::
+  gerrit-powered-agenda/icals$ cat Barbican\ Meeting-b58d78a4.ics
+  BEGIN:VCALENDAR
+  VERSION:2.0
+  PRODID:-//OpenStack//Gerrit-Powered Meeting Agendas//EN
+  BEGIN:VEVENT
+  SUMMARY:Barbican Meeting (openstack-meeting-alt)
+  DTSTART;VALUE=DATE-TIME:20141006T200000Z
+  DURATION:PT1H
+  DESCRIPTION:Project:  Barbican Meeting\nChair:  jraim\nIRC:  openstack-meet
+   ing-alt\nAgenda:'* malini - update on Security Guide documentation\n\n  *
+   alee_/atiwari - Crypto plugin changes\n\n  * arunkant - Target support in
+   barbican policy enforcement\n\n  * jaraim - Support for debug mode start i
+   n barbican\, can be merged?\n\n  '\n\nDescription:  The Barbican project t
+   eam holds a weekly team meeting in\n#openstack-meeting-alt:\n* Weekly on M
+   ondays at 2000 UTC\n* The blueprints that are used as a basis for the Barb
+   ican project can be\n  found at https://blueprints.launchpad.net/barbican\
+   n* Notes for previous meetings can be found here.\n* Chair (to contact for
+    more information): jraim (#openstack-barbican @\n  Freenode)\n
+  RRULE:FREQ=WEEKLY
+  END:VEVENT
+  END:VCALENDAR
 
-* Read myMeetings.txt, select the YAML file listed in there from myYAML
-  directory, convert these files and write them to iCals folder:
-
-  ::
-
-    $ cd gerrit-powered-agenda/gerrit-powered-agenda/
-    $ mkdir ../iCals
-    $ python jobs.py -y ../myYAML -m ../myMeetings.txt -i ../iCals -c
-
-Running as a Jenkins Job
-------------------------
-
-When this project is complete, this tool will run as a Jenkins job. A developer
-wishing to modify existing meetings or create a new meeting will push the
-respecitve YAML file to Gerrit, which will then be reviewed. When the review
-passes, Jenkins will run this tool to generate iCal files.
 
 YAML Meeting File
 =================
@@ -118,20 +105,20 @@ For a list of yaml meeting files, visit
 
 Each meeting consists of:
 
-* `project` -- the name of the project
-* `schedule` -- a list of schedule each consisting of
+* ``project``: the name of the project
+* ``schedule``: a list of schedule each consisting of
 
-  * `time` -- time string in UTC
-  * `day` -- the day of week the meeting takes place
-  * `irc` -- the irc room in which the meeting is held
-  * `frequency` -- frequent occurence of the meeting
-* `chair` -- name of the meeting's chair
-* `description` -- a paragraph description about the meeting
-* `agenda` -- a paragraph consisting of the bulleted list of topics
+  * ``time``: time string in UTC
+  * ``day``: the day of week the meeting takes place
+  * ``irc``: the irc room in which the meeting is held
+  * ``frequency``: frequent occurrence of the meeting
+* ``chair``: name of the meeting's chair
+* ``description``: a paragraph description about the meeting
+* ``agenda``: a paragraph consisting of the bulleted list of topics
 
 The file name should be a lower-cased, hyphenated version of the meeting name,
-ending with `.yaml` or `.yml`. For example, `Keystone team meeting` should be
-saved under `keystone-team-meeting.yml`.
+ending with ``.yaml`` . For example, ``Keystone team meeting`` should be
+saved under ``keystone-team-meeting.yaml``.
 
 Example
 -------
@@ -142,7 +129,6 @@ will be import into Python as a dictionary.
 * The project name is shown below.
 
   ::
-
     project:  Nova Team Meeting
 
 * The schedule is a list of dictionaries each consisting of `time` in UTC,
@@ -151,7 +137,6 @@ will be import into Python as a dictionary.
   `biweekly-odd` at the moment.
 
   ::
-
     schedule:
         - time:       '1400'
           day:        Thursday
@@ -167,29 +152,26 @@ will be import into Python as a dictionary.
   chair.
 
   ::
-
     chair:  Russell Bryant
 
-* The project description is as follows.  Use `>` for parapraphs where new
+* The project description is as follows.  Use `>` for paragraphs where new
   lines are folded, or `|` for paragraphs where new lines are preserved.
 
   ::
-
     description:  >
         This meeting is a weekly gathering of developers working on OpenStack.
         Compute (Nova). We cover topics such as release planning and status,
         bugs, reviews, and other current topics worthy of real-time discussion.
 
 * The project agenda is show below.  Note the use of `|` to treat the agenda as
-  a paragraph where newlines are perserved. Currently we plan to use * to
+  a paragraph where newlines are preserved. Currently we plan to use * to
   format the list of item so it is similar to the wiki format. Add additional
   for each level of sublist items. I.e. `**` for a sub-item and `***` for a
   sub-item of a sub-item.
 
   ::
-
     agenda:  |
-        * General annoucement
+        * General announcement
         * Sub-teams
         * Bugs
         * Blueprints
