@@ -1,4 +1,4 @@
-project:  Training-manuals Team Meeting
+project:  Training-guides Team Meeting
 schedule:
   - time:       '1700'
     day:        Monday
@@ -6,5 +6,5 @@ schedule:
     frequency:  weekly
 chair:  sarob
 description:  >
-  The training-manuals team meets weekly on Monday at 1700 UTC on
+  The training-guides team meets weekly on Monday at 1700 UTC on
   #openstack-meeting.
