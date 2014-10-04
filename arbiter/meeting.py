@@ -68,19 +68,37 @@ class Meeting:
             event.add('description', ical_descript)
 
             # get starting date
-            d = datetime.datetime.utcnow()
-            next_meeting = self._next_weekday(d, const.WEEKDAYS[sch.day])
+            start_date = datetime.datetime.utcnow()
+            if sch.freq.startswith('biweekly'):
+                meet_on_even = sch.freq.endswith('even')
+                next_meeting = next_biweekly_meeting(start_date,
+                                                     const.WEEKDAYS[sch.day],
+                                                     meet_on_even=meet_on_even)
+            else:
+                next_meeting = next_weekday(start_date,
+                                            const.WEEKDAYS[sch.day])
 
-            next_meeting_dt = datetime.datetime(next_meeting.year,
-                                                next_meeting.month,
-                                                next_meeting.day,
-                                                sch.time.hour,
-                                                sch.time.minute,
-                                                tzinfo=pytz.utc)
-            event.add('dtstart', next_meeting_dt)
+            next_meeting_date = datetime.datetime(next_meeting.year,
+                                                  next_meeting.month,
+                                                  next_meeting.day,
+                                                  sch.time.hour,
+                                                  sch.time.minute,
+                                                  tzinfo=pytz.utc)
+            event.add('dtstart', next_meeting_date)
 
             # add recurrence rule
-            event.add('rrule', {'freq': sch.freq})
+            if sch.freq.startswith('biweekly'):
+                cadence = ()
+                if sch.freq == 'biweekly-odd':
+                    cadence = (1, 3)
+                elif sch.freq == 'biweekly-even':
+                    cadence = (2, 4)
+                rule_dict = {'freq': 'monthly',
+                             'byday': sch.day[0:2],
+                             'bysetpos': cadence}
+                event.add('rrule', rule_dict)
+            else:
+                event.add('rrule', {'freq': sch.freq})
 
             # add meeting length
             # TODO(jotan): determine duration to use for OpenStack meetings
@@ -97,19 +115,20 @@ class Meeting:
         with open(ical_filename, 'wb') as ics:
             ics.write(cal.to_ical())
 
-    def _next_weekday(self, ref_date, weekday):
-        """Return the date of the next meeting.
 
-        :param ref_date: datetime object of meeting
-        :param weekday: weekday the meeting is held on
+def next_weekday(ref_date, weekday):
+    """Return the date of the next meeting.
 
-        :returns: datetime object of the next meeting time
-        """
+    :param ref_date: datetime object of meeting
+    :param weekday: weekday the meeting is held on
 
-        days_ahead = weekday - ref_date.weekday()
-        if days_ahead <= 0:  # target day already happened this week
-            days_ahead += 7
-        return ref_date + datetime.timedelta(days_ahead)
+    :returns: datetime object of the next meeting time
+    """
+
+    days_ahead = weekday - ref_date.weekday()
+    if days_ahead <= 0:  # target day already happened this week
+        days_ahead += 7
+    return ref_date + datetime.timedelta(days_ahead)
 
 
 def load_meetings(yaml_source):
@@ -164,3 +183,33 @@ def _load_meeting(meeting_yaml):
         m.schedules.append(s)
 
     return m
+
+
+def next_biweekly_meeting(current_date_time, weekday, meet_on_even=False):
+    """Calculate the next biweekly meeting.
+
+    :param current_date_time: the current datetime object
+    :param weekday: scheduled day of the meeting
+    :param meet_on_even: True if meeting on even weeks and False if meeting
+    on odd weeks
+    :returns: datetime object of next meeting
+
+    """
+    first_day_of_mo = current_date_time.replace(day=1)
+    day_of_week = first_day_of_mo.strftime("%w")
+    adjustment = (8 - int(day_of_week)) % (7 - weekday)
+    if meet_on_even:
+        adjustment += 7
+    next_meeting = first_day_of_mo + datetime.timedelta(adjustment)
+
+    if current_date_time > next_meeting:
+        next_meeting = next_meeting + datetime.timedelta(14)
+        if current_date_time > next_meeting:
+            current_date_time = current_date_time.replace(
+                month=current_date_time.month + 1, day=1)
+            first_wday_next_mo = next_weekday(current_date_time, weekday)
+            if meet_on_even:
+                next_meeting = first_wday_next_mo + datetime.timedelta(7)
+            else:
+                next_meeting = first_wday_next_mo
+    return next_meeting

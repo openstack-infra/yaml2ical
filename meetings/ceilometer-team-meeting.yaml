@@ -4,11 +4,7 @@ schedule:
     day:        Thursday
     irc:        openstack-meeting
     frequency:  weekly
-  - time:       '2100'
-    day:        Wednesday
-    irc:        openstack-meeting
-    frequency:  weekly
-chair:  Julien Danjoi
+chair:  Julien Danjou
 description:  >
   Everyone is welcome. The blueprints that are used as a basis for the
   ceilometer project can be found at

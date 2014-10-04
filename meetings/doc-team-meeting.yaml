@@ -1,0 +1,24 @@
+project:  Documentation Team Meeting
+schedule:
+  - time:       '0300'
+    day:        Wednesday
+    irc:        openstack-meeting
+    frequency:  biweekly-odd
+  - time:       '1400'
+    day:        Wednesday
+    irc:        openstack-meeting-alt
+    frequency:  biweekly-even
+chair: Anne Gentle
+description:  >
+  If you are interested in documentation and the web content for OpenStack, we
+  hold public meetings weekly in #openstack-meeting or #openstack-meeting-alt,
+  every Wednesday at alternating times for different timezones.
+agenda:
+  - Action items from the last meeting
+  - Final run of configuration scripts to land before April
+  - Installation guide updates for Icehouse in progress
+  - User survey doc question
+  - Doc contribution survey - please post everywhere
+  - Doc tools news
+  - Icehouse status
+  - Open discussion
