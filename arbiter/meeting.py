@@ -89,10 +89,16 @@ class Meeting:
             # add recurrence rule
             if sch.freq.startswith('biweekly'):
                 cadence = ()
+                # NOTE(lbragstad): Setting the `cadence` for the schedule
+                # will allow for alternating meetings. Typically there are
+                # only 4 weeks in a month but adding `5` and `6` allow for
+                # cases where there are 5 meetings in a month, which would
+                # otherwise be unsupported if only setting `cadence` to
+                # either (1, 3) or (2, 4).
                 if sch.freq == 'biweekly-odd':
-                    cadence = (1, 3)
+                    cadence = (1, 3, 5)
                 elif sch.freq == 'biweekly-even':
-                    cadence = (2, 4)
+                    cadence = (2, 4, 6)
                 rule_dict = {'freq': 'monthly',
                              'byday': sch.day[0:2],
                              'bysetpos': cadence}
