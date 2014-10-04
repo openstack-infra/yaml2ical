@@ -19,7 +19,7 @@ import argparse
 import logging
 import os
 
-from arbiter import util
+from arbiter import utils
 
 
 # logging settings
@@ -81,7 +81,7 @@ def main():
                             " running with -f to remove old iCal files.")
 
     # Convert yaml to iCal
-    util.convert_yaml_to_ical(yaml_dir, ical_dir)
+    utils.convert_yaml_to_ical(yaml_dir, ical_dir)
 
 
 if __name__ == '__main__':
