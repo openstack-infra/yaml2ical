@@ -27,69 +27,75 @@ directory. This directory already contains YAML files for the meetings
 found on the `Meetings <https://wiki.openstack.org/wiki/Meetings>`_ wiki page.
 To create a new meeting YAML file, read the `YAML Meeting File` section below.
 
-::
-  $ python convert.py -h
-  usage: convert.py [-h] -y YAML_DIR -i ICAL_DIR [-f]
+  ::
 
-  A tool that automates the process for testing, integrating, and
-  publishing changes to OpenStack meetings using the existing OpenStack
-  project infrastructure.
+    $ python convert.py -h
+    usage: convert.py [-h] -y YAML_DIR -i ICAL_DIR [-f]
 
-  optional arguments:
-    -h, --help            show this help message and exit
-    -y YAML_DIR, --yamldir YAML_DIR
-                          directory containing YAML to process
-    -i ICAL_DIR, --icaldir ICAL_DIR
-                        directory to store converted iCal
-    -f, --force           forcefully remove old .ics files from iCal directory
+    A tool that automates the process for testing, integrating, and
+    publishing changes to OpenStack meetings using the existing OpenStack
+    project infrastructure.
 
-::
-  $ git clone https://github.com/openstack-infra/gerrit-powered-agenda.git
-  $ cd /opt/stack/gerrit-powered-agenda/arbiter/
+    optional arguments:
+      -h, --help            show this help message and exit
+      -y YAML_DIR, --yamldir YAML_DIR
+                            directory containing YAML to process
+      -i ICAL_DIR, --icaldir ICAL_DIR
+                          directory to store converted iCal
+      -f, --force           forcefully remove old .ics files from iCal
+      directory
+
+  ::
+
+    $ git clone https://github.com/openstack-infra/gerrit-powered-agenda.git
+    $ cd /opt/stack/gerrit-powered-agenda/arbiter/
 
 
 The following are a few scenarios:
 
 Generate .ics files locally from existing yaml meeting files:
 
-::
-  $ python convert.py -y /opt/stack/gerrit-powered-agenda/meetings/ \
-                      -i /opt/stack/gerrit-powered-agenda/icals/
+  ::
+
+    $ python convert.py -y /opt/stack/gerrit-powered-agenda/meetings/ \
+                        -i /opt/stack/gerrit-powered-agenda/icals/
 
 The generated .ics files are not tracked in this git repository,
 but they are available locally to import into your calendar. Note,
 to remove stale .ics files, use the ``--force`` argument:
 
-::
-  gerrit-powered-agenda/icals$ ls
-  Barbican Meeting-b58d78a4.ics
-  Ceilometer Team Meeting-9ed7b5b4.ics
-  Chef Cookbook Meeting-2418b331.ics
+  ::
+
+    gerrit-powered-agenda/icals$ ls
+    Barbican Meeting-b58d78a4.ics
+    Ceilometer Team Meeting-9ed7b5b4.ics
+    Chef Cookbook Meeting-2418b331.ics
 
 With each .ics file looking something similar to:
 
-::
-  gerrit-powered-agenda/icals$ cat Barbican\ Meeting-b58d78a4.ics
-  BEGIN:VCALENDAR
-  VERSION:2.0
-  PRODID:-//OpenStack//Gerrit-Powered Meeting Agendas//EN
-  BEGIN:VEVENT
-  SUMMARY:Barbican Meeting (openstack-meeting-alt)
-  DTSTART;VALUE=DATE-TIME:20141006T200000Z
-  DURATION:PT1H
-  DESCRIPTION:Project:  Barbican Meeting\nChair:  jraim\nIRC:  openstack-meet
-   ing-alt\nAgenda:'* malini - update on Security Guide documentation\n\n  *
-   alee_/atiwari - Crypto plugin changes\n\n  * arunkant - Target support in
-   barbican policy enforcement\n\n  * jaraim - Support for debug mode start i
-   n barbican\, can be merged?\n\n  '\n\nDescription:  The Barbican project t
-   eam holds a weekly team meeting in\n#openstack-meeting-alt:\n* Weekly on M
-   ondays at 2000 UTC\n* The blueprints that are used as a basis for the Barb
-   ican project can be\n  found at https://blueprints.launchpad.net/barbican\
-   n* Notes for previous meetings can be found here.\n* Chair (to contact for
-    more information): jraim (#openstack-barbican @\n  Freenode)\n
-  RRULE:FREQ=WEEKLY
-  END:VEVENT
-  END:VCALENDAR
+  ::
+
+    gerrit-powered-agenda/icals$ cat Barbican\ Meeting-b58d78a4.ics
+    BEGIN:VCALENDAR
+    VERSION:2.0
+    PRODID:-//OpenStack//Gerrit-Powered Meeting Agendas//EN
+    BEGIN:VEVENT
+    SUMMARY:Barbican Meeting (openstack-meeting-alt)
+    DTSTART;VALUE=DATE-TIME:20141006T200000Z
+    DURATION:PT1H
+    DESCRIPTION:Project:  Barbican Meeting\nChair:  jraim\nIRC:  openstack-meet
+     ing-alt\nAgenda:'* malini - update on Security Guide documentation\n\n  *
+     alee_/atiwari - Crypto plugin changes\n\n  * arunkant - Target support in
+     barbican policy enforcement\n\n  * jaraim - Support for debug mode start i
+     n barbican\, can be merged?\n\n  '\n\nDescription:  The Barbican project t
+     eam holds a weekly team meeting in\n#openstack-meeting-alt:\n* Weekly on M
+     ondays at 2000 UTC\n* The blueprints that are used as a basis for the Barb
+     ican project can be\n  found at https://blueprints.launchpad.net/barbican\
+     n* Notes for previous meetings can be found here.\n* Chair (to contact for
+      more information): jraim (#openstack-barbican @\n  Freenode)\n
+    RRULE:FREQ=WEEKLY
+    END:VEVENT
+    END:VCALENDAR
 
 
 YAML Meeting File
@@ -129,6 +135,7 @@ will be import into Python as a dictionary.
 * The project name is shown below.
 
   ::
+
     project:  Nova Team Meeting
 
 * The schedule is a list of dictionaries each consisting of `time` in UTC,
@@ -137,6 +144,7 @@ will be import into Python as a dictionary.
   `biweekly-odd` at the moment.
 
   ::
+
     schedule:
         - time:       '1400'
           day:        Thursday
@@ -152,12 +160,14 @@ will be import into Python as a dictionary.
   chair.
 
   ::
+
     chair:  Russell Bryant
 
 * The project description is as follows.  Use `>` for paragraphs where new
   lines are folded, or `|` for paragraphs where new lines are preserved.
 
   ::
+
     description:  >
         This meeting is a weekly gathering of developers working on OpenStack.
         Compute (Nova). We cover topics such as release planning and status,
@@ -170,6 +180,7 @@ will be import into Python as a dictionary.
   sub-item of a sub-item.
 
   ::
+
     agenda:  |
         * General announcement
         * Sub-teams
