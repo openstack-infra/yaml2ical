@@ -149,12 +149,12 @@ will be import into Python as a dictionary.
         - time:       '1400'
           day:        Thursday
           irc:        openstack-meeting-alt
-          frequency:  weekly
+          frequency:  biweekly-even
 
         - time:       '2100'
           day:        Thursday
           irc:        openstack-meeting
-          frequency:  weekly
+          frequency:  biweekly-odd
 
 * The chair is just a one liner. The might be left empty if there is not a
   chair.
