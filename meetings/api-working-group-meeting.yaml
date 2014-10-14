@@ -1,0 +1,10 @@
+project: API Working Group
+schedule:
+  - time:       '0000'
+    day:        Thursday
+    irc:        openstack-meeting-3
+    frequency:  weekly
+chair: TBD
+description:  >
+  To propose, discuss, review and advocate for API guidelines for all
+  OpenStack Programs to follow.
