@@ -10,6 +10,3 @@ description:  |
     #openstack-meeting-alt.
   * Want to add an agenda item? Please append your item to the upcoming weekly
     agenda while keeping in mind guidelines for writing clear agenda items.
-agenda:  |
-  * How do Gerrit changes get approved? [mat-lowery]
-  ** More details to be provided. See thread on DL.

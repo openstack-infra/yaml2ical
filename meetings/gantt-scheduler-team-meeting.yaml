@@ -6,5 +6,3 @@ schedule:
     frequency:  weekly
 chair:  Don Dugger
 description:
-agenda:  |
-  * How will the current API work lead to actual scheduling

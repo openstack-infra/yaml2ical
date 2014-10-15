@@ -11,12 +11,3 @@ description:  >
   public meetings in ##openstack-meeting-3. Everyone is encouraged to attend.
   This meeting will discuss the common requirements for FWaaS, LBaaS, VPNaaS,
   L3/routers, Group Policy. The meetings are on Wednesdays at 1730 UTC.
-agenda:  |
-  * Neutron Advanced Services' Framework
-  * Key/certificate management using Barbican for VPN and LBaaS
-  * Flavors BP and PoC update
-  * Service insertion Proposal update
-  * Port Chaining Proposal
-  * Group Policy requirements
-  * Atlanta Design Summit session
-  * Service VM progress update

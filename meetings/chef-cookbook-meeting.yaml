@@ -13,6 +13,3 @@ description:  |
     (http://www.timeanddate.com/worldclock/fixedtime.html?iso=20130502T1600)
   * Chair (to contact for more information): mattray (#openstack-chef @
     Freenode)
-agenda:  |
-  * The blueprints that are used as a basis for the Chef Cookbooks can be found
-    at https://blueprints.launchpad.net/openstack-chef

@@ -120,7 +120,6 @@ Each meeting consists of:
   * ``frequency``: frequent occurrence of the meeting
 * ``chair``: name of the meeting's chair
 * ``description``: a paragraph description about the meeting
-* ``agenda``: a paragraph consisting of the bulleted list of topics
 
 The file name should be a lower-cased, hyphenated version of the meeting name,
 ending with ``.yaml`` . For example, ``Keystone team meeting`` should be
@@ -172,18 +171,3 @@ will be import into Python as a dictionary.
         This meeting is a weekly gathering of developers working on OpenStack.
         Compute (Nova). We cover topics such as release planning and status,
         bugs, reviews, and other current topics worthy of real-time discussion.
-
-* The project agenda is show below.  Note the use of `|` to treat the agenda as
-  a paragraph where newlines are preserved. Currently we plan to use * to
-  format the list of item so it is similar to the wiki format. Add additional
-  for each level of sublist items. I.e. `**` for a sub-item and `***` for a
-  sub-item of a sub-item.
-
-  ::
-
-    agenda:  |
-        * General announcement
-        * Sub-teams
-        * Bugs
-        * Blueprints
-        * Open discussion

@@ -11,8 +11,3 @@ description:  >
   these out into separate sub-teams. We maintain a channel for general
   discussion of VMwareAPI on freenode IRC at openstack-vmware but formal
   meetings are held in the official IRC meeting rooms for OpenStack.
-agenda:  |
-  * Refactorings priority order & assignments and schedule
-  * Blueprint priority order after refactorings
-  ** Any exceptional blueprints which should be exempt from this rule
-  * Open Discussion

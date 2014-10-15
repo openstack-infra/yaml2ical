@@ -10,5 +10,3 @@ schedule:
     frequency:  weekly
 chair:  Mark Washenberger
 description:
-agenda:  |
-  * loacted at https://etherpad.openstack.org/glance-team-meeting-agenda

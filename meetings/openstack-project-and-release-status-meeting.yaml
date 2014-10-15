@@ -9,9 +9,3 @@ description:  >
   The whole OpenStack Team holds a public weekly Project & Release Status
   meeting in #openstack-meetings, Tuesdays at 2100 UTC. Everyone is
   encouraged to attend.
-agenda:  |
-  * Design Summit schedule finalization
-  ** Last-minute changes
-  ** Scheduling conflicts we need to solve
-  * Other questions about the design summit
-  * Open discussion

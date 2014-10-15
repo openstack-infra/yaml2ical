@@ -22,13 +22,3 @@ description:  |
   ** If you add an item to the agenda, please include your ircnick (i.e. sdague)
      to the end of your item, so we know who did, and who should lead the
      discussion
-agenda:  |
-  * Reminder about summit etherpads
-  ** https://wiki.openstack.org/wiki/Summit/Juno/Etherpads#QA
-  * Specs Review
-  * Blueprints
-  ** Status updates
-  * Neutron testing
-  * Heat testing
-  * Bugs
-  * Critical Reviews

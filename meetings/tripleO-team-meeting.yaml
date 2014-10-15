@@ -7,11 +7,3 @@ schedule:
 chair:  Robert Collins
 description:  >
   Weekly meeting every Tuesday at 1900 UTC in openstack-meeting-alt
-agenda:  |
-  * Bugs
-  * Reviews
-  * Project needing releases
-  * CD Cloud status
-  * CI
-  * Insert one-off agenda items here
-  * Open discussion

@@ -8,9 +8,3 @@ chair:  Sylvain Bauza / Dina Belova
 description:  |
   The Climate project team holds a weekly team meeting in #openstack-meeting
   on Friday at 15:00 UTC.
-agenda:  |
-  * Action items from the last meeting + reviews queries
-  * Summit session status
-  * Unassigned bugs and BPs
-  * Climate -> Blazar renaming (approved by foundation)
-  * Open Discussion

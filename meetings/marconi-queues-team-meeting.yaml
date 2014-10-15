@@ -8,29 +8,3 @@ chair:  Kurt Griffiths
 description:  >
   The Marconi project team holds a weekly team meeting in #openstack-meeting-alt
   on Tuesday at 1500 UTC.
-agenda:  |
-  * The blueprints that are used as a basis for the Marconi project can be found
-    at https://blueprints.launchpad.net/marconi
-  * Extra Stuff
-  ** Introducing two Rackspace Summer Interns (balajiiyer)
-  ** Proposal to change program name: voting (kgriffs)
-  ** Support the OSSG: https://bugs.launchpad.net/marconi/+bug/1315115 (kgriffs)
-  ** Cut a new python-marconiclient release for PyPI (kgriffs, flaper87)
-  ** Write the Docs! (kgriffs)
-  ** Plain keyword:
-     https://blueprints.launchpad.net/marconi/+spec/api-v1.1-plain-message-option
-     (flaper87)
-  * Usual Stuff
-  ** Review actions from last time
-  ** Review Graduation BPs/Bugs
-  ** Updates on other blueprints
-  ** Updates on bugs
-  ** Open discussion (time permitting)
-  * Discuss Later
-  ** Proposal to support claim delay to posted messages in v1.1 (kgriffs)
-  ** Remove bulk delete by id, also get/delete by a single id in v1.1 or v2.0 of
-     the API? (kgriffs)
-  ** Preflight Checklist for releases, including milestones (kgriffs)
-  ** Blueprint review process (kgriffs)
-  ** Concurrency strategy for client (flaper87)
-  ** When people say they want polling what they often mean is... (kgriffs)

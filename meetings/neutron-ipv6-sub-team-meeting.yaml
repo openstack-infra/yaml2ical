@@ -10,17 +10,3 @@ description:  >
   to deploy Neutron in IPv6 networks, and bring feature parity between Neutron
   IPv4 & IPv6. Our meetings are held weekly on Tuesdays at 1400 UTC - in
   #openstack-meeting
-agenda:  |
-  * Blueprints
-  ** All blueprints for Juno must be created as RST files in neutron-specs.
-  ** Ipv6-provider-nets-slaac
-  ** Neutron-ipv6-radvd-ra
-  ** Nat64
-  ** Multiple-ipv6-prefixes
-  * Code Reviews
-  ** Instal SNAT rules for ipv4 only
-  ** Add ipv6 support in devstack
-  * Bugs
-  * Open Discussion
-  ** Floatingip involving ipv6 addresses to be opened
-  ** Etherpad for design summit

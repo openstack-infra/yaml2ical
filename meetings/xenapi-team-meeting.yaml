@@ -10,12 +10,3 @@ description:  >
   layer in #openstack-meeting, every Wednesday at 1500 UTC. (It used to be
   every Wednesday at 1700 UTC, but this proved to late for the UK folks at
   Citrix after daylight savings kicked in)
-agenda:  |
-  * Actions from last meeting
-  * Blueprints
-  ** Discuss Icehouse-2 progress
-  * Docs
-  * Bugs & QA
-  ** https://bugs.launchpad.net/nova/+bugs?field.tag=xenserver
-  ** Gating progress
-  * Open Discussion

@@ -11,8 +11,3 @@ description:  >
   contributors to the project, and has oversight on all technical matters.
   The Technical Committee is formally defined in the OpenStack Foundation
   bylas and further refined in the Technical Committee charter.
-agenda:  |
-  * Integrated projects and new requirements, Gap analysis for Ceilometer
-  * Bylas subcommitte report, proposed changes to the OpenStack Bylas
-  * Minor governance changes
-  * Open Discussion

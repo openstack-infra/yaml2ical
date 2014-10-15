@@ -9,10 +9,3 @@ description:  >
   The DNSaaS team holds a weekly IRC meeting in #openstack-meeting-alt on
   Wednesdays at 17:00 UTC Meeting logs are available at
   http://eavesdrop.openstack.org/meetings/designate/
-agenda:  |
-  * Review action items from last week
-  * Specific Items
-  ** DNSpy update
-  ** Clarify details on
-     https://blueprints.launchpad.net/designate/+spec/mdns-structured-rdata
-  * Open Discussion

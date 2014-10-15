@@ -65,13 +65,10 @@ class Meeting:
             project_descript = "Project:  %s" % (self.project)
             chair_descript = "Chair:  %s" % (self.chair)
             irc_descript = "IRC:  %s" % (sch.irc)
-            agenda_yaml = yaml.dump(self.agenda, default_flow_style=False)
-            agenda_descript = "Agenda:\n%s\n" % (agenda_yaml)
             descript_descript = "Description:  %s" % (self.description)
             ical_descript = "\n".join((project_descript,
                                        chair_descript,
                                        irc_descript,
-                                       agenda_descript,
                                        descript_descript))
             event.add('description', ical_descript)
 
@@ -174,7 +171,6 @@ def _load_meeting(meeting_yaml):
     m = Meeting()
 
     # Build meeting attributes from yaml
-    m.agenda = yaml_obj['agenda']
     m.chair = yaml_obj['chair']
     m.description = yaml_obj['description']
     m.project = yaml_obj['project']

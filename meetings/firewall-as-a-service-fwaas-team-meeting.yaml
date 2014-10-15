@@ -10,18 +10,3 @@ description:  >
   The OpenStack Networking Team (Neutron) holds public meetings in
   #openstack-meeting-3 on Wednesdays at 1830 UTC. Everyone is encouraged to
   attend.
-agenda:  |
-  * Bugs
-  * Blueprint Tracking
-  ** Tempest test
-  ** Integration with service type framework
-  ** FWaaS service insertion (also allows overcoming single firewall
-     limitation)
-  *** Service Objects
-  *** Commit/apply operation
-  * Vendor Blueprints
-  * Discussion Topics
-  ** zones
-  ** Adress Objects
-  ** Counts API
-  * Open Discussion

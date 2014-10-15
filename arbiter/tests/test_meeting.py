@@ -30,8 +30,6 @@ schedule:
 chair: Joe Developer
 description: >
     Weekly meeting for Subteam project.
-agenda: |
-  * Top bugs this week
 """
 
 _BIWEEKLY_MEETING_YAML = """
@@ -49,8 +47,6 @@ schedule:
 chair: Jane Developer
 description: >
     Weekly meeting for Subteam project.
-agenda: |
-  * Top bugs this week
 """
 
 
@@ -62,7 +58,6 @@ class MeetingTestCase(unittest.TestCase):
         self.assertEqual('Joe Developer', m.chair)
         self.assertEqual('Weekly meeting for Subteam project.\n',
                          m.description)
-        self.assertEqual('* Top bugs this week\n', m.agenda)
 
     def test_calculate_next_biweekly_meeting_meet_on_even(self):
         test_time = datetime.datetime(2014, 10, 5, 2, 47, 28, 832666)

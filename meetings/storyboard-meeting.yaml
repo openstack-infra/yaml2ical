@@ -7,24 +7,3 @@ schedule:
 chair:  cody-somerville / ttx
 description:  >
   Storyboard is a task tracker for OpenStack.
-agenda:  |
-  * High Priority Items:
-  ** All stories listed in project list view (krotscheck)
-  * Ongoing work:
-  ** Timeline API (nkonovalov)
-  ** Task Priorities (krotscheck)
-  ** Filter by priority (krotscheck)
-  ** Dashboard (krotscheck)
-  ** Task Authors (krotscheck)
-  ** Project Groups (nkonovalov)
-  ** Teams (nkonovalov)
-  * Future work:
-  ** OAuth Is Not Secure Interwebz Pannik!!1!11
-  ** User Admin & OAuth Key Management (For API Consumers)
-  * Summit!
-  ** Storyboard Session (ttx)
-  ** UX Testing
-  * Open Discussion topics (Bring them up if you are interested):
-  ** Event Subscription
-  ** Code Reviews
-  ** Fulltext Search

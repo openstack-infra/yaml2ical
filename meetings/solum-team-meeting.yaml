@@ -10,11 +10,3 @@ description:  >
   #openstack-meeting-alt on freenode. Because the Solum team is globally
   distributed, we use different meeting times on alternating weeks to allow
   for attendance from those on the opposite side of the globe.
-agenda:  |
-  * Roll Call
-  * Announcements
-  * Review Action Items
-  ** [none]
-  * Review Tasks
-  ** https://launchpad.net/solum/+milestone/2014.1.2
-  * Open Discussion

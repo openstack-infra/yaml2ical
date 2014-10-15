@@ -14,8 +14,3 @@ description:  >
   If you're interested in internationalisation, we hold bi-weekly public
   meetings on Thursdays in #openstack-meeting, alternating between two different
   times.
-agenda:  |
-  * Including the final : with strings
-  * Contextual-markers for better translation
-  * I18N related sessions in design summit
-  * Open Discussion

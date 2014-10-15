@@ -11,9 +11,3 @@ description:  >
   Please feel free to add items to the agenda below. NOTE: When adding topics
   please include your IRC name so we know who's topic it is and how to get more
   info.
-agenda:  |
-  * Cinder-specs discussion (jungleboyj)
-  ** When is a review considered done/is there a timeout?
-  ** What will the specs for a driver look like?
-  *** Quick path for adding driver functions?
-  *** Templates for core infrastructure versus drivers?

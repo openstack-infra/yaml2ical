@@ -9,9 +9,3 @@ description:  >
   Everyone is welcome. The blueprints that are used as a basis for the
   ceilometer project can be found at
   https://blueprints.launchpad.net/ceilometer
-agenda:  |
-  * Release Status
-  * TC gap analysis for ceilometer (eglynn)
-  * Tempest integration
-  * Release python-ceilometerclient?
-  * Open Discussion

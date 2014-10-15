@@ -12,11 +12,3 @@ description:  >
   topology of the infrastructure and what software is running on each server,
   as well as, pertinent settings for commonly encountered software like
   apache, varnish, and mysql.
-agenda:  |
-  * Review action items from previous meeting
-  * Discuss upated Satori Schema proposal
-  * Discuss SSH output bug
-  * Discuss Share SSH connection for less noise traffic
-  * Discuss Allow custom template
-  * Discuss Allow local plugins instead of built-in '--system-info'
-  * Discuss Create 'ip_info' and 'netloc_info'

@@ -11,11 +11,3 @@ description:  >
   UTC. Please feel free to add items to the agenda below. NOTE: When adding
   topics, please include your IRC name so we know who's topic it is and how to
   get more info.
-agenda:  |
-  * Open Items
-  ** Manila's entities do not require setting of name before creation. Should it
-     be changed to required?
-  ** Manila's share-network can be created with any value of neutron-net-id.
-     Should it be so, or only valid id's of neutron entities allowed?
-  * Development Status
-  * Open Discussion

@@ -10,10 +10,3 @@ description:  >
   us if you are interested in Openstack deployment. This meeting is where
   we talk about the Fuel project. Anyone is welcome to add items to the agenda,
   or bring up their topic during the open discussion at the end of each meeting.
-agenda:  |
-  * https://etherpad.openstack.org/p/fuel-weekly-meeting-agenda
-  * Greetings, announcements
-  * Blueprints
-  * Bugs
-  * Review requests
-  * Open discussion

@@ -7,6 +7,3 @@ schedule:
 chair:  sarob
 description:  >
   The milk team meets weekly on Monday at 2200 UTC on #openstack-meeting.
-agenda:  |
-  * Review last week's action items
-  * Any other business

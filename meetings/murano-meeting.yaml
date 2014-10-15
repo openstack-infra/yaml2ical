@@ -7,8 +7,3 @@ schedule:
 chair:  Georgiy Okrokvertskhov
 description:  >
   We have meetings in #openstack-meeting-alt weekly on Tuesdays at 17:00 UTC.
-agenda:  |
-  * Roll call
-  * Action items review
-  * Release status
-  * Open Discussion

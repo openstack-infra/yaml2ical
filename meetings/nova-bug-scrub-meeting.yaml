@@ -12,8 +12,3 @@ description:  >
   reviewing incomplete bugs, removing assignees from stale bugs so others
   can pick them up (especially low hanging fruit). In general we will follow
   the policies documented here https://wiki.openstack.org/wiki/BugTriage
-agenda:  |
-  * Tag untagged
-  * Triage New
-  * Review Critical
-  * Open Discussion
