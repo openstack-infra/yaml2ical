@@ -59,16 +59,15 @@ class Meeting:
             # event in an ical file (at least, for it to work with
             # Google Calendar)
 
-            event.add('summary', self.project + ' (' + sch.irc + ')')
+            event.add('summary', self.project)
+            event.add('location', '#' + sch.irc)
 
             # add ical description
             project_descript = "Project:  %s" % (self.project)
             chair_descript = "Chair:  %s" % (self.chair)
-            irc_descript = "IRC:  %s" % (sch.irc)
             descript_descript = "Description:  %s" % (self.description)
             ical_descript = "\n".join((project_descript,
                                        chair_descript,
-                                       irc_descript,
                                        descript_descript))
             event.add('description', ical_descript)
 
