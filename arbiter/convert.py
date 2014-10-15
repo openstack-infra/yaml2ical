@@ -43,15 +43,18 @@ project infrastructure.
                         dest="yaml_dir",
                         required=True,
                         help="directory containing YAML to process")
-    parser.add_argument("-i", "--icaldir",
-                        dest="ical_dir",
-                        required=True,
-                        help="directory to store converted iCal")
+    outputtype = parser.add_mutually_exclusive_group(required=True)
+    outputtype.add_argument("-i", "--icaldir",
+                            dest="ical_dir",
+                            help="output directory (one file per meeting)")
+    outputtype.add_argument("-o", "--output",
+                            dest="ical",
+                            help="output file (one file for all meetings)")
     parser.add_argument("-f", "--force",
                         dest="force",
                         action='store_true',
-                        help="forcefully remove old .ics files from iCal "
-                             "directory")
+                        help="forcefully remove/overwrite previous .ics "
+                             "output files")
 
     # parse arguments:
     return parser.parse_args()
@@ -68,20 +71,28 @@ def main():
     force = args.force
     yaml_dir = os.path.abspath(args.yaml_dir)
     _check_if_location_exists(yaml_dir)
-    ical_dir = os.path.abspath(args.ical_dir)
-    _check_if_location_exists(ical_dir)
+    if args.ical_dir:
+        ical_dir = os.path.abspath(args.ical_dir)
+        _check_if_location_exists(ical_dir)
 
-    if os.listdir(ical_dir) != []:
-        if force:
-            for f in os.listdir(ical_dir):
-                file_path = os.path.join(ical_dir, f)
-                os.remove(file_path)
-        else:
-            raise Exception("Directory for storing iCals is not empty, suggest"
-                            " running with -f to remove old iCal files.")
-
-    # Convert yaml to iCal
-    utils.convert_yaml_to_ical(yaml_dir, outputdir=ical_dir)
+        if os.listdir(ical_dir) != []:
+            if force:
+                for f in os.listdir(ical_dir):
+                    file_path = os.path.join(ical_dir, f)
+                    os.remove(file_path)
+            else:
+                raise Exception("Directory for storing iCals is not empty, "
+                                "suggest running with -f to remove old files.")
+        utils.convert_yaml_to_ical(yaml_dir, outputdir=ical_dir)
+    else:
+        ical = os.path.abspath(args.ical)
+        if os.path.exists(ical):
+            if force:
+                os.remove(ical)
+            else:
+                raise Exception("Output file already exists, suggest running "
+                                "with -f to overwrite previous file.")
+        utils.convert_yaml_to_ical(yaml_dir, outputfile=ical)
 
 
 if __name__ == '__main__':
