@@ -16,6 +16,7 @@
 #    under the License.
 
 import logging
+import os
 
 from arbiter import meeting
 
@@ -64,7 +65,7 @@ def _check_for_meeting_conflicts(meetings):
                         current_meeting['filename'], next_meeting['filename']))
 
 
-def convert_yaml_to_ical(yaml_dir, ical_dir):
+def convert_yaml_to_ical(yaml_dir, outputdir=None):
     """Convert meeting YAML files to iCal.
 
     If meeting_list is specified, only those meetings in yaml_dir with
@@ -72,7 +73,7 @@ def convert_yaml_to_ical(yaml_dir, ical_dir):
     all meeting in yaml_dir are converted.
 
     :param yaml_dir: directory where meeting.yaml files are stored
-    :param ical_dir: location to store iCal files
+    :param outputdir: location to store iCal files (one file per meeting)
 
     """
     meetings = meeting.load_meetings(yaml_dir)
@@ -81,8 +82,12 @@ def convert_yaml_to_ical(yaml_dir, ical_dir):
     _check_for_meeting_conflicts(meetings)
 
     # convert meetings to a list of ical
-    for m in meetings:
-        m.write_ical(ical_dir)
+    if outputdir:
+        for m in meetings:
+            cal = meeting.GerritPoweredCalendar()
+            m.add_to_calendar(cal)
+            filename = os.path.basename(m._filename).split('.')[0] + '.ics'
+            cal.write_to_disk(os.path.join(outputdir, filename))
 
     # TODO(jotan): verify converted ical is valid
     logging.info('Wrote %d meetings to iCal' % (len(meetings)))

@@ -27,6 +27,20 @@ from arbiter import const
 from arbiter import schedule
 
 
+class GerritPoweredCalendar(icalendar.Calendar):
+    """A calendar in ics format."""
+
+    def __init__(self):
+        super(GerritPoweredCalendar, self).__init__()
+        self.add('prodid', '-//OpenStack//Gerrit-Powered Meeting Agendas//EN')
+        self.add('version', '2.0')
+
+    def write_to_disk(self, filename):
+        # write ical files to disk
+        with open(filename, 'wb') as ics:
+            ics.write(self.to_ical())
+
+
 class Meeting:
     """An OpenStack meeting."""
 
@@ -34,14 +48,8 @@ class Meeting:
         """Initialize meeting from yaml file name 'filename'."""
         pass
 
-    def write_ical(self, ical_dir):
-        """Write this meeting to disk using the iCal format."""
-
-        cal = icalendar.Calendar()
-
-        # add properties to ensure compliance
-        cal.add('prodid', '-//OpenStack//Gerrit-Powered Meeting Agendas//EN')
-        cal.add('version', '2.0')
+    def add_to_calendar(self, cal):
+        """Add this meeting to an existing calendar."""
 
         for sch in self.schedules:
             # one Event per iCal file
@@ -112,14 +120,6 @@ class Meeting:
 
             # add event to calendar
             cal.add_component(event)
-
-        # determine file name from source file
-        ical_filename = os.path.basename(self._filename).split('.')[0] + '.ics'
-        ical_filename = os.path.join(ical_dir, ical_filename)
-
-        # write ical files to disk
-        with open(ical_filename, 'wb') as ics:
-            ics.write(cal.to_ical())
 
 
 def next_weekday(ref_date, weekday):
