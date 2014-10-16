@@ -19,41 +19,13 @@ import datetime
 import unittest
 
 from arbiter import meeting
-
-_MEETING_YAML = """
-project: OpenStack Subteam Meeting
-schedule:
-  - time: '1200'
-    day: Wednesday
-    irc: openstack-meeting
-    frequency: weekly
-chair: Joe Developer
-description: >
-    Weekly meeting for Subteam project.
-"""
-
-_BIWEEKLY_MEETING_YAML = """
-project: OpenStack Subteam Meeting
-schedule:
-  - time: '1200'
-    day: Wednesday
-    irc: openstack-meeting
-    frequency: biweekly-even
-schedule:
-  - time: '2200'
-    day: Wednesday
-    irc: openstack-meeting
-    frequency: biweekly-odd
-chair: Jane Developer
-description: >
-    Weekly meeting for Subteam project.
-"""
+from arbiter.tests import sample_data
 
 
 class MeetingTestCase(unittest.TestCase):
 
     def test_load_yaml_file(self):
-        m = meeting.load_meetings(_MEETING_YAML)[0]
+        m = meeting.load_meetings(sample_data.FIRST_MEETING_YAML)[0]
         self.assertEqual('OpenStack Subteam Meeting', m.project)
         self.assertEqual('Joe Developer', m.chair)
         self.assertEqual('Weekly meeting for Subteam project.\n',

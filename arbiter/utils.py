@@ -23,6 +23,10 @@ from arbiter import meeting
 """Utility functions."""
 
 
+class MeetingConflictError(Exception):
+    pass
+
+
 def _extract_meeting_info(meeting_obj):
     """Pull out meeting info of Meeting object.
 
@@ -61,8 +65,10 @@ def _check_for_meeting_conflicts(meetings):
                         continue
                     if current_meeting['irc_room'] != next_meeting['irc_room']:
                         continue
-                    logging.error("Conflict between %s and %s" % (
-                        current_meeting['filename'], next_meeting['filename']))
+                    msg_dict = {'first': current_meeting['filename'],
+                                'second': next_meeting['filename']}
+                    raise MeetingConflictError("Conflict between %(first)s "
+                                               "and %(second)s." % msg_dict)
 
 
 def convert_yaml_to_ical(yaml_dir, outputdir=None, outputfile=None):
