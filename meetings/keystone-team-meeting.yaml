@@ -4,7 +4,7 @@ schedule:
     day:        Tuesday
     irc:        openstack-meeting
     frequency:  weekly
-chair:  Dolph Mathews
+chair: Morgan Fainberg
 description:  >
   If you're interested in identity for OpenStack, we hold public meetings in
   IRC in #openstack-meeting, on Tuesdays at 1800 UTC. Please feel free to
