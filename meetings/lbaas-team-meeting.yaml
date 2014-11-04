@@ -4,7 +4,7 @@ schedule:
     day:        Thursday
     irc:        openstack-meeting
     frequency:  weekly
-chair:  Eugene Nikanorov
+chair:  Doug Wiegley
 description:  >
   This page tracks Neutron Loadbalancer as a Service (LBaaS) meeting
   information. The OpenStack Networking Team (Neutron) holds public meetings in
