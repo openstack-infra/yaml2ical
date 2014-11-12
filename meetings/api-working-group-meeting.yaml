@@ -3,7 +3,11 @@ schedule:
   - time:       '0000'
     day:        Thursday
     irc:        openstack-meeting-3
-    frequency:  weekly
+    frequency:  biweekly-even
+  - time:       '1600'
+    day:        Thursday
+    irc:        openstack-meeting-3
+    frequency:  biweekly-odd
 chair: TBD
 description:  >
   To propose, discuss, review and advocate for API guidelines for all
