@@ -1,8 +1,0 @@
-project:  Gantt (Scheduler) Team Meeting
-schedule:
-  - time:       '1500'
-    day:        Tuesday
-    irc:        openstack-meeting
-    frequency:  weekly
-chair:  Don Dugger
-description:

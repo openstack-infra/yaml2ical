@@ -1,9 +1,0 @@
-project:  Swift Team Meeting
-schedule:
-  - time:       '1900'
-    day:        Wednesday
-    irc:        openstack-meeting
-    frequency:  weekly
-chair:  John Dickinson
-description:  >
-  Meeting Time: Every Wednesday at 19:00 UTC in #openstack-meeting

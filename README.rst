@@ -23,9 +23,8 @@ installed:
 * `PyYaml` python library
 
 Before running this tool, first edit some meeting YAML files in the meetings
-directory. This directory already contains YAML files for the meetings
-found on the `Meetings <https://wiki.openstack.org/wiki/Meetings>`_ wiki page.
-To create a new meeting YAML file, read the `YAML Meeting File` section below.
+directory. To create a new meeting YAML file, read the `YAML Meeting File`
+section below.
 
   ::
 
@@ -100,14 +99,6 @@ With each .ics file looking something similar to:
 
 YAML Meeting File
 =================
-
-Refer to the meetings page on the OpenStack Wiki for a list of meetings:
-
-  https://wiki.openstack.org/wiki/Meetings
-
-For a list of yaml meeting files, visit
-
-  https://git.openstack.org/cgit/openstack-infra/gerrit-powered-agenda/tree/meetings
 
 Each meeting consists of:
 

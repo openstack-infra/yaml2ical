@@ -1,9 +1,0 @@
-project:  TripleO Team Meeting
-schedule:
-  - time:       '1900'
-    day:        Tuesday
-    irc:        openstack-meeting-alt
-    frequency:  weekly
-chair:  Robert Collins
-description:  >
-  Weekly meeting every Tuesday at 1900 UTC in openstack-meeting-alt

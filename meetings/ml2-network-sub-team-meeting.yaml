@@ -1,9 +1,0 @@
-project:  ML2 Network Sub-team Meeting
-schedule:
-  - time:       '1600'
-    day:        Wednesday
-    irc:        openstack-meeting-alt
-    frequency:  weekly
-chair:  Bob Kukura / Sukhdev Kapur
-description:  >
-  Weekly on Wednesdays at 1600 UTC on #openstack-meeting-alt
