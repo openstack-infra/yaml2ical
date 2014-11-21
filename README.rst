@@ -1,13 +1,22 @@
-Gerrit-Powered-Agenda
-=====================
+=========
+yaml2ical
+=========
 
-This project aims to provide an easier way to manage OpenStack team meetings.
+This tool converts a series of meeting descriptions in YAML format into one
+or several .ics files suitable for calendaring. It checks for scheduling
+conflicts in specific locations.
+
+Rationale
+=========
+
+yaml2ical aims to provide an easier way to manage OpenStack team meetings.
 Currently, each team's meeting time and agenda are listed at:
 
   https://wiki.openstack.org/wiki/Meetings
 
-This project replaces each meeting with well-defined YAML files.
-
+This project allows to replace each meeting with well-defined YAML files,
+which can be code-reviewed, then continuously-integrated into .ics files for
+general consumption.
 
 Getting Started
 ===============
@@ -46,8 +55,8 @@ section below.
 
   ::
 
-    $ git clone https://github.com/openstack-infra/gerrit-powered-agenda.git
-    $ cd /opt/stack/gerrit-powered-agenda/arbiter/
+    $ git clone https://github.com/openstack-infra/yaml2ical.git
+    $ cd yaml2ical/yaml2ical
 
 
 The following are a few scenarios:
@@ -56,8 +65,8 @@ Generate .ics files locally from existing yaml meeting files:
 
   ::
 
-    $ python convert.py -y /opt/stack/gerrit-powered-agenda/meetings/ \
-                        -i /opt/stack/gerrit-powered-agenda/icals/
+    $ python convert.py -y ../meetings/ \
+                        -i ../icals/
 
 The generated .ics files are not tracked in this git repository,
 but they are available locally to import into your calendar. Note,
@@ -65,7 +74,7 @@ to remove stale .ics files, use the ``--force`` argument:
 
   ::
 
-    gerrit-powered-agenda/icals$ ls
+    yaml2ical/icals$ ls
     Barbican Meeting-b58d78a4.ics
     Ceilometer Team Meeting-9ed7b5b4.ics
     Chef Cookbook Meeting-2418b331.ics
@@ -74,10 +83,10 @@ With each .ics file looking something similar to:
 
   ::
 
-    gerrit-powered-agenda/icals$ cat Barbican\ Meeting-b58d78a4.ics
+    yaml2ical/icals$ cat Barbican\ Meeting-b58d78a4.ics
     BEGIN:VCALENDAR
     VERSION:2.0
-    PRODID:-//OpenStack//Gerrit-Powered Meeting Agendas//EN
+    PRODID:-//yaml2ical agendas//EN
     BEGIN:VEVENT
     SUMMARY:Barbican Meeting (openstack-meeting-alt)
     DTSTART;VALUE=DATE-TIME:20141006T200000Z

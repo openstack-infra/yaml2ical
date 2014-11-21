@@ -16,4 +16,4 @@ import pbr.version
 
 
 __version__ = pbr.version.VersionInfo(
-    'arbiter').version_string()
+    'yaml2ical').version_string()

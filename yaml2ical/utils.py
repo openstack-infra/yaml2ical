@@ -13,7 +13,7 @@
 import logging
 import os
 
-from arbiter import meeting
+from yaml2ical import meeting
 
 """Utility functions."""
 
@@ -86,14 +86,14 @@ def convert_yaml_to_ical(yaml_dir, outputdir=None, outputfile=None):
     # convert meetings to a list of ical
     if outputdir:
         for m in meetings:
-            cal = meeting.GerritPoweredCalendar()
+            cal = meeting.Yaml2IcalCalendar()
             m.add_to_calendar(cal)
             filename = os.path.basename(m._filename).split('.')[0] + '.ics'
             cal.write_to_disk(os.path.join(outputdir, filename))
 
     # convert meetings into a single ical
     if outputfile:
-        cal = meeting.GerritPoweredCalendar()
+        cal = meeting.Yaml2IcalCalendar()
         for m in meetings:
             m.add_to_calendar(cal)
         cal.write_to_disk(outputfile)

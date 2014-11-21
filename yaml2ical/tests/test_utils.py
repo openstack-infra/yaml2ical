@@ -12,9 +12,9 @@
 
 import unittest
 
-from arbiter import meeting
-from arbiter.tests import sample_data
-from arbiter import utils
+from yaml2ical import meeting
+from yaml2ical.tests import sample_data
+from yaml2ical import utils
 
 
 class UtilsTestCase(unittest.TestCase):

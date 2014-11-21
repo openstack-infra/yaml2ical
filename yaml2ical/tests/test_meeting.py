@@ -13,8 +13,8 @@
 import datetime
 import unittest
 
-from arbiter import meeting
-from arbiter.tests import sample_data
+from yaml2ical import meeting
+from yaml2ical.tests import sample_data
 
 
 class MeetingTestCase(unittest.TestCase):

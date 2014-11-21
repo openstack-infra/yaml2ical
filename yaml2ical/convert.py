@@ -14,7 +14,7 @@ import argparse
 import logging
 import os
 
-from arbiter import utils
+from yaml2ical import utils
 
 
 # logging settings

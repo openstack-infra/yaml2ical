@@ -18,16 +18,16 @@ import icalendar
 import pytz
 import yaml
 
-from arbiter import const
-from arbiter import schedule
+from yaml2ical import const
+from yaml2ical import schedule
 
 
-class GerritPoweredCalendar(icalendar.Calendar):
+class Yaml2IcalCalendar(icalendar.Calendar):
     """A calendar in ics format."""
 
     def __init__(self):
-        super(GerritPoweredCalendar, self).__init__()
-        self.add('prodid', '-//OpenStack//Gerrit-Powered Meeting Agendas//EN')
+        super(Yaml2IcalCalendar, self).__init__()
+        self.add('prodid', '-//yaml2ical agendas//EN')
         self.add('version', '2.0')
 
     def write_to_disk(self, filename):
