@@ -37,8 +37,9 @@ section below.
 
   ::
 
-    $ python convert.py -h
-    usage: convert.py [-h] -y YAML_DIR -i ICAL_DIR [-f]
+    $ pip install yaml2ical
+    $ yaml2ical
+    usage: yaml2ical [-h] -y YAML_DIR -i ICAL_DIR [-f]
 
     A tool that automates the process for testing, integrating, and
     publishing changes to OpenStack meetings using the existing OpenStack
@@ -53,11 +54,6 @@ section below.
       -f, --force           forcefully remove old .ics files from iCal
       directory
 
-  ::
-
-    $ git clone https://github.com/openstack-infra/yaml2ical.git
-    $ cd yaml2ical/yaml2ical
-
 
 The following are a few scenarios:
 
@@ -65,8 +61,7 @@ Generate .ics files locally from existing yaml meeting files:
 
   ::
 
-    $ python convert.py -y ../meetings/ \
-                        -i ../icals/
+    $ yaml2ical -y meetings/ -i icals/
 
 The generated .ics files are not tracked in this git repository,
 but they are available locally to import into your calendar. Note,
@@ -74,7 +69,7 @@ to remove stale .ics files, use the ``--force`` argument:
 
   ::
 
-    yaml2ical/icals$ ls
+    $ ls icals/
     Barbican Meeting-b58d78a4.ics
     Ceilometer Team Meeting-9ed7b5b4.ics
     Chef Cookbook Meeting-2418b331.ics
@@ -83,7 +78,7 @@ With each .ics file looking something similar to:
 
   ::
 
-    yaml2ical/icals$ cat Barbican\ Meeting-b58d78a4.ics
+    $ cat icals/Barbican\ Meeting-b58d78a4.ics
     BEGIN:VCALENDAR
     VERSION:2.0
     PRODID:-//yaml2ical agendas//EN

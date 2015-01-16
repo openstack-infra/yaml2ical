@@ -18,8 +18,11 @@ import icalendar
 import pytz
 import yaml
 
-from yaml2ical import const
 from yaml2ical import schedule
+
+
+WEEKDAYS = {'Monday': 0, 'Tuesday': 1, 'Wednesday': 2, 'Thursday': 3,
+            'Friday': 4, 'Saturday': 5, 'Sunday': 6}
 
 
 class Yaml2IcalCalendar(icalendar.Calendar):
@@ -71,11 +74,11 @@ class Meeting:
             if sch.freq.startswith('biweekly'):
                 meet_on_even = sch.freq.endswith('even')
                 next_meeting = next_biweekly_meeting(start_date,
-                                                     const.WEEKDAYS[sch.day],
+                                                     WEEKDAYS[sch.day],
                                                      meet_on_even=meet_on_even)
             else:
                 next_meeting = next_weekday(start_date,
-                                            const.WEEKDAYS[sch.day])
+                                            WEEKDAYS[sch.day])
 
             next_meeting_date = datetime.datetime(next_meeting.year,
                                                   next_meeting.month,
