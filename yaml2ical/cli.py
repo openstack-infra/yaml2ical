@@ -14,7 +14,7 @@ import argparse
 import logging
 import os
 
-from yaml2ical import utils
+from yaml2ical import ical
 
 
 # logging settings
@@ -43,7 +43,7 @@ project infrastructure.
                             dest="ical_dir",
                             help="output directory (one file per meeting)")
     outputtype.add_argument("-o", "--output",
-                            dest="ical",
+                            dest="icalfile",
                             help="output file (one file for all meetings)")
     parser.add_argument("-f", "--force",
                         dest="force",
@@ -78,16 +78,16 @@ def main():
             else:
                 raise Exception("Directory for storing iCals is not empty, "
                                 "suggest running with -f to remove old files.")
-        utils.convert_yaml_to_ical(yaml_dir, outputdir=ical_dir)
+        ical.convert_yaml_to_ical(yaml_dir, outputdir=ical_dir)
     else:
-        ical = os.path.abspath(args.ical)
-        if os.path.exists(ical):
+        icalfile = os.path.abspath(args.icalfile)
+        if os.path.exists(icalfile):
             if force:
-                os.remove(ical)
+                os.remove(icalfile)
             else:
                 raise Exception("Output file already exists, suggest running "
                                 "with -f to overwrite previous file.")
-        utils.convert_yaml_to_ical(yaml_dir, outputfile=ical)
+        ical.convert_yaml_to_ical(yaml_dir, outputfile=ical)
 
 
 if __name__ == '__main__':

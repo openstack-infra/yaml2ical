@@ -10,7 +10,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import datetime
 import unittest
 
 from yaml2ical import meeting
@@ -26,12 +25,18 @@ class MeetingTestCase(unittest.TestCase):
         self.assertEqual('Weekly meeting for Subteam project.\n',
                          m.description)
 
-    def test_calculate_next_biweekly_meeting_meet_on_even(self):
-        test_time = datetime.datetime(2014, 10, 5, 2, 47, 28, 832666)
-        test_weekday = 2
-        meet_on_even = True
-        next_meeting = meeting.next_biweekly_meeting(test_time,
-                                                     test_weekday,
-                                                     meet_on_even=meet_on_even)
-        expected_meeting = datetime.datetime(2014, 10, 8, 2, 47, 28, 832666)
-        self.assertEqual(expected_meeting, next_meeting)
+    def test_exception_raised_when_conflict_detected(self):
+        """Exception is raised when a meeting conflict is detected."""
+        meeting_one = meeting.load_meetings(sample_data.FIRST_MEETING_YAML)
+        meeting_two = meeting.load_meetings(sample_data.SECOND_MEETING_YAML)
+        meeting_list = [meeting_one.pop(), meeting_two.pop()]
+        self.assertRaises(meeting.MeetingConflictError,
+                          meeting.check_for_meeting_conflicts,
+                          meeting_list)
+
+    def test_no_exception_raised_with_diff_irc_rooms(self):
+        """No exception raised when using different IRC rooms."""
+        meeting_one = meeting.load_meetings(sample_data.FIRST_MEETING_YAML)
+        meeting_two = meeting.load_meetings(sample_data.THIRD_MEETING_YAML)
+        meeting_list = [meeting_one.pop(), meeting_two.pop()]
+        meeting.check_for_meeting_conflicts(meeting_list)

@@ -13,30 +13,19 @@
 import datetime
 import hashlib
 import os
-
-import icalendar
-import pytz
 import yaml
 
-from yaml2ical import schedule
 
+class Schedule:
+    """A meeting schedule."""
 
-WEEKDAYS = {'Monday': 0, 'Tuesday': 1, 'Wednesday': 2, 'Thursday': 3,
-            'Friday': 4, 'Saturday': 5, 'Sunday': 6}
+    def __init__(self, sched_yaml):
+        """Initialize schedule from yaml."""
 
-
-class Yaml2IcalCalendar(icalendar.Calendar):
-    """A calendar in ics format."""
-
-    def __init__(self):
-        super(Yaml2IcalCalendar, self).__init__()
-        self.add('prodid', '-//yaml2ical agendas//EN')
-        self.add('version', '2.0')
-
-    def write_to_disk(self, filename):
-        # write ical files to disk
-        with open(filename, 'wb') as ics:
-            ics.write(self.to_ical())
+        self.time = datetime.datetime.strptime(sched_yaml['time'], '%H%M')
+        self.day = sched_yaml['day']
+        self.irc = sched_yaml['irc']
+        self.freq = sched_yaml['frequency']
 
 
 class Meeting:
@@ -45,90 +34,6 @@ class Meeting:
     def __init__(self):
         """Initialize meeting from yaml file name 'filename'."""
         pass
-
-    def add_to_calendar(self, cal):
-        """Add this meeting to an existing calendar."""
-
-        for sch in self.schedules:
-            # one Event per iCal file
-            event = icalendar.Event()
-
-            # NOTE(jotan): I think the summary field needs to be unique per
-            # event in an ical file (at least, for it to work with
-            # Google Calendar)
-
-            event.add('summary', self.project)
-            event.add('location', '#' + sch.irc)
-
-            # add ical description
-            project_descript = "Project:  %s" % (self.project)
-            chair_descript = "Chair:  %s" % (self.chair)
-            descript_descript = "Description:  %s" % (self.description)
-            ical_descript = "\n".join((project_descript,
-                                       chair_descript,
-                                       descript_descript))
-            event.add('description', ical_descript)
-
-            # get starting date
-            start_date = datetime.datetime.utcnow()
-            if sch.freq.startswith('biweekly'):
-                meet_on_even = sch.freq.endswith('even')
-                next_meeting = next_biweekly_meeting(start_date,
-                                                     WEEKDAYS[sch.day],
-                                                     meet_on_even=meet_on_even)
-            else:
-                next_meeting = next_weekday(start_date,
-                                            WEEKDAYS[sch.day])
-
-            next_meeting_date = datetime.datetime(next_meeting.year,
-                                                  next_meeting.month,
-                                                  next_meeting.day,
-                                                  sch.time.hour,
-                                                  sch.time.minute,
-                                                  tzinfo=pytz.utc)
-            event.add('dtstart', next_meeting_date)
-
-            # add recurrence rule
-            if sch.freq.startswith('biweekly'):
-                cadence = ()
-                # NOTE(lbragstad): Setting the `cadence` for the schedule
-                # will allow for alternating meetings. Typically there are
-                # only 4 weeks in a month but adding `5` and `6` allow for
-                # cases where there are 5 meetings in a month, which would
-                # otherwise be unsupported if only setting `cadence` to
-                # either (1, 3) or (2, 4).
-                if sch.freq == 'biweekly-odd':
-                    cadence = (1, 3, 5)
-                elif sch.freq == 'biweekly-even':
-                    cadence = (2, 4, 6)
-                rule_dict = {'freq': 'monthly',
-                             'byday': sch.day[0:2],
-                             'bysetpos': cadence}
-                event.add('rrule', rule_dict)
-            else:
-                event.add('rrule', {'freq': sch.freq})
-
-            # add meeting length
-            # TODO(jotan): determine duration to use for OpenStack meetings
-            event.add('duration', datetime.timedelta(hours=1))
-
-            # add event to calendar
-            cal.add_component(event)
-
-
-def next_weekday(ref_date, weekday):
-    """Return the date of the next meeting.
-
-    :param ref_date: datetime object of meeting
-    :param weekday: weekday the meeting is held on
-
-    :returns: datetime object of the next meeting time
-    """
-
-    days_ahead = weekday - ref_date.weekday()
-    if days_ahead <= 0:  # target day already happened this week
-        days_ahead += 7
-    return ref_date + datetime.timedelta(days_ahead)
 
 
 def load_meetings(yaml_source):
@@ -178,37 +83,55 @@ def _load_meeting(meeting_yaml):
     # of having every Meeting object build a list of Schedule objects.
     m.schedules = []
     for sch in yaml_obj['schedule']:
-        s = schedule.Schedule(sch)
+        s = Schedule(sch)
         m.schedules.append(s)
 
     return m
 
 
-def next_biweekly_meeting(current_date_time, weekday, meet_on_even=False):
-    """Calculate the next biweekly meeting.
+class MeetingConflictError(Exception):
+    pass
 
-    :param current_date_time: the current datetime object
-    :param weekday: scheduled day of the meeting
-    :param meet_on_even: True if meeting on even weeks and False if meeting
-    on odd weeks
-    :returns: datetime object of next meeting
+
+def _extract_meeting_info(meeting_obj):
+    """Pull out meeting info of Meeting object.
+
+    :param meeting_obj: Meeting object
+    :returns: a dictionary of meeting info
 
     """
-    first_day_of_mo = current_date_time.replace(day=1)
-    day_of_week = first_day_of_mo.strftime("%w")
-    adjustment = (8 - int(day_of_week)) % (7 - weekday)
-    if meet_on_even:
-        adjustment += 7
-    next_meeting = first_day_of_mo + datetime.timedelta(adjustment)
+    meeting_info = []
+    for schedule in meeting_obj.schedules:
+        info = {'name': meeting_obj.project,
+                'filename': meeting_obj._filename,
+                'day': schedule.day,
+                'time': schedule.time,
+                'irc_room': schedule.irc}
+        meeting_info.append(info)
 
-    if current_date_time > next_meeting:
-        next_meeting = next_meeting + datetime.timedelta(14)
-        if current_date_time > next_meeting:
-            current_date_time = current_date_time.replace(
-                month=current_date_time.month + 1, day=1)
-            first_wday_next_mo = next_weekday(current_date_time, weekday)
-            if meet_on_even:
-                next_meeting = first_wday_next_mo + datetime.timedelta(7)
-            else:
-                next_meeting = first_wday_next_mo
-    return next_meeting
+    return meeting_info
+
+
+def check_for_meeting_conflicts(meetings):
+    """Check if a list of meetings have conflicts.
+
+    :param meetings: list of Meeting objects
+
+    """
+
+    for i in range(len(meetings)):
+        meeting_info = _extract_meeting_info(meetings[i])
+        for j in range(i + 1, len(meetings)):
+            next_meeting_info = _extract_meeting_info(meetings[j])
+            for current_meeting in meeting_info:
+                for next_meeting in next_meeting_info:
+                    if current_meeting['day'] != next_meeting['day']:
+                        continue
+                    if current_meeting['time'] != next_meeting['time']:
+                        continue
+                    if current_meeting['irc_room'] != next_meeting['irc_room']:
+                        continue
+                    msg_dict = {'first': current_meeting['filename'],
+                                'second': next_meeting['filename']}
+                    raise MeetingConflictError("Conflict between %(first)s "
+                                               "and %(second)s." % msg_dict)
