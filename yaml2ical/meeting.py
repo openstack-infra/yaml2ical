@@ -19,13 +19,23 @@ import yaml
 class Schedule(object):
     """A meeting schedule."""
 
-    def __init__(self, sched_yaml):
+    def __init__(self, meeting, sched_yaml):
         """Initialize schedule from yaml."""
 
+        self.project = meeting.project
+        self.filename = meeting.filename
         self.time = datetime.datetime.strptime(sched_yaml['time'], '%H%M')
         self.day = sched_yaml['day']
         self.irc = sched_yaml['irc']
         self.freq = sched_yaml['frequency']
+
+    def __eq__(self, other):
+        #TODO(ttx): This is a bit overzealous (it will report as conflict
+        # biweekly-odd/biweekly-even on same date/hour/irc) so this should be
+        # revamped especially if we want to add more complex recurrence rules
+        return ((self.day == other.day) and
+                (self.time == other.time) and
+                (self.irc == other.irc))
 
 
 class Meeting(object):
@@ -44,25 +54,8 @@ class Meeting(object):
 
         self.schedules = []
         for sch in yaml_obj['schedule']:
-            s = Schedule(sch)
+            s = Schedule(self, sch)
             self.schedules.append(s)
-
-    def extract_meeting_info(self):
-        """Pull out meeting info of Meeting object.
-        :returns: a dictionary of meeting info
-        """
-
-        meeting_info = []
-
-        for schedule in self.schedules:
-            info = {'name': self.project,
-                    'filename': self.filename,
-                    'day': schedule.day,
-                    'time': schedule.time,
-                    'irc_room': schedule.irc}
-            meeting_info.append(info)
-
-        return meeting_info
 
 
 def load_meetings(yaml_source):
@@ -109,18 +102,13 @@ def check_for_meeting_conflicts(meetings):
     """
 
     for i in range(len(meetings)):
-        meeting_info = meetings[i].extract_meeting_info()
+        schedules = meetings[i].schedules
         for j in range(i + 1, len(meetings)):
-            next_meeting_info = meetings[j].extract_meeting_info()
-            for current_meeting in meeting_info:
-                for next_meeting in next_meeting_info:
-                    if current_meeting['day'] != next_meeting['day']:
-                        continue
-                    if current_meeting['time'] != next_meeting['time']:
-                        continue
-                    if current_meeting['irc_room'] != next_meeting['irc_room']:
-                        continue
-                    msg_dict = {'first': current_meeting['filename'],
-                                'second': next_meeting['filename']}
-                    raise MeetingConflictError("Conflict between %(first)s "
-                                               "and %(second)s." % msg_dict)
+            other_schedules = meetings[j].schedules
+            for schedule in schedules:
+                for other_schedule in other_schedules:
+                    if schedule == other_schedule:
+                        msg_dict = {'one': schedule.filename,
+                                    'two': other_schedule.filename}
+                        raise MeetingConflictError(
+                            "Conflict between %(one)s and %(two)s." % msg_dict)
