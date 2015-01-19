@@ -11,7 +11,6 @@
 # under the License.
 
 import datetime
-import hashlib
 import os
 import yaml
 
@@ -23,7 +22,7 @@ class Schedule(object):
         """Initialize schedule from yaml."""
 
         self.project = meeting.project
-        self.filename = meeting.filename
+        self.filefrom = meeting.filefrom
         self.time = datetime.datetime.strptime(sched_yaml['time'], '%H%M')
         self.day = sched_yaml['day']
         self.irc = sched_yaml['irc']
@@ -41,16 +40,14 @@ class Schedule(object):
 class Meeting(object):
     """An OpenStack meeting."""
 
-    def __init__(self, meeting_yaml):
+    def __init__(self, filename, meeting_yaml):
         """Initialize meeting from meeting yaml description."""
 
         yaml_obj = yaml.safe_load(meeting_yaml)
         self.chair = yaml_obj['chair']
         self.description = yaml_obj['description']
         self.project = yaml_obj['project']
-        self.filename = "%s-%s" % (
-            yaml_obj['project'],
-            hashlib.md5(str(yaml_obj).encode('utf-8')).hexdigest()[:8])
+        self.filefrom = os.path.basename(filename)
 
         self.schedules = []
         for sch in yaml_obj['schedule']:
@@ -75,7 +72,7 @@ def load_meetings(yaml_source):
             yaml_file = os.path.join(yaml_source, f)
             meetings_yaml.append(yaml_file)
     elif isinstance(yaml_source, str):
-        return [Meeting(yaml_source)]
+        return [Meeting("stdin", yaml_source)]
     else:
         # If we don't have a .yaml file, a directory of .yaml files, or any
         # YAML data fail out here.
@@ -85,7 +82,7 @@ def load_meetings(yaml_source):
     meetings = []
     for yaml_file in meetings_yaml:
         with open(yaml_file, 'r') as f:
-            meetings.append(Meeting(f))
+            meetings.append(Meeting(yaml_file, f))
 
     return meetings
 
@@ -108,7 +105,7 @@ def check_for_meeting_conflicts(meetings):
             for schedule in schedules:
                 for other_schedule in other_schedules:
                     if schedule == other_schedule:
-                        msg_dict = {'one': schedule.filename,
-                                    'two': other_schedule.filename}
+                        msg_dict = {'one': schedule.filefrom,
+                                    'two': other_schedule.filefrom}
                         raise MeetingConflictError(
-                            "Conflict between %(one)s and %(two)s." % msg_dict)
+                            "Conflict between %(one)s and %(two)s" % msg_dict)
