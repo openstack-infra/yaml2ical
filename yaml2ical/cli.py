@@ -63,7 +63,6 @@ def _check_if_location_exists(location):
 def main():
     args = parse_args()
 
-    force = args.force
     yaml_dir = os.path.abspath(args.yaml_dir)
     _check_if_location_exists(yaml_dir)
     if args.ical_dir:
@@ -71,7 +70,7 @@ def main():
         _check_if_location_exists(ical_dir)
 
         if os.listdir(ical_dir) != []:
-            if force:
+            if args.force:
                 for f in os.listdir(ical_dir):
                     file_path = os.path.join(ical_dir, f)
                     os.remove(file_path)
@@ -82,7 +81,7 @@ def main():
     else:
         icalfile = os.path.abspath(args.icalfile)
         if os.path.exists(icalfile):
-            if force:
+            if args.force:
                 os.remove(icalfile)
             else:
                 raise Exception("Output file already exists, suggest running "

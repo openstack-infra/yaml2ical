@@ -16,7 +16,7 @@ import os
 import yaml
 
 
-class Schedule:
+class Schedule(object):
     """A meeting schedule."""
 
     def __init__(self, sched_yaml):
@@ -28,12 +28,41 @@ class Schedule:
         self.freq = sched_yaml['frequency']
 
 
-class Meeting:
+class Meeting(object):
     """An OpenStack meeting."""
 
-    def __init__(self):
-        """Initialize meeting from yaml file name 'filename'."""
-        pass
+    def __init__(self, meeting_yaml):
+        """Initialize meeting from meeting yaml description."""
+
+        yaml_obj = yaml.safe_load(meeting_yaml)
+        self.chair = yaml_obj['chair']
+        self.description = yaml_obj['description']
+        self.project = yaml_obj['project']
+        self.filename = "%s-%s" % (
+            yaml_obj['project'],
+            hashlib.md5(str(yaml_obj).encode('utf-8')).hexdigest()[:8])
+
+        self.schedules = []
+        for sch in yaml_obj['schedule']:
+            s = Schedule(sch)
+            self.schedules.append(s)
+
+    def extract_meeting_info(self):
+        """Pull out meeting info of Meeting object.
+        :returns: a dictionary of meeting info
+        """
+
+        meeting_info = []
+
+        for schedule in self.schedules:
+            info = {'name': self.project,
+                    'filename': self.filename,
+                    'day': schedule.day,
+                    'time': schedule.time,
+                    'irc_room': schedule.irc}
+            meeting_info.append(info)
+
+        return meeting_info
 
 
 def load_meetings(yaml_source):
@@ -53,7 +82,7 @@ def load_meetings(yaml_source):
             yaml_file = os.path.join(yaml_source, f)
             meetings_yaml.append(yaml_file)
     elif isinstance(yaml_source, str):
-        return [_load_meeting(yaml_source)]
+        return [Meeting(yaml_source)]
     else:
         # If we don't have a .yaml file, a directory of .yaml files, or any
         # YAML data fail out here.
@@ -63,53 +92,13 @@ def load_meetings(yaml_source):
     meetings = []
     for yaml_file in meetings_yaml:
         with open(yaml_file, 'r') as f:
-            meetings.append(_load_meeting(f))
+            meetings.append(Meeting(f))
 
     return meetings
 
 
-def _load_meeting(meeting_yaml):
-    yaml_obj = yaml.safe_load(meeting_yaml)
-    m = Meeting()
-
-    # Build meeting attributes from yaml
-    m.chair = yaml_obj['chair']
-    m.description = yaml_obj['description']
-    m.project = yaml_obj['project']
-    m._filename = (yaml_obj['project'] + '-' +
-                   hashlib.md5(str(yaml_obj).encode('utf-8')).hexdigest()[:8])
-
-    # TODO(lbragstad): See if there is another way we can do this instead
-    # of having every Meeting object build a list of Schedule objects.
-    m.schedules = []
-    for sch in yaml_obj['schedule']:
-        s = Schedule(sch)
-        m.schedules.append(s)
-
-    return m
-
-
 class MeetingConflictError(Exception):
     pass
-
-
-def _extract_meeting_info(meeting_obj):
-    """Pull out meeting info of Meeting object.
-
-    :param meeting_obj: Meeting object
-    :returns: a dictionary of meeting info
-
-    """
-    meeting_info = []
-    for schedule in meeting_obj.schedules:
-        info = {'name': meeting_obj.project,
-                'filename': meeting_obj._filename,
-                'day': schedule.day,
-                'time': schedule.time,
-                'irc_room': schedule.irc}
-        meeting_info.append(info)
-
-    return meeting_info
 
 
 def check_for_meeting_conflicts(meetings):
@@ -120,9 +109,9 @@ def check_for_meeting_conflicts(meetings):
     """
 
     for i in range(len(meetings)):
-        meeting_info = _extract_meeting_info(meetings[i])
+        meeting_info = meetings[i].extract_meeting_info()
         for j in range(i + 1, len(meetings)):
-            next_meeting_info = _extract_meeting_info(meetings[j])
+            next_meeting_info = meetings[j].extract_meeting_info()
             for current_meeting in meeting_info:
                 for next_meeting in next_meeting_info:
                     if current_meeting['day'] != next_meeting['day']:
