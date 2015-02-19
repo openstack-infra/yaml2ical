@@ -86,7 +86,7 @@ def main():
             else:
                 raise Exception("Output file already exists, suggest running "
                                 "with -f to overwrite previous file.")
-        ical.convert_yaml_to_ical(yaml_dir, outputfile=ical)
+        ical.convert_yaml_to_ical(yaml_dir, outputfile=icalfile)
 
 
 if __name__ == '__main__':
