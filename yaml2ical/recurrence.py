@@ -56,7 +56,7 @@ def next_biweekly_meeting(current_date_time, day, meet_on_even=False):
         if current_date_time > next_meeting:
             current_date_time = current_date_time.replace(
                 month=current_date_time.month + 1, day=1)
-            first_wday_next_mo = next_weekday(current_date_time, weekday)
+            first_wday_next_mo = next_weekday(current_date_time, day)
             if meet_on_even:
                 next_meeting = first_wday_next_mo + datetime.timedelta(7)
             else:
