@@ -14,6 +14,8 @@ import datetime
 import os
 import yaml
 
+from yaml2ical.recurrence import supported_recurrences
+
 
 class Schedule(object):
     """A meeting schedule."""
@@ -26,7 +28,7 @@ class Schedule(object):
         self.time = datetime.datetime.strptime(sched_yaml['time'], '%H%M')
         self.day = sched_yaml['day']
         self.irc = sched_yaml['irc']
-        self.freq = sched_yaml['frequency']
+        self.recurrence = supported_recurrences[sched_yaml['frequency']]
 
     def __eq__(self, other):
         #TODO(ttx): This is a bit overzealous (it will report as conflict

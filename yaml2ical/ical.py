@@ -17,7 +17,6 @@ import os
 import pytz
 
 from yaml2ical import meeting
-from yaml2ical import recurrence
 
 
 class Yaml2IcalCalendar(icalendar.Calendar):
@@ -53,15 +52,7 @@ class Yaml2IcalCalendar(icalendar.Calendar):
 
             # get starting date
             start_date = datetime.datetime.utcnow()
-            if sch.freq.startswith('biweekly'):
-                meet_on_even = sch.freq.endswith('even')
-                next_meeting = recurrence.next_biweekly_meeting(
-                    start_date,
-                    sch.day,
-                    meet_on_even=meet_on_even)
-            else:
-                next_meeting = recurrence.next_weekday(start_date, sch.day)
-
+            next_meeting = sch.recurrence.next_occurence(start_date, sch.day)
             next_meeting_date = datetime.datetime(next_meeting.year,
                                                   next_meeting.month,
                                                   next_meeting.day,
@@ -71,24 +62,7 @@ class Yaml2IcalCalendar(icalendar.Calendar):
             event.add('dtstart', next_meeting_date)
 
             # add recurrence rule
-            if sch.freq.startswith('biweekly'):
-                cadence = ()
-                # NOTE(lbragstad): Setting the `cadence` for the schedule
-                # will allow for alternating meetings. Typically there are
-                # only 4 weeks in a month but adding `5` and `6` allow for
-                # cases where there are 5 meetings in a month, which would
-                # otherwise be unsupported if only setting `cadence` to
-                # either (1, 3) or (2, 4).
-                if sch.freq == 'biweekly-odd':
-                    cadence = (1, 3, 5)
-                elif sch.freq == 'biweekly-even':
-                    cadence = (2, 4, 6)
-                rule_dict = {'freq': 'monthly',
-                             'byday': sch.day[0:2],
-                             'bysetpos': cadence}
-                event.add('rrule', rule_dict)
-            else:
-                event.add('rrule', {'freq': sch.freq})
+            event.add('rrule', sch.recurrence.rrule())
 
             # add meeting length
             # TODO(jotan): determine duration to use for OpenStack meetings
