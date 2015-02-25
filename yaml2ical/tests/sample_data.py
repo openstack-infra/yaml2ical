@@ -14,7 +14,7 @@
 
 """Sample meeting data to use for testing."""
 
-FIRST_MEETING_YAML = """
+WEEKLY_MEETING = """
 project: OpenStack Subteam Meeting
 schedule:
   - time: '1200'
@@ -28,10 +28,10 @@ agenda: |
   * Top bugs this week
 """
 
-SECOND_MEETING_YAML = """
+CONFLICTING_WEEKLY_MEETING = """
 project: OpenStack Subteam Meeting 2
 schedule:
-  - time: '1200'
+  - time: '1230'
     day: Wednesday
     irc: openstack-meeting
     frequency: weekly
@@ -42,7 +42,7 @@ agenda: |
   * New features
 """
 
-THIRD_MEETING_YAML = """
+WEEKLY_OTHER_CHANNEL_MEETING = """
 project: OpenStack Subteam Meeting 3
 schedule:
   - time: '1200'
@@ -56,13 +56,40 @@ agenda: |
   * New features
 """
 
-BIWEEKLY_MEETING_YAML = """
+ALTERNATING_MEETING = """
 project: OpenStack Subteam Meeting
 schedule:
   - time: '1200'
     day: Wednesday
     irc: openstack-meeting
     frequency: biweekly-even
+  - time: '2200'
+    day: Wednesday
+    irc: openstack-meeting
+    frequency: biweekly-odd
+chair: Jane Developer
+description: >
+    Weekly meeting for Subteam project.
+agenda: |
+  * Top bugs this week
+"""
+
+BIWEEKLY_EVEN_MEETING = """
+project: OpenStack Subteam 12 Meeting
+schedule:
+  - time: '2200'
+    day: Wednesday
+    irc: openstack-meeting
+    frequency: biweekly-even
+chair: Jane Developer
+description: >
+    Weekly meeting for Subteam project.
+agenda: |
+  * Top bugs this week
+"""
+
+BIWEEKLY_ODD_MEETING = """
+project: OpenStack Subteam 12 Meeting
 schedule:
   - time: '2200'
     day: Wednesday

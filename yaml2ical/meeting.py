@@ -28,15 +28,17 @@ class Schedule(object):
         self.time = datetime.datetime.strptime(sched_yaml['time'], '%H%M')
         self.day = sched_yaml['day']
         self.irc = sched_yaml['irc']
+        self.freq = sched_yaml['frequency']
         self.recurrence = supported_recurrences[sched_yaml['frequency']]
 
-    def __eq__(self, other):
-        #TODO(ttx): This is a bit overzealous (it will report as conflict
-        # biweekly-odd/biweekly-even on same date/hour/irc) so this should be
-        # revamped especially if we want to add more complex recurrence rules
-        return ((self.day == other.day) and
-                (self.time == other.time) and
-                (self.irc == other.irc))
+    def conflicts(self, other):
+        """Checks for conflicting schedules."""
+        alternating = set(['biweekly-odd', 'biweekly-even'])
+        return (
+            ((self.day == other.day) and
+             (abs(self.time - other.time) < datetime.timedelta(hours=1)) and
+             (self.irc == other.irc)) and
+            (set([self.freq, other.freq]) != alternating))
 
 
 class Meeting(object):
@@ -106,7 +108,7 @@ def check_for_meeting_conflicts(meetings):
             other_schedules = meetings[j].schedules
             for schedule in schedules:
                 for other_schedule in other_schedules:
-                    if schedule == other_schedule:
+                    if schedule.conflicts(other_schedule):
                         msg_dict = {'one': schedule.filefrom,
                                     'two': other_schedule.filefrom}
                         raise MeetingConflictError(
