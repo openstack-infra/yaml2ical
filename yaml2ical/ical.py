@@ -67,9 +67,7 @@ class Yaml2IcalCalendar(icalendar.Calendar):
             # add recurrence rule
             event.add('rrule', sch.recurrence.rrule())
 
-            # add meeting length
-            # TODO(jotan): determine duration to use for OpenStack meetings
-            event.add('duration', datetime.timedelta(hours=1))
+            event.add('duration', datetime.timedelta(minutes=sch.duration))
 
             # add event to calendar
             self.add_component(event)

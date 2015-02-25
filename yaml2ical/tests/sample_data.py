@@ -161,3 +161,18 @@ chair: Joe Developer
 description: >
     Weekly long meeting for Subteam project.
 """
+
+MEETING_WITH_DURATION = """
+project: OpenStack Subteam 8 Meeting
+schedule:
+  - time: '1200'
+    duration: 30
+    day: Wednesday
+    irc: openstack-meeting
+    frequency: weekly
+chair: Shannon Stacker
+description: >
+    Weekly short meeting for Subteam project.
+agenda: |
+  * Debate whether this should be a longer meeting
+"""

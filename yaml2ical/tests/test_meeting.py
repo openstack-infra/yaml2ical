@@ -75,3 +75,17 @@ class MeetingTestCase(unittest.TestCase):
         self.should_be_conflicting(
             sample_data.MEETING_MONDAY_LATE,
             sample_data.MEETING_TUESDAY_EARLY)
+
+    def test_meeting_duration(self):
+        m = meeting.load_meetings(sample_data.MEETING_WITH_DURATION)[0]
+        self.assertEqual(30, m.schedules[0].duration)
+        m = meeting.load_meetings(sample_data.WEEKLY_MEETING)[0]
+        self.assertEqual(60, m.schedules[0].duration)
+
+    def test_short_meeting_conflicts(self):
+        self.should_be_conflicting(
+            sample_data.WEEKLY_MEETING,
+            sample_data.MEETING_WITH_DURATION)
+        self.should_not_conflict(
+            sample_data.CONFLICTING_WEEKLY_MEETING,
+            sample_data.MEETING_WITH_DURATION)

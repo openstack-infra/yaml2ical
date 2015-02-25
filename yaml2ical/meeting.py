@@ -39,6 +39,7 @@ class Schedule(object):
 
         self.project = meeting.project
         self.filefrom = meeting.filefrom
+        # mandatory: time, day, irc, freq, recurrence
         try:
             self.utc = sched_yaml['time']
             self.time = datetime.datetime.strptime(sched_yaml['time'], '%H%M')
@@ -52,6 +53,16 @@ class Schedule(object):
                   "attribute '{0}'".format(e.args[0]))
             raise
 
+        # optional: duration
+        if 'duration' in sched_yaml:
+            try:
+                self.duration = int(sched_yaml['duration'])
+            except ValueError:
+                raise ValueError("Could not parse 'duration' (%s) in %s" %
+                                (sched_yaml['duration'], self.filefrom))
+        else:
+            self.duration = 60
+
         if self.day not in DATES.keys():
             raise ValueError("'%s' is not a valid day of the week")
 
@@ -59,7 +70,8 @@ class Schedule(object):
         #              deal with meetings that start on day1 and end on day2.
         self.meeting_start = datetime.datetime.combine(DATES[self.day],
                                                        self.time.time())
-        self.meeting_end = (self.meeting_start + datetime.timedelta(hours=1))
+        self.meeting_end = (self.meeting_start +
+                            datetime.timedelta(minutes=self.duration))
         if self.day == 'Sunday' and self.meeting_end.strftime("%a") == 'Mon':
             self.meeting_start = self.meeting_start - ONE_WEEK
             self.meeting_end = self.meeting_end - ONE_WEEK

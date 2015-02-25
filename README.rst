@@ -110,6 +110,7 @@ Each meeting consists of:
 * ``schedule``: a list of schedule each consisting of
 
   * ``time``: time string in UTC
+  * ``duration``: duration of the meeting in minutes
   * ``day``: the day of week the meeting takes place
   * ``irc``: the irc room in which the meeting is held
   * ``frequency``: frequent occurrence of the meeting
