@@ -33,7 +33,7 @@ class WeeklyRecurrence(object):
 
         weekday = WEEKDAYS[day]
         days_ahead = weekday - current_date_time.weekday()
-        if days_ahead <= 0:  # target day already happened this week
+        if days_ahead < 0:  # target day already happened this week
             days_ahead += 7
         return current_date_time + datetime.timedelta(days_ahead)
 
