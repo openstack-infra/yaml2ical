@@ -150,8 +150,7 @@ will be import into Python as a dictionary.
           irc:        openstack-meeting
           frequency:  biweekly-odd
 
-* The chair is just a one liner. The might be left empty if there is not a
-  chair.
+* The chair is just a one liner.
 
   ::
 
