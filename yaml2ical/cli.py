@@ -15,6 +15,8 @@ import logging
 import os
 
 from yaml2ical import ical
+from yaml2ical import index
+from yaml2ical import meeting
 
 
 # logging settings
@@ -45,48 +47,79 @@ project infrastructure.
     outputtype.add_argument("-o", "--output",
                             dest="icalfile",
                             help="output file (one file for all meetings)")
+    parser.add_argument("-t", "--indextemplate",
+                        dest="index_template",
+                        help="generate an index from selected meetings")
+    parser.add_argument("-w", "--indexoutput",
+                        dest="index_output",
+                        help="output index file")
     parser.add_argument("-f", "--force",
                         dest="force",
                         action='store_true',
-                        help="forcefully remove/overwrite previous .ics "
-                             "output files")
+                        help="remove/overwrite previous output files")
 
     # parse arguments:
-    return parser.parse_args()
+    args = parser.parse_args()
+
+    if ((args.index_template and not args.index_output) or
+       (args.index_output and not args.index_template)):
+        parser.error("You need to provide both -t and "
+                     "-w if you want to output an index.")
+    return args
 
 
-def _check_if_location_exists(location):
-    if not os.path.isdir(location):
-        raise ValueError("Invalid location %s" % location)
+def _check_if_location_exists(location, style='f'):
+    if style == 'd' and not os.path.isdir(location):
+        raise ValueError("Directory %s does not exist" % location)
+    if style == 'f' and not os.path.isfile(location):
+        raise ValueError("File %s does not exist" % location)
+
+
+def _prepare_output(output, style='f', force=False):
+    location = os.path.abspath(output)
+    if style == 'd':
+        _check_if_location_exists(location, style=style)
+        if os.listdir(location) != []:
+            if force:
+                for f in os.listdir(location):
+                    file_path = os.path.join(location, f)
+                    os.remove(file_path)
+            else:
+                raise Exception("Directory for storing iCals is not empty, "
+                                "suggest running with -f to remove old files.")
+    else:
+        if os.path.exists(location):
+            if force:
+                os.remove(location)
+            else:
+                raise Exception("Output file already exists, suggest running "
+                                "with -f to overwrite previous file.")
+    return location
 
 
 def main():
     args = parse_args()
 
     yaml_dir = os.path.abspath(args.yaml_dir)
-    _check_if_location_exists(yaml_dir)
-    if args.ical_dir:
-        ical_dir = os.path.abspath(args.ical_dir)
-        _check_if_location_exists(ical_dir)
+    _check_if_location_exists(yaml_dir, style='d')
 
-        if os.listdir(ical_dir) != []:
-            if args.force:
-                for f in os.listdir(ical_dir):
-                    file_path = os.path.join(ical_dir, f)
-                    os.remove(file_path)
-            else:
-                raise Exception("Directory for storing iCals is not empty, "
-                                "suggest running with -f to remove old files.")
-        ical.convert_yaml_to_ical(yaml_dir, outputdir=ical_dir)
+    meetings = meeting.load_meetings(yaml_dir)
+    # Check uniqueness and conflicts here before writing out to .ics
+    meeting.check_for_meeting_conflicts(meetings)
+
+    if args.ical_dir:
+        ical_dir = _prepare_output(args.ical_dir, style='d', force=args.force)
+        ical.convert_meetings_to_ical(meetings, outputdir=ical_dir)
     else:
-        icalfile = os.path.abspath(args.icalfile)
-        if os.path.exists(icalfile):
-            if args.force:
-                os.remove(icalfile)
-            else:
-                raise Exception("Output file already exists, suggest running "
-                                "with -f to overwrite previous file.")
-        ical.convert_yaml_to_ical(yaml_dir, outputfile=icalfile)
+        icalfile = _prepare_output(args.icalfile, force=args.force)
+        ical.convert_meetings_to_ical(meetings, outputfile=icalfile)
+
+    if args.index_template and args.index_output:
+        index_template = os.path.abspath(args.index_template)
+        _check_if_location_exists(index_template)
+        index_output = _prepare_output(args.index_output, force=args.force)
+        index.convert_meetings_to_index(
+            meetings, index_template, index_output)
 
 
 if __name__ == '__main__':

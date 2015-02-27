@@ -40,6 +40,9 @@ class WeeklyRecurrence(object):
     def rrule(self):
         return {'freq': 'weekly'}
 
+    def __str__(self):
+        return "Weekly"
+
 
 class BiWeeklyRecurrence(object):
     """Meetings occuring on alternate weeks.
@@ -70,6 +73,9 @@ class BiWeeklyRecurrence(object):
 
     def rrule(self):
         return {'freq': 'weekly', 'interval': 2}
+
+    def __str__(self):
+        return "Every two weeks (on %s weeks)" % self.style
 
 
 supported_recurrences = {

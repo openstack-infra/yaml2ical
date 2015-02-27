@@ -17,8 +17,6 @@ import os
 import os.path
 import pytz
 
-from yaml2ical import meeting
-
 
 class Yaml2IcalCalendar(icalendar.Calendar):
     """A calendar in ics format."""
@@ -78,22 +76,14 @@ class Yaml2IcalCalendar(icalendar.Calendar):
             ics.write(self.to_ical())
 
 
-def convert_yaml_to_ical(yaml_dir, outputdir=None, outputfile=None):
-    """Convert meeting YAML files to iCal.
+def convert_meetings_to_ical(meetings, outputdir=None, outputfile=None):
+    """Converts a meeting list to iCal.
 
-    If meeting_list is specified, only those meetings in yaml_dir with
-    filenames contained in meeting_list are converted; otherwise,
-    all meeting in yaml_dir are converted.
-
-    :param yaml_dir: directory where meeting.yaml files are stored
+    :param meetings: list of meetings to convert
     :param outputdir: location to store iCal files (one file per meeting)
     :param outputfile: output iCal file (one single file for all meetings)
 
     """
-    meetings = meeting.load_meetings(yaml_dir)
-
-    # Check uniqueness and conflicts here before writing out to .ics
-    meeting.check_for_meeting_conflicts(meetings)
 
     # convert meetings to a list of ical
     if outputdir:

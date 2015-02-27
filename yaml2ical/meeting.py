@@ -29,6 +29,7 @@ class Schedule(object):
         self.project = meeting.project
         self.filefrom = meeting.filefrom
         try:
+            self.utc = sched_yaml['time']
             self.time = datetime.datetime.strptime(sched_yaml['time'], '%H%M')
             self.day = sched_yaml['day']
             self.irc = sched_yaml['irc']
