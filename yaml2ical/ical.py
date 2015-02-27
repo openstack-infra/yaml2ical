@@ -14,6 +14,7 @@ import datetime
 import icalendar
 import logging
 import os
+import os.path
 import pytz
 
 from yaml2ical import meeting
@@ -99,7 +100,7 @@ def convert_yaml_to_ical(yaml_dir, outputdir=None, outputfile=None):
         for m in meetings:
             cal = Yaml2IcalCalendar()
             cal.add_meeting(m)
-            filename = m.filefrom.split('.')[0] + '.ics'
+            filename = os.path.splitext(m.filefrom)[0] + '.ics'
             cal.write_to_disk(os.path.join(outputdir, filename))
 
     # convert meetings into a single ical

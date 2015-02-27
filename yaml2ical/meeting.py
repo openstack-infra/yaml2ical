@@ -11,8 +11,11 @@
 # under the License.
 
 import datetime
+from io import StringIO
 import os
+import os.path
 import yaml
+
 
 from yaml2ical.recurrence import supported_recurrences
 
@@ -25,11 +28,16 @@ class Schedule(object):
 
         self.project = meeting.project
         self.filefrom = meeting.filefrom
-        self.time = datetime.datetime.strptime(sched_yaml['time'], '%H%M')
-        self.day = sched_yaml['day']
-        self.irc = sched_yaml['irc']
-        self.freq = sched_yaml['frequency']
-        self.recurrence = supported_recurrences[sched_yaml['frequency']]
+        try:
+            self.time = datetime.datetime.strptime(sched_yaml['time'], '%H%M')
+            self.day = sched_yaml['day']
+            self.irc = sched_yaml['irc']
+            self.freq = sched_yaml['frequency']
+            self.recurrence = supported_recurrences[sched_yaml['frequency']]
+        except KeyError as e:
+            print("Invalid YAML meeting schedule definition - missing "
+                  "attribute '{0}'".format(e.args[0]))
+            raise
 
     def conflicts(self, other):
         """Checks for conflicting schedules."""
@@ -44,19 +52,39 @@ class Schedule(object):
 class Meeting(object):
     """An OpenStack meeting."""
 
-    def __init__(self, filename, meeting_yaml):
+    def __init__(self, data):
         """Initialize meeting from meeting yaml description."""
 
-        yaml_obj = yaml.safe_load(meeting_yaml)
-        self.chair = yaml_obj['chair']
-        self.description = yaml_obj['description']
-        self.project = yaml_obj['project']
-        self.filefrom = os.path.basename(filename)
+        yaml_obj = yaml.safe_load(data)
+
+        try:
+            self.chair = yaml_obj['chair']
+            self.description = yaml_obj['description']
+            self.project = yaml_obj['project']
+        except KeyError as e:
+            print("Invalid YAML meeting definition - missing "
+                  "attribute '{0}'".format(e.args[0]))
+            raise
+
+        try:
+            self.filefrom = os.path.basename(data.name)
+        except AttributeError:
+            self.filefrom = "stdin"
 
         self.schedules = []
         for sch in yaml_obj['schedule']:
             s = Schedule(self, sch)
             self.schedules.append(s)
+
+    @classmethod
+    def fromfile(cls, yaml_file):
+        f = open(yaml_file, 'r')
+        return cls(f)
+
+    @classmethod
+    def fromstring(cls, yaml_string):
+        s = StringIO(yaml_string)
+        return cls(s)
 
 
 def load_meetings(yaml_source):
@@ -66,29 +94,30 @@ def load_meetings(yaml_source):
                         stream.
     :returns: list of meeting objects
     """
-    meetings_yaml = []
-    # Determine what the yaml_source is
+    meetings = []
+    # Determine what the yaml_source is. Files must have .yaml extension
+    # to be considered valid.
     if os.path.isdir(yaml_source):
-        # TODO(lbragstad): use os.path.walk?
-        for f in os.listdir(yaml_source):
-            # Build the entire file path and append to the list of yaml
-            # meetings
-            yaml_file = os.path.join(yaml_source, f)
-            meetings_yaml.append(yaml_file)
+        for root, dirs, files in os.walk(yaml_source):
+            for f in files:
+                # Build the entire file path and append to the list of yaml
+                # meetings
+                if os.path.splitext(f)[1] == '.yaml':
+                    yaml_file = os.path.join(root, f)
+                    meetings.append(Meeting.fromfile(yaml_file))
+    elif (os.path.isfile(yaml_source) and
+          os.path.splitext(yaml_source)[1] == '.yaml'):
+        meetings.append(Meeting.fromfile(yaml_source))
     elif isinstance(yaml_source, str):
-        return [Meeting("stdin", yaml_source)]
-    else:
+        return [Meeting.fromstring(yaml_source)]
+
+    if not meetings:
         # If we don't have a .yaml file, a directory of .yaml files, or any
         # YAML data fail out here.
-        raise ValueError("YAML source isn't a .yaml file, directory "
-                         "containing .yaml files, or YAML data.")
-
-    meetings = []
-    for yaml_file in meetings_yaml:
-        with open(yaml_file, 'r') as f:
-            meetings.append(Meeting(yaml_file, f))
-
-    return meetings
+        raise ValueError("No .yaml file, directory containing .yaml files, "
+                         "or YAML data found.")
+    else:
+        return meetings
 
 
 class MeetingConflictError(Exception):
