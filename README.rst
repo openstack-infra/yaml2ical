@@ -120,6 +120,11 @@ The file name should be a lower-cased, hyphenated version of the meeting name,
 ending with ``.yaml`` . For example, ``Keystone team meeting`` should be
 saved under ``keystone-team-meeting.yaml``.
 
+Any other values listed in the YAML file are also available for use in
+templates, making it easy to build links to agenda pages for the
+meeting or logs of past meetings. In the template file, use
+``meeting.extras.name`` to access the value.
+
 Example
 -------
 
@@ -165,3 +170,11 @@ will be import into Python as a dictionary.
         This meeting is a weekly gathering of developers working on OpenStack.
         Compute (Nova). We cover topics such as release planning and status,
         bugs, reviews, and other current topics worthy of real-time discussion.
+
+* An extra property containing the agenda for the meeting is saved in
+  ``agenda_url`` and can be accessed in the template file as
+  ``meeting.extras.agenda_url``.
+
+  ::
+
+    agenda_url: https://wiki.openstack.org/wiki/Meetings/Nova

@@ -67,6 +67,14 @@ class Meeting(object):
                   "attribute '{0}'".format(e.args[0]))
             raise
 
+        # Find any extra values the user has provided that they might
+        # want to have access to in their templates.
+        self.extras = {}
+        self.extras.update(yaml_obj)
+        for k in ['chair', 'description', 'project', 'schedule']:
+            if k in self.extras:
+                del self.extras[k]
+
         try:
             self.filefrom = os.path.basename(data.name)
         except AttributeError:
