@@ -10,6 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import datetime
 import jinja2
 import logging
 import os
@@ -31,6 +32,7 @@ def convert_meetings_to_index(meetings, template, output_file):
     template = env.get_template(template_file)
 
     with open(output_file, "w") as out:
-        out.write(template.render(meetings=meetings))
+        out.write(template.render(meetings=meetings,
+                                  timestamp=datetime.datetime.utcnow()))
 
     logging.info('Wrote %d meetings to index.' % (len(meetings)))
