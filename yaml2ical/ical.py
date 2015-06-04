@@ -21,10 +21,14 @@ import pytz
 class Yaml2IcalCalendar(icalendar.Calendar):
     """A calendar in ics format."""
 
-    def __init__(self):
+    def __init__(self, calname=None, caldescription=None):
         super(Yaml2IcalCalendar, self).__init__()
         self.add('prodid', '-//yaml2ical agendas//EN')
         self.add('version', '2.0')
+        if calname is not None:
+            self.add('X-WR-CALNAME', calname)
+        if caldescription is not None:
+            self.add('X-WR-CALDESC', caldescription)
 
     def add_meeting(self, meeting):
         """Add this meeting to the calendar."""
@@ -76,7 +80,8 @@ class Yaml2IcalCalendar(icalendar.Calendar):
             ics.write(self.to_ical())
 
 
-def convert_meetings_to_ical(meetings, outputdir=None, outputfile=None):
+def convert_meetings_to_ical(meetings, outputdir=None, outputfile=None,
+                             calname=None, caldescription=None):
     """Converts a meeting list to iCal.
 
     :param meetings: list of meetings to convert
@@ -95,7 +100,7 @@ def convert_meetings_to_ical(meetings, outputdir=None, outputfile=None):
 
     # convert meetings into a single ical
     if outputfile:
-        cal = Yaml2IcalCalendar()
+        cal = Yaml2IcalCalendar(calname, caldescription)
         for m in meetings:
             cal.add_meeting(m)
         cal.write_to_disk(outputfile)

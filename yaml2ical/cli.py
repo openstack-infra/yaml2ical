@@ -53,6 +53,12 @@ project infrastructure.
     parser.add_argument("-w", "--indexoutput",
                         dest="index_output",
                         help="output index file")
+    parser.add_argument("-n", "--name",
+                        dest="calname",
+                        help="name of calendar to set within the ical")
+    parser.add_argument("-d", "--description",
+                        dest="caldescription",
+                        help="description of calendar to set within the ical")
     parser.add_argument("-f", "--force",
                         dest="force",
                         action='store_true',
@@ -65,6 +71,10 @@ project infrastructure.
        (args.index_output and not args.index_template)):
         parser.error("You need to provide both -t and "
                      "-w if you want to output an index.")
+    if args.ical_dir and (args.calname or args.caldescription):
+        parser.error("Name/Description and single ical per meeting "
+                     "(-i) is incompatiable due to spec.")
+
     return args
 
 
@@ -112,7 +122,9 @@ def main():
         ical.convert_meetings_to_ical(meetings, outputdir=ical_dir)
     else:
         icalfile = _prepare_output(args.icalfile, force=args.force)
-        ical.convert_meetings_to_ical(meetings, outputfile=icalfile)
+        ical.convert_meetings_to_ical(meetings, outputfile=icalfile,
+                                      caldescription=args.caldescription,
+                                      calname=args.calname)
 
     if args.index_template and args.index_output:
         index_template = os.path.abspath(args.index_template)
