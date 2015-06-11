@@ -39,7 +39,9 @@ section below.
 
     $ pip install yaml2ical
     $ yaml2ical
-    usage: yaml2ical [-h] -y YAML_DIR -i ICAL_DIR [-f]
+    usage: yaml2ical [-h] -y YAML_DIR (-i ICAL_DIR | -o ICALFILE)
+                 [-t INDEX_TEMPLATE] [-w INDEX_OUTPUT] [-n CALNAME]
+                 [-d CALDESCRIPTION] [-f]
 
     A tool that automates the process for testing, integrating, and
     publishing changes to OpenStack meetings using the existing OpenStack
@@ -50,9 +52,18 @@ section below.
       -y YAML_DIR, --yamldir YAML_DIR
                             directory containing YAML to process
       -i ICAL_DIR, --icaldir ICAL_DIR
-                          directory to store converted iCal
-      -f, --force           forcefully remove old .ics files from iCal
-      directory
+                            output directory (one file per meeting)
+      -o ICALFILE, --output ICALFILE
+                            output file (one file for all meetings)
+      -t INDEX_TEMPLATE, --indextemplate INDEX_TEMPLATE
+                            generate an index from selected meetings
+      -w INDEX_OUTPUT, --indexoutput INDEX_OUTPUT
+                            output index file
+      -n CALNAME, --name CALNAME
+                            name of calendar to set within the ical
+      -d CALDESCRIPTION, --description CALDESCRIPTION
+                            description of calendar to set within the ical
+      -f, --force           remove/overwrite previous output files
 
 
 The following are a few scenarios:
