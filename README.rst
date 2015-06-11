@@ -178,3 +178,11 @@ will be import into Python as a dictionary.
   ::
 
     agenda_url: https://wiki.openstack.org/wiki/Meetings/Nova
+
+* An extra property containing the project URL is saved in
+  ``project_url`` and can be accessed in the template file as
+  ``meeting.extras.project_url``.
+
+  ::
+
+    project_url: https://wiki.openstack.org/wiki/Nova
