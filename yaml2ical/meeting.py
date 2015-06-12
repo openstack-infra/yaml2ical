@@ -19,6 +19,17 @@ import yaml
 
 from yaml2ical.recurrence import supported_recurrences
 
+DATES = {
+    'Monday': datetime.datetime(1900, 1, 1).date(),
+    'Tuesday': datetime.datetime(1900, 1, 2).date(),
+    'Wednesday': datetime.datetime(1900, 1, 3).date(),
+    'Thursday': datetime.datetime(1900, 1, 4).date(),
+    'Friday': datetime.datetime(1900, 1, 5).date(),
+    'Saturday': datetime.datetime(1900, 1, 6).date(),
+    'Sunday': datetime.datetime(1900, 1, 7).date(),
+}
+ONE_WEEK = datetime.timedelta(weeks=1)
+
 
 class Schedule(object):
     """A meeting schedule."""
@@ -31,7 +42,8 @@ class Schedule(object):
         try:
             self.utc = sched_yaml['time']
             self.time = datetime.datetime.strptime(sched_yaml['time'], '%H%M')
-            self.day = sched_yaml['day']
+            # Sanitize the Day
+            self.day = sched_yaml['day'].lower().capitalize()
             self.irc = sched_yaml['irc']
             self.freq = sched_yaml['frequency']
             self.recurrence = supported_recurrences[sched_yaml['frequency']]
@@ -40,14 +52,27 @@ class Schedule(object):
                   "attribute '{0}'".format(e.args[0]))
             raise
 
+        if self.day not in DATES.keys():
+            raise ValueError("'%s' is not a valid day of the week")
+
+        # NOTE(tonyb): We need to do this datetime shenanigans is so we can
+        #              deal with meetings that start on day1 and end on day2.
+        self.meeting_start = datetime.datetime.combine(DATES[self.day],
+                                                       self.time.time())
+        self.meeting_end = (self.meeting_start + datetime.timedelta(hours=1))
+        if self.day == 'Sunday' and self.meeting_end.strftime("%a") == 'Mon':
+            self.meeting_start = self.meeting_start - ONE_WEEK
+            self.meeting_end = self.meeting_end - ONE_WEEK
+
     def conflicts(self, other):
         """Checks for conflicting schedules."""
         alternating = set(['biweekly-odd', 'biweekly-even'])
-        return (
-            ((self.day == other.day) and
-             (abs(self.time - other.time) < datetime.timedelta(hours=1)) and
-             (self.irc == other.irc)) and
-            (set([self.freq, other.freq]) != alternating))
+        # NOTE(tonyb): .meeting_start also includes the day of the week. So no
+        #              need to check .day explictly
+        return ((self.irc == other.irc) and
+                ((self.meeting_start < other.meeting_end) and
+                 (other.meeting_start < self.meeting_end)) and
+                (set([self.freq, other.freq]) != alternating))
 
 
 class Meeting(object):

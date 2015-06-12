@@ -14,6 +14,18 @@
 
 """Sample meeting data to use for testing."""
 
+BAD_MEETING_DAY = """
+project: OpenStack Subteam Meeting
+schedule:
+  - time: '1200'
+    day: go_bang
+    irc: openstack-meeting
+    frequency: weekly
+chair: Joe Developer
+description: >
+    Weekly meeting for Subteam project.
+"""
+
 WEEKLY_MEETING = """
 project: OpenStack Subteam Meeting
 schedule:
@@ -100,4 +112,52 @@ description: >
     Weekly meeting for Subteam project.
 agenda: |
   * Top bugs this week
+"""
+
+MEETING_SUNDAY_LATE = """
+project: OpenStack Subteam 8 Meeting
+schedule:
+  - time: '2330'
+    day: Sunday
+    irc: openstack-meeting
+    frequency: weekly
+chair: Shannon Stacker
+description: >
+    Weekly late meeting for Subteam 8 project.
+"""
+
+MEETING_MONDAY_EARLY = """
+project: OpenStack Subteam Meeting
+schedule:
+  - time: '0000'
+    day: Monday
+    irc: openstack-meeting
+    frequency: weekly
+chair: Joe Developer
+description: >
+    Weekly long meeting for Subteam project.
+"""
+
+MEETING_MONDAY_LATE = """
+project: OpenStack Subteam 8 Meeting
+schedule:
+  - time: '2330'
+    day: Monday
+    irc: openstack-meeting
+    frequency: weekly
+chair: Shannon Stacker
+description: >
+    Weekly late meeting for Subteam 8 project.
+"""
+
+MEETING_TUESDAY_EARLY = """
+project: OpenStack Subteam Meeting
+schedule:
+  - time: '0000'
+    day: Tuesday
+    irc: openstack-meeting
+    frequency: weekly
+chair: Joe Developer
+description: >
+    Weekly long meeting for Subteam project.
 """

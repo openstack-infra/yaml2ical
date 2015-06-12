@@ -18,6 +18,11 @@ from yaml2ical.tests import sample_data
 
 class MeetingTestCase(unittest.TestCase):
 
+    def test_bad_meeting_day(self):
+        self.assertRaises(ValueError,
+                          meeting.load_meetings,
+                          sample_data.BAD_MEETING_DAY)
+
     def test_load_yaml_file(self):
         m = meeting.load_meetings(sample_data.WEEKLY_MEETING)[0]
         self.assertEqual('OpenStack Subteam Meeting', m.project)
@@ -62,3 +67,11 @@ class MeetingTestCase(unittest.TestCase):
         self.should_not_conflict(
             sample_data.BIWEEKLY_ODD_MEETING,
             sample_data.BIWEEKLY_EVEN_MEETING)
+
+    def test_late_early_conflicts(self):
+        self.should_be_conflicting(
+            sample_data.MEETING_SUNDAY_LATE,
+            sample_data.MEETING_MONDAY_EARLY)
+        self.should_be_conflicting(
+            sample_data.MEETING_MONDAY_LATE,
+            sample_data.MEETING_TUESDAY_EARLY)
