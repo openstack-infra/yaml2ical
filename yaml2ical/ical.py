@@ -95,8 +95,7 @@ def convert_meetings_to_ical(meetings, outputdir=None, outputfile=None,
         for m in meetings:
             cal = Yaml2IcalCalendar()
             cal.add_meeting(m)
-            filename = os.path.splitext(m.filefrom)[0] + '.ics'
-            cal.write_to_disk(os.path.join(outputdir, filename))
+            cal.write_to_disk(os.path.join(outputdir, m.outfile))
 
     # convert meetings into a single ical
     if outputfile:
