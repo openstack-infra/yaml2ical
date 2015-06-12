@@ -142,6 +142,12 @@ will be import into Python as a dictionary.
   meeting. Options for the `frequency` are `weekly`, `biweekly-even`, and
   `biweekly-odd` at the moment.
 
+  `biweekly-odd` are weeks where the ISO week number is an odd value.
+  Correspondingly `biweekly-even` are weeks where the ISO week number is even.
+  This unfortunately will break down on the transition from 2015 to 2016 as
+  2015 has 53 ISO weeks (an odd value) and then the first week of 2016 is week
+  1 (also an odd value).
+
   ::
 
     schedule:
