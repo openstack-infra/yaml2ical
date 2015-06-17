@@ -51,6 +51,15 @@ class Yaml2IcalCalendar(icalendar.Calendar):
             ical_descript = "\n".join((project_descript,
                                        chair_descript,
                                        descript_descript))
+            # Add URLs, if present, to the description
+            if 'agenda_url' in meeting.extras:
+                ical_descript = "\n".join((ical_descript,
+                                           "Agenda URL:  %s" %
+                                           (meeting.extras['agenda_url'])))
+            if 'project_url' in meeting.extras:
+                ical_descript = "\n".join((ical_descript,
+                                           "Project URL:  %s" %
+                                           (meeting.extras['project_url'])))
             event.add('description', ical_descript)
 
             # get starting date
