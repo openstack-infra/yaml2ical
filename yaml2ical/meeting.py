@@ -114,8 +114,10 @@ class Meeting(object):
 
         try:
             self.filefrom = os.path.basename(data.name)
+            self.outfile = os.path.splitext(self.filefrom)[0] + '.ics'
         except AttributeError:
             self.filefrom = "stdin"
+            self.outfile = "stdin.ics"
 
         self.schedules = []
         for sch in yaml_obj['schedule']:
