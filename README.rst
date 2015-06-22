@@ -117,16 +117,18 @@ YAML Meeting File
 
 Each meeting consists of:
 
-* ``project``: the name of the project
+* ``project``: the name of the project [MANDATORY]
 * ``schedule``: a list of schedule each consisting of
 
-  * ``time``: time string in UTC
-  * ``duration``: duration of the meeting in minutes
-  * ``day``: the day of week the meeting takes place
-  * ``irc``: the irc room in which the meeting is held
-  * ``frequency``: frequent occurrence of the meeting
-* ``chair``: name of the meeting's chair
-* ``description``: a paragraph description about the meeting
+  * ``time``: time string in UTC [MANDATORY]
+  * ``duration``: duration of the meeting in minutes; defaults to 60
+  * ``day``: the day of week the meeting takes place [MANDATORY]
+  * ``irc``: the irc room in which the meeting is held [MANDATORY]
+  * ``frequency``: frequent occurrence of the meeting [MANDATORY]
+* ``chair``: name of the meeting's chair [MANDATORY]
+* ``description``: a paragraph description about the meeting [MANDATORY]
+* ``agenda_url``: a link to the agenda page for the meeting
+* ``project_url``: a link to the project home page for the meeting
 
 The file name should be a lower-cased, hyphenated version of the meeting name,
 ending with ``.yaml`` . For example, ``Keystone team meeting`` should be

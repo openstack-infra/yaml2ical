@@ -1,9 +1,12 @@
 project: Example Team Meeting
+agenda_url: http://agenda.com/
+project_url: http://project.com
 schedule:
   - time: '1600'
+    duration: 45
     day: Wednesday
     irc: openstack-meeting
     frequency: weekly
 chair: John Doe
 description:  >
-  If you're interested in Example, we have a weekly meeting for you to attend.
+  If you're interested in Example, we have a 45 minute long weekly meeting for you to attend.
