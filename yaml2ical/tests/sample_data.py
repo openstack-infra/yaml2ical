@@ -176,3 +176,19 @@ description: >
 agenda: |
   * Debate whether this should be a longer meeting
 """
+
+MEETING_WITH_START_DATE = """
+project: OpenStack Subteam 8 Meeting
+schedule:
+  - time: '1200'
+    duration: 30
+    day: Thursday
+    start_date: 20150801
+    irc: openstack-meeting
+    frequency: weekly
+chair: Shannon Stacker
+description: >
+    Weekly short meeting for Subteam project.
+agenda: |
+  * Debate whether this should be a longer meeting
+"""

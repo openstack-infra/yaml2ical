@@ -63,8 +63,8 @@ class Yaml2IcalCalendar(icalendar.Calendar):
             event.add('description', ical_descript)
 
             # get starting date
-            start_date = datetime.datetime.utcnow()
-            next_meeting = sch.recurrence.next_occurence(start_date, sch.day)
+            next_meeting = sch.recurrence.next_occurence(sch.start_date,
+                                                         sch.day)
             next_meeting_date = datetime.datetime(next_meeting.year,
                                                   next_meeting.month,
                                                   next_meeting.day,

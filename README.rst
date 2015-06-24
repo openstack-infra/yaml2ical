@@ -122,6 +122,8 @@ Each meeting consists of:
 
   * ``time``: time string in UTC [MANDATORY]
   * ``duration``: duration of the meeting in minutes; defaults to 60
+  * ``start_date``: the date the first meeting takes place on or after.
+      Format `YYYYMMDD`, all values must be zero-padded.
   * ``day``: the day of week the meeting takes place [MANDATORY]
   * ``irc``: the irc room in which the meeting is held [MANDATORY]
   * ``frequency``: frequent occurrence of the meeting [MANDATORY]
