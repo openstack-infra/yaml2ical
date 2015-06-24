@@ -88,7 +88,7 @@ class Schedule(object):
 
 
 class Meeting(object):
-    """An OpenStack meeting."""
+    """An online meeting."""
 
     def __init__(self, data):
         """Initialize meeting from meeting yaml description."""

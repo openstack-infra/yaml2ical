@@ -28,8 +28,7 @@ def parse_args():
     # build option parser:
     description = """
 A tool that automates the process for testing, integrating, and
-publishing changes to OpenStack meetings using the existing OpenStack
-project infrastructure.
+publishing changes to online meeting schedules.
 """
 
     parser = argparse.ArgumentParser(

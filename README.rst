@@ -9,12 +9,9 @@ conflicts in specific locations.
 Rationale
 =========
 
-yaml2ical aims to provide an easier way to manage OpenStack team meetings.
-Currently, each team's meeting time and agenda are listed at:
+yaml2ical aims to provide an easier way to manage online team meetings.
 
-  https://wiki.openstack.org/wiki/Meetings
-
-This project allows to replace each meeting with well-defined YAML files,
+This project allows to define each meeting with well-defined YAML files,
 which can be code-reviewed, then continuously-integrated into .ics files for
 general consumption.
 
@@ -44,8 +41,7 @@ section below.
                  [-d CALDESCRIPTION] [-f]
 
     A tool that automates the process for testing, integrating, and
-    publishing changes to OpenStack meetings using the existing OpenStack
-    project infrastructure.
+    publishing changes to online meeting schedules.
 
     optional arguments:
       -h, --help            show this help message and exit
