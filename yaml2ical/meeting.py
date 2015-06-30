@@ -53,6 +53,17 @@ class Schedule(object):
                   "attribute '{0}'".format(e.args[0]))
             raise
 
+        # optional: start_date defaults to the current date if not present
+        if 'start_date' in sched_yaml:
+            try:
+                self.start_date = datetime.datetime.strptime(
+                    str(sched_yaml['start_date']), '%Y%m%d')
+            except ValueError:
+                raise ValueError("Could not parse 'start_date' (%s) in %s" %
+                                (sched_yaml['start_date'], self.filefrom))
+        else:
+            self.start_date = datetime.datetime.utcnow()
+
         # optional: duration
         if 'duration' in sched_yaml:
             try:
