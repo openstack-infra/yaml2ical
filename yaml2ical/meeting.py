@@ -14,6 +14,7 @@ import datetime
 from io import StringIO
 import os
 import os.path
+import pytz
 import yaml
 
 
@@ -29,6 +30,19 @@ DATES = {
     'Sunday': datetime.datetime(1900, 1, 7).date(),
 }
 ONE_WEEK = datetime.timedelta(weeks=1)
+
+
+class SkipDate(object):
+    """A date, time and reason to skip a meeting."""
+
+    def __init__(self, date, time, reason):
+        date = datetime.datetime.combine(date, time).replace(tzinfo=pytz.utc)
+        self.date = date
+        self.reason = reason
+
+    @property
+    def date_str(self):
+        return self.date.strftime("%Y%m%dT%H%M%SZ")
 
 
 class Schedule(object):
@@ -76,6 +90,30 @@ class Schedule(object):
 
         if self.day not in DATES.keys():
             raise ValueError("'%s' is not a valid day of the week")
+
+        # optional: skip_dates
+        # This is a sequence of mappings (YAML)
+        # This is a list of dicts (python)
+        if 'skip_dates' in sched_yaml:
+            self.skip_dates = []
+            for skip_date in sched_yaml['skip_dates']:
+                missing_keys = set(['skip_date', 'reason']) - set(skip_date)
+                if missing_keys:
+                    raise KeyError(("Processing: %s Missing keys - %s" %
+                                    (self.filefrom, ','.join(missing_keys))))
+
+                # NOTE(tonyb) We need to include the time in an exdate
+                # without it the excluded occurrence never matches a
+                # scheduled occurrence.
+                try:
+                    date_str = str(skip_date['skip_date'])
+                    date = datetime.datetime.strptime(date_str, '%Y%m%d')
+                    self.skip_dates.append(SkipDate(date, self.time.time(),
+                                                    skip_date['reason']))
+                except ValueError:
+                    raise ValueError(("Processing: %s Could not parse "
+                                      "skip_date - %s" %
+                                      (self.filefrom, skip_date['skip_date'])))
 
         # NOTE(tonyb): We need to do this datetime shenanigans is so we can
         #              deal with meetings that start on day1 and end on day2.

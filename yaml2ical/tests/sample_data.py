@@ -192,3 +192,69 @@ description: >
 agenda: |
   * Debate whether this should be a longer meeting
 """
+
+MEETING_WITH_SKIP_DATES = """
+project: OpenStack Subteam 8 Meeting
+schedule:
+  - time: '1200'
+    day: Monday
+    start_date: 20150801
+    irc: openstack-meeting
+    frequency: weekly
+    skip_dates:
+        - skip_date: 20150810
+          reason: Chair on vacation
+chair: Shannon Stacker
+description: >
+    Weekly short meeting for Subteam project.
+"""
+
+MEETING_WITH_SKIP_DATES_BAD_DATE = """
+project: OpenStack Subteam 8 Meeting
+schedule:
+  - time: '1200'
+    day: Monday
+    start_date: 20150801
+    irc: openstack-meeting
+    frequency: weekly
+    skip_dates:
+        - skip_date: 2015080
+          reason: Chair on vacation
+chair: Shannon Stacker
+description: >
+    Weekly short meeting for Subteam project.
+"""
+
+# typo in skip_date
+MEETING_WITH_MISSING_SKIP_DATE = """
+project: OpenStack Subteam 8 Meeting
+schedule:
+  - time: '1200'
+    day: Monday
+    start_date: 20150801
+    irc: openstack-meeting
+    frequency: weekly
+    skip_dates:
+        - skiip_date: 20150806
+          reason: Chair on vacation
+chair: Shannon Stacker
+description: >
+    Weekly short meeting for Subteam project.
+"""
+
+# typo in reason
+MEETING_WITH_MISSING_REASON = """
+project: OpenStack Subteam 8 Meeting
+schedule:
+  - time: '1200'
+    day: Monday
+    start_date: 20150801
+    irc: openstack-meeting
+    frequency: weekly
+    skip_dates:
+        - skip_date: 20150806
+          reaso: Chair on vacation
+chair: Shannon Stacker
+description: >
+    Weekly short meeting for Subteam project.
+"""

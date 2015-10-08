@@ -123,6 +123,11 @@ Each meeting consists of:
   * ``day``: the day of week the meeting takes place [MANDATORY]
   * ``irc``: the irc room in which the meeting is held [MANDATORY]
   * ``frequency``: frequent occurrence of the meeting [MANDATORY]
+  * ``skip_dates``: A set of dates that the meeting **DOES NOT** happen on
+
+    * ``skip_date``: Skip the meeting for specified date.
+      Format as ``start_date``
+    * ``reason``: A comment for why the meeting was skipped
 * ``chair``: name of the meeting's chair [MANDATORY]
 * ``description``: a paragraph description about the meeting [MANDATORY]
 * ``agenda_url``: a link to the agenda page for the meeting
@@ -137,8 +142,9 @@ templates, making it easy to build links to agenda pages for the
 meeting or logs of past meetings. In the template file, use
 ``meeting.extras.name`` to access the value.
 
-Example
--------
+
+Example 1
+---------
 
 This is an example for the yaml meeting for Nova team meeting.  The whole file
 will be import into Python as a dictionary.
@@ -204,3 +210,63 @@ will be import into Python as a dictionary.
   ::
 
     project_url: https://wiki.openstack.org/wiki/Nova
+
+* An extra property containing the MeetBot #startmeeting ID for the project is
+  saved in ``meeting_id`` and can be accessed in the template file as
+  ``meeting.extras.meeting_id``.
+
+  ::
+
+    meeting_id: nova
+
+
+Example 2
+---------
+
+The following shows a complete YAML file for the IRC meetings for "example
+project".  The project starts holding weekly meetings from October 1st, the
+project team has a "face to face" meeting on the 26th of October so that IRC
+meeting should be ommited from the ical schedule
+
+* This YAML
+
+  ::
+
+    project: Example Project Meeting
+    project_url: https://wiki.openstack.org/wiki/Example
+    agenda_url: https://wiki.openstack.org/wiki/Meetings/Example
+    meeting_id: example
+    chair: A. Random Developer
+    description:  >
+        This meeting is a weekly gathering of developers working on Example
+        project.
+    schedule:
+        - time:       '2100'
+          day:        Monday
+          irc:        openstack-meeting
+          start_date: 20151001
+          frequency:  weekly
+          skip_dates:
+          - skip_date: 20151026
+            reason: Face 2 Face meeting at some location
+
+* Is converted into this iCal
+
+  ::
+
+    BEGIN:VCALENDAR
+    VERSION:2.0
+    PRODID:-//yaml2ical agendas//EN
+    BEGIN:VEVENT
+    SUMMARY:Example Project Meeting
+    DTSTART;VALUE=DATE-TIME:20151005T210000Z
+    DURATION:PT1H
+    EXDATE:20151026T210000
+    DESCRIPTION:Project:  Example Project Meeting\\nChair:  A. Random Developer
+     \\nDescription:  This meeting is a weekly gathering of developers working o
+     n Example project.\\n\\nAgenda URL:  https://wiki.openstack.org/wiki/Meetin
+     gs/Example\\nProject URL:  https://wiki.openstack.org/wiki/Example
+    LOCATION:#openstack-meeting
+    RRULE:FREQ=WEEKLY
+    END:VEVENT
+    END:VCALENDAR

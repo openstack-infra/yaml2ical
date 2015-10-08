@@ -10,8 +10,10 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import re
 import unittest
 
+from yaml2ical import ical
 from yaml2ical import meeting
 from yaml2ical.tests import sample_data
 
@@ -89,3 +91,27 @@ class MeetingTestCase(unittest.TestCase):
         self.should_not_conflict(
             sample_data.CONFLICTING_WEEKLY_MEETING,
             sample_data.MEETING_WITH_DURATION)
+
+    def test_skip_meeting(self):
+        meeting_yaml = sample_data.MEETING_WITH_SKIP_DATES
+        p = re.compile('.*exdate:\s*20150810T120000', re.IGNORECASE)
+        m = meeting.load_meetings(meeting_yaml)[0]
+        cal = ical.Yaml2IcalCalendar()
+        cal.add_meeting(m)
+        self.assertTrue(hasattr(m.schedules[0], 'skip_dates'))
+        self.assertNotEqual(None, p.match(str(cal.to_ical())))
+
+    def test_skip_meeting_missing_skip_date(self):
+        self.assertRaises(KeyError,
+                          meeting.load_meetings,
+                          sample_data.MEETING_WITH_MISSING_SKIP_DATE)
+
+    def test_skip_meeting_missing_reason(self):
+        self.assertRaises(KeyError,
+                          meeting.load_meetings,
+                          sample_data.MEETING_WITH_MISSING_REASON)
+
+    def test_skip_meeting_bad_skip_date(self):
+        self.assertRaises(ValueError,
+                          meeting.load_meetings,
+                          sample_data.MEETING_WITH_SKIP_DATES_BAD_DATE)

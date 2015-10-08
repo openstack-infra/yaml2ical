@@ -78,6 +78,11 @@ class Yaml2IcalCalendar(icalendar.Calendar):
 
             event.add('duration', datetime.timedelta(minutes=sch.duration))
 
+            # Add exdate (exclude date) if present
+            if hasattr(sch, 'skip_dates'):
+                for skip_date in sch.skip_dates:
+                    event.add('exdate', skip_date.date)
+
             # add event to calendar
             self.add_component(event)
 
