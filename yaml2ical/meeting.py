@@ -61,10 +61,19 @@ class Schedule(object):
             self.day = sched_yaml['day'].lower().capitalize()
             self.irc = sched_yaml['irc']
             self.freq = sched_yaml['frequency']
-            self.recurrence = supported_recurrences[sched_yaml['frequency']]
+            self._recurrence = sched_yaml['frequency']
         except KeyError as e:
             print("Invalid YAML meeting schedule definition - missing "
                   "attribute '{0}'".format(e.args[0]))
+            raise
+
+        # Validate inputs
+        try:
+            self.recurrence = supported_recurrences[self._recurrence]
+        except KeyError as e:
+            print("Invalid meeting recurrence '{0}' - "
+                  "valid types: {1}".format(e.args[0],
+                                            supported_recurrences.keys()))
             raise
 
         # optional: start_date defaults to the current date if not present
