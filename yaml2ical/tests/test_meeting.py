@@ -94,12 +94,27 @@ class MeetingTestCase(unittest.TestCase):
 
     def test_skip_meeting(self):
         meeting_yaml = sample_data.MEETING_WITH_SKIP_DATES
-        p = re.compile('.*exdate:\s*20150810T120000', re.IGNORECASE)
+        # Copied from sample_data.MEETING_WITH_SKIP_DATES
+        summary = 'OpenStack Subteam 8 Meeting'
+        patterns = []
+        # The "main" meeting should have an exdate
+        patterns.append(re.compile('.*exdate:\s*20150810T120000', re.I))
+        # The "main" meeting should start on 2015-08-13
+        patterns.append(re.compile('.*dtstart;.*:20150803T120000Z', re.I))
+        # The "main" meeting should have a simple summary
+        patterns.append(re.compile('.*summary:\s*%s' % summary, re.I))
+        # The "skipped" meeting should start on 20150806
+        patterns.append(re.compile('.*dtstart;.*:20150810T120000Z', re.I))
+        # The "skipped" meeting should say include 'CANCELLED' and the datetime
+        patterns.append(re.compile('.*summary:\s*CANCELLED.*20150810T120000Z',
+                                   re.I))
         m = meeting.load_meetings(meeting_yaml)[0]
         cal = ical.Yaml2IcalCalendar()
         cal.add_meeting(m)
+        cal_str = str(cal.to_ical())
         self.assertTrue(hasattr(m.schedules[0], 'skip_dates'))
-        self.assertNotEqual(None, p.match(str(cal.to_ical())))
+        for p in patterns:
+            self.assertNotEqual(None, p.match(cal_str))
 
     def test_skip_meeting_missing_skip_date(self):
         self.assertRaises(KeyError,

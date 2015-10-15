@@ -34,14 +34,27 @@ class Yaml2IcalCalendar(icalendar.Calendar):
         """Add this meeting to the calendar."""
 
         for sch in meeting.schedules:
-            # one Event per iCal file
+            self.add_schedule(meeting, sch)
+
+    def add_schedule(self, meeting, sch, exdate=None):
             event = icalendar.Event()
 
             # NOTE(jotan): I think the summary field needs to be unique per
             # event in an ical file (at least, for it to work with
             # Google Calendar)
 
-            event.add('summary', meeting.project)
+            summary = meeting.project
+            # NOTE(tonyb): If we're adding an a place holder event for a
+            # cancelled meeting make that as obvious as possible in the
+            # summary.
+            if exdate:
+                # NOTE(tonyb): Because some iCal consumers require that the
+                # summary be unique, and adding multiple "CANCELLED: $x"
+                # entries would violate that rule, append the (UTC)
+                # timestamp for the cancelled meeting.
+                suffix = exdate.date_str
+                summary = 'CANCELLED: %s (%s)' % (summary, suffix)
+            event.add('summary', summary)
             event.add('location', '#' + sch.irc)
 
             # add ical description
@@ -60,28 +73,38 @@ class Yaml2IcalCalendar(icalendar.Calendar):
                 ical_descript = "\n".join((ical_descript,
                                            "Project URL:  %s" %
                                            (meeting.extras['project_url'])))
-            event.add('description', ical_descript)
 
-            # get starting date
-            next_meeting = sch.recurrence.next_occurence(sch.start_date,
-                                                         sch.day)
-            next_meeting_date = datetime.datetime(next_meeting.year,
-                                                  next_meeting.month,
-                                                  next_meeting.day,
-                                                  sch.time.hour,
-                                                  sch.time.minute,
-                                                  tzinfo=pytz.utc)
-            event.add('dtstart', next_meeting_date)
+            # NOTE(tonyb): If we're adding an a place holder event for a
+            # cancelled meeting do not add an rrule and set dtstart to the
+            # skipped date.
+            if not exdate:
+                # get starting date
+                next_meeting = sch.recurrence.next_occurence(sch.start_date,
+                                                             sch.day)
+                next_meeting_date = datetime.datetime(next_meeting.year,
+                                                      next_meeting.month,
+                                                      next_meeting.day,
+                                                      sch.time.hour,
+                                                      sch.time.minute,
+                                                      tzinfo=pytz.utc)
+                event.add('dtstart', next_meeting_date)
 
-            # add recurrence rule
-            event.add('rrule', sch.recurrence.rrule())
+                # add recurrence rule
+                event.add('rrule', sch.recurrence.rrule())
+                event.add('description', ical_descript)
+            else:
+                event.add('dtstart', exdate.date)
+                event.add('description', exdate.reason)
 
             event.add('duration', datetime.timedelta(minutes=sch.duration))
 
             # Add exdate (exclude date) if present
-            if hasattr(sch, 'skip_dates'):
+            if not exdate and hasattr(sch, 'skip_dates'):
                 for skip_date in sch.skip_dates:
                     event.add('exdate', skip_date.date)
+                    # NOTE(tonyb): If this is a skipped meeting add a
+                    # non-recurring event with an obvisous summary.
+                    self.add_schedule(meeting, sch, exdate=skip_date)
 
             # add event to calendar
             self.add_component(event)

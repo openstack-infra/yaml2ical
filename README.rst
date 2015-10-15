@@ -258,14 +258,21 @@ meeting should be ommited from the ical schedule
     VERSION:2.0
     PRODID:-//yaml2ical agendas//EN
     BEGIN:VEVENT
+    SUMMARY:CANCELLED: Example Project Meeting (20151026T210000Z)
+    DTSTART;VALUE=DATE-TIME:20151026T210000Z
+    DURATION:PT1H
+    DESCRIPTION:Face 2 Face meeting at some location
+    LOCATION:#openstack-meeting
+    END:VEVENT
+    BEGIN:VEVENT
     SUMMARY:Example Project Meeting
     DTSTART;VALUE=DATE-TIME:20151005T210000Z
     DURATION:PT1H
-    EXDATE:20151026T210000
-    DESCRIPTION:Project:  Example Project Meeting\\nChair:  A. Random Developer
-     \\nDescription:  This meeting is a weekly gathering of developers working o
-     n Example project.\\n\\nAgenda URL:  https://wiki.openstack.org/wiki/Meetin
-     gs/Example\\nProject URL:  https://wiki.openstack.org/wiki/Example
+    EXDATE:20151026T210000Z
+    DESCRIPTION:Project:  Example Project Meeting\nChair:  A. Random Developer
+     \nDescription:  This meeting is a weekly gathering of developers working o
+     n Example project.\n\nAgenda URL:  https://wiki.openstack.org/wiki/Meeting
+     s/Example\nProject URL:  https://wiki.openstack.org/wiki/Example
     LOCATION:#openstack-meeting
     RRULE:FREQ=WEEKLY
     END:VEVENT
