@@ -10,11 +10,27 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from __future__ import division
+
 import datetime
 import jinja2
 import logging
 import os
 import os.path
+
+
+def batch_meetings(meetings, batch_size):
+    col_length = len(meetings) // batch_size
+    new_meetings = [None] * len(meetings)
+    src = 0
+
+    for row in range(batch_size):
+        for col in range(col_length):
+            dest = col * batch_size + row
+            new_meetings[dest] = meetings[src]
+            src += 1
+
+    return new_meetings
 
 
 def convert_meetings_to_index(meetings, template, output_file):
@@ -30,6 +46,7 @@ def convert_meetings_to_index(meetings, template, output_file):
     loader = jinja2.FileSystemLoader(template_dir)
     env = jinja2.environment.Environment(trim_blocks=True, loader=loader)
     template = env.get_template(template_file)
+    template.globals['batch_meetings'] = batch_meetings
 
     with open(output_file, "w") as out:
         out.write(template.render(meetings=meetings,
