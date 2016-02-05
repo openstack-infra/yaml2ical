@@ -214,6 +214,7 @@ def load_meetings(yaml_source):
         raise ValueError("No .yaml file, directory containing .yaml files, "
                          "or YAML data found.")
     else:
+        meetings.sort(key=lambda x: x.project)
         return meetings
 
 
