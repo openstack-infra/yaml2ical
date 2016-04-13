@@ -20,16 +20,57 @@ import os.path
 
 
 def batch_meetings(meetings, batch_size):
-    col_length = len(meetings) // batch_size
+    """Batches the meetings to be consumed by the jinja2 'batch' filter.
+
+    This will pivot the meeting list into a virtual number of columns.  This
+    can be used in a jinja template like:
+
+    {% for column in batch_meetings(meetings, 4)|batch(4) %}
+
+    So the list:
+    [A, B, C, D, E, F , G, H, I]
+
+    Is returned as:
+    [A, D, F, H,   B, E, G, I,   C]]
+
+    Or another way of looking at it is:
+    [A, D, F, H,
+     B, E, G, I,
+     C]]
+
+    And displays as:
+    A D F H
+    B E G I
+    C
+
+    Rather than:
+    A B C D
+    E F G H
+    I
+
+    :param meetings: An iterable
+    :param batch_size: Number of columns to split up the output into
+    :returns: A list that has 'pivoted' the meetings input
+
+    """
+    if batch_size <= 0:
+        return meetings
+    col_length = (len(meetings) // batch_size) + 1
     new_meetings = [None] * len(meetings)
     src = 0
 
     for row in range(batch_size):
         for col in range(col_length):
             dest = col * batch_size + row
+            if dest >= len(meetings):
+                break
             new_meetings[dest] = meetings[src]
             src += 1
 
+    # Sanity check
+    if all(meetings):
+        assert all(new_meetings), "Empty item found in: {}".format(
+            new_meetings)
     return new_meetings
 
 
