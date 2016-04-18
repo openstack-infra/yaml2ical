@@ -21,13 +21,13 @@ import yaml
 from yaml2ical.recurrence import supported_recurrences
 
 DATES = {
-    'Monday': datetime.datetime(1900, 1, 1).date(),
-    'Tuesday': datetime.datetime(1900, 1, 2).date(),
-    'Wednesday': datetime.datetime(1900, 1, 3).date(),
-    'Thursday': datetime.datetime(1900, 1, 4).date(),
-    'Friday': datetime.datetime(1900, 1, 5).date(),
-    'Saturday': datetime.datetime(1900, 1, 6).date(),
-    'Sunday': datetime.datetime(1900, 1, 7).date(),
+    'Monday': datetime.date(1900, 1, 1),
+    'Tuesday': datetime.date(1900, 1, 2),
+    'Wednesday': datetime.date(1900, 1, 3),
+    'Thursday': datetime.date(1900, 1, 4),
+    'Friday': datetime.date(1900, 1, 5),
+    'Saturday': datetime.date(1900, 1, 6),
+    'Sunday': datetime.date(1900, 1, 7),
 }
 ONE_WEEK = datetime.timedelta(weeks=1)
 
