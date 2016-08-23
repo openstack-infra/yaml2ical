@@ -61,11 +61,11 @@ class BiWeeklyRecurrence(object):
         """
         nextweek_day = WeeklyRecurrence().next_occurence(current_date, day)
         if nextweek_day.isocalendar()[1] % 2:
-            ## ISO week is odd
+            # ISO week is odd
             if self.style == 'odd':
                 return nextweek_day
         else:
-            ## ISO week is even
+            # ISO week is even
             if self.style == 'even':
                 return nextweek_day
         # If week doesn't match rule, skip one week

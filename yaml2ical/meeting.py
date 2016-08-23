@@ -74,7 +74,7 @@ class Schedule(object):
                     str(sched_yaml['start_date']), '%Y%m%d')
             except ValueError:
                 raise ValueError("Could not parse 'start_date' (%s) in %s" %
-                                (sched_yaml['start_date'], self.filefrom))
+                                 (sched_yaml['start_date'], self.filefrom))
         else:
             self.start_date = datetime.datetime.utcnow()
 
@@ -84,7 +84,7 @@ class Schedule(object):
                 self.duration = int(sched_yaml['duration'])
             except ValueError:
                 raise ValueError("Could not parse 'duration' (%s) in %s" %
-                                (sched_yaml['duration'], self.filefrom))
+                                 (sched_yaml['duration'], self.filefrom))
         else:
             self.duration = 60
 
