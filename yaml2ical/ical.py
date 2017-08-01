@@ -81,6 +81,11 @@ class Yaml2IcalCalendar(icalendar.Calendar):
                 # get starting date
                 next_meeting = sch.recurrence.next_occurence(sch.start_date,
                                                              sch.day)
+                # NOTE(aschultz): to handle adhoc meetings, we check to make
+                # sure there is a next meeting before trying to add it to the
+                # the calendar
+                if next_meeting is None:
+                    return
                 next_meeting_date = datetime.datetime(next_meeting.year,
                                                       next_meeting.month,
                                                       next_meeting.day,

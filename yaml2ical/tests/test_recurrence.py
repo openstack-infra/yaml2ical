@@ -37,3 +37,8 @@ class RecurrenceTestCase(unittest.TestCase):
         self.assertEqual(
             datetime.datetime(2014, 10, 15, 2, 47, 28, 832666),
             self.next_meeting(recurrence.BiWeeklyRecurrence(style='even')))
+
+    def test_next_adhoc(self):
+        self.assertEqual(
+            None,
+            self.next_meeting(recurrence.AdhocRecurrence()))

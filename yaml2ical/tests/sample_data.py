@@ -258,3 +258,17 @@ chair: Shannon Stacker
 description: >
     Weekly short meeting for Subteam project.
 """
+
+# adhoc meeting
+ADHOC_MEETING = """
+project: OpenStack Random Meeting
+schedule:
+  - time: '1200'
+    day: Monday
+    start_date: 20150801
+    irc: openstack-meeting
+    frequency: adhoc
+chair: Shannon Stacker
+description: >
+    Adhoc random meeting for Subteam project.
+"""

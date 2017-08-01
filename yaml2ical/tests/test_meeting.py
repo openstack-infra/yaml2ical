@@ -116,6 +116,13 @@ class MeetingTestCase(unittest.TestCase):
         for p in patterns:
             self.assertNotEqual(None, p.match(cal_str))
 
+    def test_adhoc_meeting(self):
+        meeting_yaml = sample_data.ADHOC_MEETING
+        m = meeting.load_meetings(meeting_yaml)[0]
+        cal = ical.Yaml2IcalCalendar()
+        cal.add_meeting(m)
+        self.assertEqual(cal, ical.Yaml2IcalCalendar())
+
     def test_skip_meeting_missing_skip_date(self):
         self.assertRaises(KeyError,
                           meeting.load_meetings,

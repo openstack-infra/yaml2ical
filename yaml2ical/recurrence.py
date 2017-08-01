@@ -78,8 +78,32 @@ class BiWeeklyRecurrence(object):
         return "Every two weeks (on %s weeks)" % self.style
 
 
+class AdhocRecurrence(object):
+    """Meetings occuring as needed.
+
+    Effectively this is a noop recurrance as next_occurance is always None
+    """
+    def __init__(self):
+        pass
+
+    def next_occurence(self, current_date, day):
+        """Calculate the next adhoc meeting.
+
+        :param current_date: the current date
+        :param day: scheduled day of the meeting
+        :returns: datetime object of next meeting
+        """
+        return None
+
+    def rrule(self):
+        return {'freq': 'adhoc', 'interval': 0}
+
+    def __str__(self):
+        return "Occurs as needed, no fixed schedule."
+
 supported_recurrences = {
     'weekly': WeeklyRecurrence(),
     'biweekly-odd': BiWeeklyRecurrence(style='odd'),
     'biweekly-even': BiWeeklyRecurrence(),
+    'adhoc': AdhocRecurrence(),
 }
