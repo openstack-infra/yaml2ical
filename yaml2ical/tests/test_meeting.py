@@ -78,6 +78,77 @@ class MeetingTestCase(unittest.TestCase):
             sample_data.MEETING_MONDAY_LATE,
             sample_data.MEETING_TUESDAY_EARLY)
 
+    def test_quadweekly_conflicts(self):
+        self.should_be_conflicting(
+            sample_data.BIWEEKLY_EVEN_MEETING,
+            sample_data.QUADWEEKLY_MEETING_ALTERNATING)
+        self.should_be_conflicting(
+            sample_data.BIWEEKLY_EVEN_MEETING,
+            sample_data.QUADWEEKLY_MEETING)
+        self.should_be_conflicting(
+            sample_data.BIWEEKLY_EVEN_MEETING,
+            sample_data.QUADWEEKLY_MEETING_ALTERNATE)
+        self.should_be_conflicting(
+            sample_data.BIWEEKLY_EVEN_MEETING,
+            sample_data.QUADWEEKLY_MEETING_WEEK_2)
+        self.should_not_conflict(
+            sample_data.BIWEEKLY_EVEN_MEETING,
+            sample_data.QUADWEEKLY_MEETING_WEEK_1)
+        self.should_not_conflict(
+            sample_data.BIWEEKLY_EVEN_MEETING,
+            sample_data.QUADWEEKLY_MEETING_WEEK_3)
+        self.should_be_conflicting(
+            sample_data.BIWEEKLY_EVEN_MEETING,
+            sample_data.QUADWEEKLY_MEETING)
+        self.should_be_conflicting(
+            sample_data.BIWEEKLY_ODD_MEETING,
+            sample_data.QUADWEEKLY_MEETING_WEEK_1)
+        self.should_be_conflicting(
+            sample_data.BIWEEKLY_ODD_MEETING,
+            sample_data.QUADWEEKLY_MEETING_WEEK_3)
+        self.should_not_conflict(
+            sample_data.BIWEEKLY_ODD_MEETING,
+            sample_data.QUADWEEKLY_MEETING)
+        self.should_not_conflict(
+            sample_data.BIWEEKLY_ODD_MEETING,
+            sample_data.QUADWEEKLY_MEETING_WEEK_2)
+        self.should_not_conflict(
+            sample_data.BIWEEKLY_ODD_MEETING,
+            sample_data.QUADWEEKLY_MEETING_ALTERNATING)
+        self.should_not_conflict(
+            sample_data.QUADWEEKLY_MEETING,
+            sample_data.QUADWEEKLY_MEETING_WEEK_1)
+        self.should_not_conflict(
+            sample_data.QUADWEEKLY_MEETING,
+            sample_data.QUADWEEKLY_MEETING_WEEK_2)
+        self.should_not_conflict(
+            sample_data.QUADWEEKLY_MEETING,
+            sample_data.QUADWEEKLY_MEETING_WEEK_3)
+        self.should_not_conflict(
+            sample_data.QUADWEEKLY_MEETING_WEEK_1,
+            sample_data.QUADWEEKLY_MEETING_WEEK_2)
+        self.should_not_conflict(
+            sample_data.QUADWEEKLY_MEETING_WEEK_1,
+            sample_data.QUADWEEKLY_MEETING_WEEK_3)
+        self.should_not_conflict(
+            sample_data.QUADWEEKLY_MEETING_WEEK_2,
+            sample_data.QUADWEEKLY_MEETING_WEEK_3)
+        self.should_be_conflicting(
+            sample_data.QUADWEEKLY_MEETING,
+            sample_data.QUADWEEKLY_MEETING)
+        self.should_be_conflicting(
+            sample_data.QUADWEEKLY_MEETING_WEEK_1,
+            sample_data.QUADWEEKLY_MEETING_WEEK_1)
+        self.should_be_conflicting(
+            sample_data.QUADWEEKLY_MEETING_WEEK_2,
+            sample_data.QUADWEEKLY_MEETING_WEEK_2)
+        self.should_be_conflicting(
+            sample_data.QUADWEEKLY_MEETING_WEEK_3,
+            sample_data.QUADWEEKLY_MEETING_WEEK_3)
+        self.should_be_conflicting(
+            sample_data.QUADWEEKLY_MEETING_WEEK_2,
+            sample_data.QUADWEEKLY_MEETING_ALTERNATE)
+
     def test_meeting_duration(self):
         m = meeting.load_meetings(sample_data.MEETING_WITH_DURATION)[0]
         self.assertEqual(30, m.schedules[0].duration)

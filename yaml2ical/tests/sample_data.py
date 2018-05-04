@@ -272,3 +272,93 @@ chair: Shannon Stacker
 description: >
     Adhoc random meeting for Subteam project.
 """
+
+QUADWEEKLY_MEETING_ALTERNATING = """
+project: OpenStack Random Meeting
+agenda_url: http://agenda.com/
+project_url: http://project.com
+schedule:
+  - time: '2200'
+    day: Wednesday
+    irc: openstack-meeting
+    frequency: quadweekly
+  - time: '600'
+    duration: 45
+    start_date: 20150801
+    day: Thursday
+    irc: openstack-meeting
+    frequency: quadweekly-alternate
+chair: John Doe
+description:  >
+  Example alternating quadweekly meeting
+"""
+
+QUADWEEKLY_MEETING = """
+project: OpenStack Random Meeting
+agenda_url: http://agenda.com/
+project_url: http://project.com
+schedule:
+  - time: '2200'
+    day: Wednesday
+    irc: openstack-meeting
+    frequency: quadweekly
+chair: John Doe
+description:  >
+  Example Quadweekly meeting
+"""
+
+QUADWEEKLY_MEETING_WEEK_1 = """
+project: OpenStack Random Meeting
+agenda_url: http://agenda.com/
+project_url: http://project.com
+schedule:
+  - time: '2200'
+    day: Wednesday
+    irc: openstack-meeting
+    frequency: quadweekly-week-1
+chair: John Doe
+description:  >
+  Example Quadweekly meeting on week 1
+"""
+
+QUADWEEKLY_MEETING_WEEK_2 = """
+project: OpenStack Random Meeting
+agenda_url: http://agenda.com/
+project_url: http://project.com
+schedule:
+  - time: '2200'
+    day: Wednesday
+    irc: openstack-meeting
+    frequency: quadweekly-week-2
+chair: John Doe
+description:  >
+  Example Quadweekly meeting on week 2
+"""
+
+QUADWEEKLY_MEETING_WEEK_3 = """
+project: OpenStack Random Meeting
+agenda_url: http://agenda.com/
+project_url: http://project.com
+schedule:
+  - time: '2200'
+    day: Wednesday
+    irc: openstack-meeting
+    frequency: quadweekly-week-3
+chair: John Doe
+description:  >
+  Example Quadweekly meeting on week 3
+"""
+
+QUADWEEKLY_MEETING_ALTERNATE = """
+project: OpenStack Random Meeting
+agenda_url: http://agenda.com/
+project_url: http://project.com
+schedule:
+  - time: '2200'
+    day: Wednesday
+    irc: openstack-meeting
+    frequency: quadweekly-alternate
+chair: John Doe
+description:  >
+  Example Quadweekly Alternate meeting
+"""

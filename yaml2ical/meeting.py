@@ -136,13 +136,27 @@ class Schedule(object):
 
     def conflicts(self, other):
         """Checks for conflicting schedules."""
-        alternating = set(['biweekly-odd', 'biweekly-even'])
+
+        def _non_weekly_conflict_detection(self, other):
+            week = {
+                'weekly': set([0, 1, 2, 3]),
+                'biweekly-even': set([0, 2]),
+                'biweekly-odd': set([1, 3]),
+                'quadweekly': set([0]),
+                'quadweekly-week-1': set([1]),
+                'quadweekly-week-2': set([2]),
+                'quadweekly-week-3': set([3]),
+                'quadweekly-alternate': set([2]),
+            }
+
+            return len(week[self.freq].intersection(week[other.freq])) > 0
+
         # NOTE(tonyb): .meeting_start also includes the day of the week. So no
         #              need to check .day explictly
         return ((self.irc == other.irc) and
                 ((self.meeting_start < other.meeting_end) and
                  (other.meeting_start < self.meeting_end)) and
-                (set([self.freq, other.freq]) != alternating))
+                _non_weekly_conflict_detection(self, other))
 
 
 class Meeting(object):

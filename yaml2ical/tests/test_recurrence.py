@@ -38,6 +38,26 @@ class RecurrenceTestCase(unittest.TestCase):
             datetime.datetime(2014, 10, 15, 2, 47, 28, 832666),
             self.next_meeting(recurrence.BiWeeklyRecurrence(style='even')))
 
+    def test_next_quadweekly_week_0(self):
+        self.assertEqual(
+            datetime.datetime(2014, 10, 29, 2, 47, 28, 832666),
+            self.next_meeting(recurrence.QuadWeeklyRecurrence(week=0)))
+
+    def test_next_quadweekly_week_1(self):
+        self.assertEqual(
+            datetime.datetime(2014, 10, 8, 2, 47, 28, 832666),
+            self.next_meeting(recurrence.QuadWeeklyRecurrence(week=1)))
+
+    def test_next_quadweekly_week_2(self):
+        self.assertEqual(
+            datetime.datetime(2014, 10, 15, 2, 47, 28, 832666),
+            self.next_meeting(recurrence.QuadWeeklyRecurrence(week=2)))
+
+    def test_next_quadweekly_week_3(self):
+        self.assertEqual(
+            datetime.datetime(2014, 10, 22, 2, 47, 28, 832666),
+            self.next_meeting(recurrence.QuadWeeklyRecurrence(week=3)))
+
     def test_next_adhoc(self):
         self.assertEqual(
             None,

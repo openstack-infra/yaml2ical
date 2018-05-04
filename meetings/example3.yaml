@@ -1,0 +1,19 @@
+project: Example alternating quadweekly meeting
+agenda_url: http://agenda.com/
+project_url: http://project.com
+schedule:
+  - time: '1700'
+    duration: 45
+    start_date: 20150801
+    day: Thursday
+    irc: openstack-meeting
+    frequency: quadweekly
+  - time: '600'
+    duration: 45
+    start_date: 20150801
+    day: Thursday
+    irc: openstack-meeting
+    frequency: quadweekly-alternate
+chair: John Doe
+description:  >
+  quadweekly

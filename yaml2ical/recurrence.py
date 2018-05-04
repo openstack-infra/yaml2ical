@@ -78,6 +78,34 @@ class BiWeeklyRecurrence(object):
         return "Every two weeks (on %s weeks)" % self.style
 
 
+class QuadWeeklyRecurrence(object):
+    """Meetings occuring every 4 weeks.
+
+    A week number can be supplied to offset meetings
+    """
+    def __init__(self, week=0):
+        self.week = week
+
+    def next_occurence(self, current_date, day):
+        """Calculate the next biweekly meeting.
+
+        :param current_date: the current date
+        :param day: scheduled day of the meeting
+        :returns: datetime object of next meeting
+        """
+        nextweek_day = WeeklyRecurrence().next_occurence(current_date, day)
+        if nextweek_day.isocalendar()[1] % 4 == self.week:
+            return nextweek_day
+        # If week doesn't match rule, skip one week
+        return self.next_occurence(nextweek_day + datetime.timedelta(7), day)
+
+    def rrule(self):
+        return {'freq': 'weekly', 'interval': 4}
+
+    def __str__(self):
+        return "Every four weeks" % self.style
+
+
 class AdhocRecurrence(object):
     """Meetings occuring as needed.
 
@@ -105,5 +133,10 @@ supported_recurrences = {
     'weekly': WeeklyRecurrence(),
     'biweekly-odd': BiWeeklyRecurrence(style='odd'),
     'biweekly-even': BiWeeklyRecurrence(),
+    'quadweekly': QuadWeeklyRecurrence(week=0),
+    'quadweekly-week-1': QuadWeeklyRecurrence(week=1),
+    'quadweekly-week-2': QuadWeeklyRecurrence(week=2),
+    'quadweekly-week-3': QuadWeeklyRecurrence(week=3),
+    'quadweekly-alternate': QuadWeeklyRecurrence(week=2),
     'adhoc': AdhocRecurrence(),
 }
