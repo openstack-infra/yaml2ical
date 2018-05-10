@@ -142,6 +142,43 @@ templates, making it easy to build links to agenda pages for the
 meeting or logs of past meetings. In the template file, use
 ``meeting.extras.name`` to access the value.
 
+Frequencies
+-----------
+
+yaml2ical supports a number of possible frequency options:
+
+* Event occurs every week:
+
+  * ``weekly``:  Event occurs every week.
+
+* Event alternates and starts on the next ``day``:
+
+  * ``biweekly-even``: Occurs on even weeks (``ISOweek % 2 == 0``)
+  * ``biweekly-odd`` Occurs on odd weeks (``ISOweek % 2 == 1``):
+
+* Event occurs every 4 weeks and starts on the next ``day``:
+
+  * ``quadweekly``: Occurs when ``ISOweek % 4 == 0``
+  * ``quadweekly-week-1``: Occurs when ``ISOweek % 4 == 1``
+  * ``quadweekly-week-2``, ``quadweekly-alternate``: Occurs when ``ISOweek % 4 == 2``
+  * ``quadweekly-week-3``: Occurs when ``ISOweek % 4 == 3``
+
+* Event doesn't happen on a defined schedule but is used as a placeholder for
+  html generation:
+
+  * ``adhoc``
+
+
+.. note::
+  Odd/Even and week numbers are based on the ISO week number.  ISO weeks can be
+  checked with ``%V`` in `GNU date(1)`_
+
+.. _`GNU date(1)`: https://www.gnu.org/software/coreutils/manual/html_node/date-invocation.html
+
+.. note::
+
+  All alternating meetings suffer from a probelm when years include an ISO week
+  53, this happened in 2015/2016 and happens approximately every 5 years.
 
 Example 1
 ---------
@@ -157,14 +194,7 @@ will be import into Python as a dictionary.
 
 * The schedule is a list of dictionaries each consisting of `time` in UTC,
   `day` of the week, the `irc` meeting room, and the `frequency` of the
-  meeting. Options for the `frequency` are `weekly`, `biweekly-even`,
-  `biweekly-odd`, and `adhoc` at the moment.
-
-  `biweekly-odd` are weeks where the ISO week number is an odd value.
-  Correspondingly `biweekly-even` are weeks where the ISO week number is even.
-  This unfortunately will break down on the transition from 2015 to 2016 as
-  2015 has 53 ISO weeks (an odd value) and then the first week of 2016 is week
-  1 (also an odd value).
+  meeting.  See above for notes on `frequency`.
 
   `adhoc` can be used to list the possibility of something in the schedule but
   will not actually generate any calendar events. This can be used for
