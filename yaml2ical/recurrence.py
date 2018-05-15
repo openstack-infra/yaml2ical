@@ -103,7 +103,9 @@ class QuadWeeklyRecurrence(object):
         return {'freq': 'weekly', 'interval': 4}
 
     def __str__(self):
-        return "Every four weeks" % self.style
+        return (
+            "Every four weeks on week %d of the four week rotation"
+            % self.week)
 
 
 class AdhocRecurrence(object):

@@ -62,3 +62,24 @@ class RecurrenceTestCase(unittest.TestCase):
         self.assertEqual(
             None,
             self.next_meeting(recurrence.AdhocRecurrence()))
+
+    def test_weekly_str(self):
+        self.assertEqual(
+            'Weekly',
+            str(recurrence.WeeklyRecurrence()))
+
+    def test_biweekly_odd_str(self):
+        self.assertEqual(
+            'Every two weeks (on odd weeks)',
+            str(recurrence.BiWeeklyRecurrence(style='odd')))
+
+    def test_biweekly_even_str(self):
+        self.assertEqual(
+            'Every two weeks (on even weeks)',
+            str(recurrence.BiWeeklyRecurrence(style='even')))
+
+    def test_quadweekly_str(self):
+        for i in range(4):
+            self.assertEqual(
+                'Every four weeks on week %d of the four week rotation' % i,
+                str(recurrence.QuadWeeklyRecurrence(week=i)))
