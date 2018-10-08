@@ -362,3 +362,87 @@ chair: John Doe
 description:  >
   Example Quadweekly Alternate meeting
 """
+
+FIRST_MONDAY_MEETING = """
+project: OpenStack Random Meeting
+agenda_url: http://agenda.com/
+project_url: http://project.com
+schedule:
+  - time: '2200'
+    day: Monday
+    irc: openstack-meeting
+    frequency: first-monday
+chair: John Doe
+description:  >
+  Example Monthly meeting
+"""
+
+FIRST_TUESDAY_MEETING = """
+project: OpenStack Random Meeting
+agenda_url: http://agenda.com/
+project_url: http://project.com
+schedule:
+  - time: '2200'
+    day: Tuesday
+    irc: openstack-meeting
+    frequency: first-tuesday
+chair: John Doe
+description:  >
+  Example Monthly meeting
+"""
+
+WEEKLY_MEETING_2200 = """
+project: OpenStack Subteam Meeting
+schedule:
+  - time: '2200'
+    day: Wednesday
+    irc: openstack-meeting
+    frequency: weekly
+chair: Joe Developer
+description: >
+    Weekly meeting for Subteam project.
+agenda: |
+  * Top bugs this week
+"""
+
+FIRST_WEDNESDAY_MEETING = """
+project: OpenStack Random Meeting
+agenda_url: http://agenda.com/
+project_url: http://project.com
+schedule:
+  - time: '2200'
+    day: Wednesday
+    irc: openstack-meeting
+    frequency: first-wednesday
+chair: John Doe
+description:  >
+  Example Monthly meeting
+"""
+
+FIRST_THURSDAY_MEETING = """
+project: OpenStack Random Meeting
+agenda_url: http://agenda.com/
+project_url: http://project.com
+schedule:
+  - time: '2200'
+    day: Thursday
+    irc: openstack-meeting
+    frequency: first-thursday
+chair: John Doe
+description:  >
+  Example Monthly meeting
+"""
+
+FIRST_FRIDAY_MEETING = """
+project: OpenStack Random Meeting
+agenda_url: http://agenda.com/
+project_url: http://project.com
+schedule:
+  - time: '2200'
+    day: Friday
+    irc: openstack-meeting
+    frequency: first-friday
+chair: John Doe
+description:  >
+  Example Monthly meeting
+"""

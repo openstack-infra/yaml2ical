@@ -163,6 +163,20 @@ class MeetingTestCase(unittest.TestCase):
             sample_data.CONFLICTING_WEEKLY_MEETING,
             sample_data.MEETING_WITH_DURATION)
 
+    def test_monthly_conflicts(self):
+        self.should_be_conflicting(
+            sample_data.WEEKLY_MEETING_2200,
+            sample_data.FIRST_WEDNESDAY_MEETING)
+        self.should_be_conflicting(
+            sample_data.BIWEEKLY_EVEN_MEETING,
+            sample_data.FIRST_WEDNESDAY_MEETING)
+        self.should_be_conflicting(
+            sample_data.QUADWEEKLY_MEETING,
+            sample_data.FIRST_WEDNESDAY_MEETING)
+        self.should_be_conflicting(
+            sample_data.ALTERNATING_MEETING,
+            sample_data.FIRST_WEDNESDAY_MEETING)
+
     def test_skip_meeting(self):
         meeting_yaml = sample_data.MEETING_WITH_SKIP_DATES
         # Copied from sample_data.MEETING_WITH_SKIP_DATES

@@ -83,3 +83,25 @@ class RecurrenceTestCase(unittest.TestCase):
             self.assertEqual(
                 'Every four weeks on week %d of the four week rotation' % i,
                 str(recurrence.QuadWeeklyRecurrence(week=i)))
+
+    def test_monthly_first_week(self):
+        rec = recurrence.MonthlyRecurrence(week=1, day='Wednesday')
+        self.assertEqual(
+            datetime.datetime(2014, 11, 5, 2, 47, 28, 832666),
+            self.next_meeting(rec),
+        )
+
+    def test_monthly_second_week(self):
+        rec = recurrence.MonthlyRecurrence(week=2, day='Wednesday')
+        self.assertEqual(
+            datetime.datetime(2014, 11, 12, 2, 47, 28, 832666),
+            self.next_meeting(rec),
+        )
+
+    def test_monthly_invalid_week(self):
+        rec = recurrence.MonthlyRecurrence(week=6, day='Wednesday')
+        self.assertRaises(
+            ValueError,
+            self.next_meeting,
+            rec,
+        )

@@ -10,6 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import calendar
 import datetime
 
 
@@ -131,6 +132,66 @@ class AdhocRecurrence(object):
     def __str__(self):
         return "Occurs as needed, no fixed schedule."
 
+
+class MonthlyRecurrence(object):
+    """Meetings occuring every month."""
+    def __init__(self, week, day):
+        self._week = week
+        self._day = day
+
+    def next_occurence(self, current_date_time, day):
+        """Return the date of the next meeting.
+
+        :param current_date_time: datetime object of meeting
+        :param day: weekday the meeting is held on
+
+        :returns: datetime object of the next meeting time
+        """
+        weekday = WEEKDAYS[day]
+
+        month = current_date_time.month + 1
+        year = current_date_time.year
+        if current_date_time.month == 12:
+            month = 1
+            year = year + 1
+        next_month_dates = calendar.monthcalendar(year, month)
+
+        # We can't simply index into the dates for the next month
+        # because we don't know that the first week is full of days
+        # that actually appear in that month. Therefore we loop
+        # through them counting down until we've skipped enough weeks.
+        skip_weeks = self._week - 1
+        for week in next_month_dates:
+            day = week[weekday]
+            # Dates in the week that fall in other months
+            # are 0 so we want to skip counting those weeks.
+            if not day:
+                continue
+            # If we have skipped all of the weeks we need to,
+            # we have the day.
+            if not skip_weeks:
+                return datetime.datetime(
+                    year, month, day,
+                    current_date_time.hour, current_date_time.minute,
+                    current_date_time.second, current_date_time.microsecond,
+                )
+            skip_weeks -= 1
+
+        raise ValueError(
+            'Could not compute week {} of next month for {}'.format(
+                self._week, current_date_time)
+        )
+
+    def rrule(self):
+        return {
+            'freq': 'monthly',
+            'byday': '{}{}'.format(self._week, self._day[:2].upper()),
+        }
+
+    def __str__(self):
+        return "Monthly"
+
+
 supported_recurrences = {
     'weekly': WeeklyRecurrence(),
     'biweekly-odd': BiWeeklyRecurrence(style='odd'),
@@ -141,4 +202,9 @@ supported_recurrences = {
     'quadweekly-week-3': QuadWeeklyRecurrence(week=3),
     'quadweekly-alternate': QuadWeeklyRecurrence(week=2),
     'adhoc': AdhocRecurrence(),
+    'first-monday': MonthlyRecurrence(week=1, day='Monday'),
+    'first-tuesday': MonthlyRecurrence(week=1, day='Tuesday'),
+    'first-wednesday': MonthlyRecurrence(week=1, day='Wednesday'),
+    'first-thursday': MonthlyRecurrence(week=1, day='Thursday'),
+    'first-friday': MonthlyRecurrence(week=1, day='Friday'),
 }

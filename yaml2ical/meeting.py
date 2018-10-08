@@ -147,6 +147,11 @@ class Schedule(object):
                 'quadweekly-week-2': set([2]),
                 'quadweekly-week-3': set([3]),
                 'quadweekly-alternate': set([2]),
+                'first-monday': set([0, 1, 2, 3]),
+                'first-tuesday': set([0, 1, 2, 3]),
+                'first-wednesday': set([0, 1, 2, 3]),
+                'first-thursday': set([0, 1, 2, 3]),
+                'first-friday': set([0, 1, 2, 3]),
             }
 
             return len(week[self.freq].intersection(week[other.freq])) > 0

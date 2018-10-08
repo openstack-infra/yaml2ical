@@ -163,6 +163,14 @@ yaml2ical supports a number of possible frequency options:
   * ``quadweekly-week-2``, ``quadweekly-alternate``: Occurs when ``ISOweek % 4 == 2``
   * ``quadweekly-week-3``: Occurs when ``ISOweek % 4 == 3``
 
+* Event occurs in the first week of a month:
+
+  * ``first-monday``: On the first Monday of the month.
+  * ``first-tuesday``: On the first Tuesday of the month.
+  * ``first-wednesday``: On the first Wednesday of the month.
+  * ``first-thursday``: On the first Thursday of the month.
+  * ``first-friday``: On the first Friday of the month.
+
 * Event doesn't happen on a defined schedule but is used as a placeholder for
   html generation:
 
