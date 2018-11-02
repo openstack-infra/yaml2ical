@@ -105,3 +105,15 @@ class RecurrenceTestCase(unittest.TestCase):
             self.next_meeting,
             rec,
         )
+
+    def test_monthly_day_specifier(self):
+        weeks = [
+            (1, 'the first'),
+            (2, 'the second'),
+            (3, 'the third'),
+            (4, 'the fourth'),
+            (5, 'the fifth'),
+        ]
+        for i, expected in weeks:
+            rec = recurrence.MonthlyRecurrence(week=i, day='Thursday')
+            self.assertEqual(expected, rec.day_specifier)

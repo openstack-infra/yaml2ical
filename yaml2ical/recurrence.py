@@ -39,6 +39,19 @@ class _Recurrence(object, metaclass=abc.ABCMeta):
     def __str__(self):
         "Return string representation of the recurrence rule"
 
+    @property
+    def day_specifier(self):
+        """Return string prefix for day.
+
+        For example, monthly recurring events may return 'first' to
+        indicate the first instance of a particular day of the month
+        (e.g., first Thursday).
+        """
+        # NOTE(dhellmann): This is not an abstract property because
+        # most of the subclasses will use this concrete
+        # implementation.
+        return ''
+
 
 class WeeklyRecurrence(_Recurrence):
     """Meetings occuring every week."""
@@ -212,6 +225,18 @@ class MonthlyRecurrence(_Recurrence):
 
     def __str__(self):
         return "Monthly"
+
+    _ORDINALS = [
+        'first',
+        'second',
+        'third',
+        'fourth',
+        'fifth',
+    ]
+
+    @property
+    def day_specifier(self):
+        return 'the {}'.format(self._ORDINALS[self._week - 1])
 
 
 supported_recurrences = {
