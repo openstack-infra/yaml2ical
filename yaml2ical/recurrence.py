@@ -10,6 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import abc
 import calendar
 import datetime
 
@@ -18,7 +19,28 @@ WEEKDAYS = {'Monday': 0, 'Tuesday': 1, 'Wednesday': 2, 'Thursday': 3,
             'Friday': 4, 'Saturday': 5, 'Sunday': 6}
 
 
-class WeeklyRecurrence(object):
+class _Recurrence(object, metaclass=abc.ABCMeta):
+
+    @abc.abstractmethod
+    def next_occurence(self, current_date_time, day):
+        """Return the date of the next meeting.
+
+        :param ref_date: datetime object of meeting
+        :param day: weekday the meeting is held on
+
+        :returns: datetime object of the next meeting time
+        """
+
+    @abc.abstractmethod
+    def rrule(self):
+        "Return dict with data for building ICS recurrence rule."
+
+    @abc.abstractmethod
+    def __str__(self):
+        "Return string representation of the recurrence rule"
+
+
+class WeeklyRecurrence(_Recurrence):
     """Meetings occuring every week."""
     def __init__(self):
         pass
@@ -45,7 +67,7 @@ class WeeklyRecurrence(object):
         return "Weekly"
 
 
-class BiWeeklyRecurrence(object):
+class BiWeeklyRecurrence(_Recurrence):
     """Meetings occuring on alternate weeks.
 
     Can be either on odd weeks or on even weeks
@@ -79,7 +101,7 @@ class BiWeeklyRecurrence(object):
         return "Every two weeks (on %s weeks)" % self.style
 
 
-class QuadWeeklyRecurrence(object):
+class QuadWeeklyRecurrence(_Recurrence):
     """Meetings occuring every 4 weeks.
 
     A week number can be supplied to offset meetings
@@ -109,7 +131,7 @@ class QuadWeeklyRecurrence(object):
             % self.week)
 
 
-class AdhocRecurrence(object):
+class AdhocRecurrence(_Recurrence):
     """Meetings occuring as needed.
 
     Effectively this is a noop recurrance as next_occurance is always None
@@ -133,7 +155,7 @@ class AdhocRecurrence(object):
         return "Occurs as needed, no fixed schedule."
 
 
-class MonthlyRecurrence(object):
+class MonthlyRecurrence(_Recurrence):
     """Meetings occuring every month."""
     def __init__(self, week, day):
         self._week = week
